@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/basics/first-content/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/basics/second-content/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/basics/second-content/somefile/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/basics/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/tags/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/basics/third/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/tags/tag2/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/QuickStarts/tags/tag21/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
