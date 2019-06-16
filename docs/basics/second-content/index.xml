@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Second Content on My New Hugo Site</title>
-    <link>https://efficienthacks.github.io/QuickStarts/basics/second-content/</link>
+    <link>https://efficienthacks.github.io/coderbook/basics/second-content/</link>
     <description>Recent content in Second Content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Jun 2019 08:32:33 -0700</lastBuildDate>
     
-	<atom:link href="https://efficienthacks.github.io/QuickStarts/basics/second-content/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://efficienthacks.github.io/coderbook/basics/second-content/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Second Content 2</title>
-      <link>https://efficienthacks.github.io/QuickStarts/basics/second-content/somefile/</link>
+      <link>https://efficienthacks.github.io/coderbook/basics/second-content/somefile/</link>
       <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
       
-      <guid>https://efficienthacks.github.io/QuickStarts/basics/second-content/somefile/</guid>
+      <guid>https://efficienthacks.github.io/coderbook/basics/second-content/somefile/</guid>
       <description>Second content Some content title Lorem Ipsum.</description>
     </item>
     

@@ -3,55 +3,55 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/basics/first-content/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/basics/first-content/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/basics/second-content/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/basics/second-content/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/basics/second-content/somefile/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/basics/second-content/somefile/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/basics/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/basics/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/tags/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/basics/third/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/categories/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/tags/tag2/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/tags/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/QuickStarts/tags/tag21/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/basics/third/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/tags/tag2/</loc>
+    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/tags/tag21/</loc>
     <lastmod>2019-06-12T07:53:15-07:00</lastmod>
     <priority>0</priority>
   </url>
