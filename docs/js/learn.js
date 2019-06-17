@@ -107,7 +107,7 @@ jQuery(document).ready(function() {
         return false;
     });
     jQuery('[data-clear-history-toggle]').on('click', function() {
-        localStorage.clear();
+        sessionStorage.clear();
         location.reload();
         return false;
     });
@@ -135,19 +135,19 @@ jQuery(document).ready(function() {
         if (!value.length) {
             $('ul.topics').removeClass('searched');
             items.css('display', 'block');
-            localStorage.removeItem('search-value');
+            sessionStorage.removeItem('search-value');
             $(".highlightable").unhighlight({ element: 'mark' })
             return;
         }
 
-        localStorage.setItem('search-value', value);
+        sessionStorage.setItem('search-value', value);
         $(".highlightable").unhighlight({ element: 'mark' }).highlight(value, { element: 'mark' });
 
         if (ajax && ajax.abort) ajax.abort();
 
         jQuery('[data-search-clear]').on('click', function() {
             jQuery('[data-search-input]').val('').trigger('input');
-            localStorage.removeItem('search-input');
+            sessionStorage.removeItem('search-input');
             $(".highlightable").unhighlight({ element: 'mark' })
         });
     });
@@ -158,8 +158,8 @@ jQuery(document).ready(function() {
         };
     });
 
-    if (localStorage.getItem('search-value')) {
-        var searchValue = localStorage.getItem('search-value')
+    if (sessionStorage.getItem('search-value')) {
+        var searchValue = sessionStorage.getItem('search-value')
         $(document.body).removeClass('searchbox-hidden');
         $('[data-search-input]').val(searchValue);
         $('[data-search-input]').trigger('input');
@@ -360,15 +360,15 @@ jQuery(window).on('load', function() {
     });
 
     // store this page in session
-    localStorage.setItem(jQuery('body').data('url'), 1);
+    sessionStorage.setItem(jQuery('body').data('url'), 1);
 
-    // loop through the localStorage and see if something should be marked as visited
-    for (var url in localStorage) {
-        if (localStorage.getItem(url) == 1) jQuery('[data-nav-id="' + url + '"]').addClass('visited');
+    // loop through the sessionStorage and see if something should be marked as visited
+    for (var url in sessionStorage) {
+        if (sessionStorage.getItem(url) == 1) jQuery('[data-nav-id="' + url + '"]').addClass('visited');
     }
 
 
-    $(".highlightable").highlight(localStorage.getItem('search-value'), { element: 'mark' });
+    $(".highlightable").highlight(sessionStorage.getItem('search-value'), { element: 'mark' });
 });
 
 $(function() {
