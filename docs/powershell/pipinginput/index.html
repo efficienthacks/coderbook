@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Categories :: My New Hugo Site</title>
+    <title>Piping input :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560755892" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/categories/">
+  <body class="" data-url="/coderbook/powershell/pipinginput/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -189,7 +189,7 @@
   
     
     <li data-nav-id="/coderbook/02powershell/" title="Powershell" class="dd-item 
-        
+        parent
         
         
         ">
@@ -244,7 +244,7 @@
   
     
     <li data-nav-id="/coderbook/psmodules/" title="Creating Modules" class="dd-item 
-        
+        parent
         
         
         ">
@@ -273,8 +273,8 @@
   
     
     <li data-nav-id="/coderbook/powershell/pipinginput/" title="Piping input" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/powershell/pipinginput/">
@@ -357,7 +357,25 @@
                     
           
           
-            Categories
+            
+            
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/02powershell/'>Powershell</a> > <a href='/coderbook/psmodules/'>Creating Modules</a> > Piping input
+          
+         
+          
+         
+          
+         
           
            
                   </span>
@@ -371,7 +389,17 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#using-powershell">Using powershell</a></li>
+<li><a href="#using-c-module">Using C# module</a></li>
+<li><a href="#cmdlet-development-tips">Cmdlet development tips</a></li>
+<li><a href="#example-cmdlet-code">Example Cmdlet Code</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -382,12 +410,141 @@
         
         <div id="body-inner">
           
-            <h1>Categories</h1>
+            <h1>Piping input</h1>
           
 
         
 
 
+
+
+<p>So how do take input (which is usually an array of objects) that is passed to your module?</p>
+
+<h2 id="using-powershell">Using powershell</h2>
+
+<p>You just add an attribute to the parameter.</p>
+
+<pre><code class="language-powershell">function show-data {
+    param(
+        [Parameter(ValueFromPipeline=$true)] 
+        $InputObject
+    )
+
+    begin {
+        $objects = @()
+    }
+
+    process {
+        $objects += $InputObject
+    }
+
+    end {
+        foreach($obj in $objects)
+        {
+            $obj
+            #$obj is written to the pipeline on each iteration of the loop
+        }
+
+    }
+}
+
+Get-ChildItem | show-data
+</code></pre>
+
+<p>Note that <code>process</code> is called for each item in the array.  In the code snippet, we collected all the items to be processed during <code>end</code></p>
+
+<h2 id="using-c-module">Using C# module</h2>
+
+<p>In C# code, this is what it looks like:</p>
+
+<pre><code class="language-csharp">using System.Management.Automation;  //get this from nuget package manager - use PowerShellStandard.Library
+
+[Cmdlet(VerbsDiagnostic.Test, &quot;PipelineObjDyn&quot;)]
+public class TestPipelineDynamic : Cmdlet
+{
+
+    [Parameter(ValueFromPipeline = true)]
+    public dynamic ObjectFromPipeline { get; set; } //using dynamic because we don't know what type is going to be returned; using PSObject would be better.
+
+    private List&lt;dynamic&gt; objects;
+    protected override void BeginProcessing()
+    {
+        objects = new List&lt;dynamic&gt;();
+    }
+
+    protected override void ProcessRecord()
+    {
+        objects.Add(ObjectFromPipeline);
+    }
+
+    protected override void EndProcessing()
+    {
+        foreach (var obj in objects)
+        {
+            WriteObject(obj);   //writes object to the pipeline
+        }
+    }
+}
+</code></pre>
+
+<p>I strongly recommend using Visual Studio to set breakpoints and see what the underlying object (<code>ObjectFromPipeline</code>) looks like.  You&rsquo;ll get a much better understanding of what&rsquo;s going on.</p>
+
+<h2 id="cmdlet-development-tips">Cmdlet development tips</h2>
+
+<p>When developing cmdlets (binary PS modules), you will want to convert <code>PSObject</code> to/from <code>Dictionary&lt;string,object&gt;</code> (or <code>ExpandoObject</code>)</p>
+
+<pre><code class="language-csharp">public static class HelperExtensions
+{
+    public static PSObject AsPSObject(this ExpandoObject eo)
+    {
+        //makes it so that your C# objects can be filtered/manipulated with powershell syntax
+        var newpso = new PSObject();
+        var expandoAsDict = ((IDictionary&lt;string, object&gt;)eo);
+        foreach (var k in expandoAsDict.Keys)
+        {
+            newpso.Members.Add(new PSNoteProperty(k, expandoAsDict[k]));
+        }
+        return newpso;
+    }
+
+    public static IDictionary&lt;string,object&gt; AsDictionary(this PSObject pso)
+    {
+        //makes stuff coming in from the pipeline easier to handle
+        var newDict = new Dictionary&lt;string, object&gt;();
+        foreach (var prop in pso.Properties)
+        {
+            newDict[prop.Name] = prop.Value;
+        }
+        return newDict;
+    }
+}
+</code></pre>
+
+<h2 id="example-cmdlet-code">Example Cmdlet Code</h2>
+
+<p>Example cmdlet that reads a csv file and outputs results as an array of PSObjects</p>
+
+<pre><code class="language-csharp">[Cmdlet(VerbsDiagnostic.Test, &quot;WriteObject&quot;)]
+public class TestBinaryModuleCmdlet1Command : Cmdlet
+{
+    protected override void BeginProcessing()
+    {
+        using (var reader = new StreamReader(@&quot;D:\temp\test.csv&quot;))
+        {
+            using (var csv = new CsvReader(reader))
+            {
+                var records = csv.GetRecords&lt;dynamic&gt;();
+                foreach(var rec in records)
+                {
+                    WriteObject(((ExpandoObject)rec).AsPSObject());
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>CsvReader is part of the <a href="https://www.nuget.org/packages/CsvHelper">CsvHelper nuget package</a></p>
 
 
 <footer class=" footline" >
@@ -559,6 +716,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -582,6 +740,8 @@
         
 
 
+        
+            <a class="nav nav-prev" href="/coderbook/psmodules/" title="Creating Modules"> <i class="fa fa-chevron-left"></i></a>
         
         
             <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>

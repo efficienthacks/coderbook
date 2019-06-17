@@ -410,6 +410,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #body-inner {
     margin-bottom: 5rem;
+    font-family: "Merriweather", "Work Sans", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
 }
 #chapter {
     display: flex;

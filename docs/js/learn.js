@@ -173,9 +173,9 @@ jQuery(document).ready(function() {
         }
     }
 
-    // clipboard
+    // clipboard only for the large codeblocks (not inline code)
     var clipInit = false;
-    $('code').each(function() {
+    $('pre>code').each(function() {
         var code = $(this),
             text = code.text();
 

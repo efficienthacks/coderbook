@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Categories :: My New Hugo Site</title>
+    <title>PowerShell Tips and Quirks :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560755892" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/categories/">
+  <body class="" data-url="/coderbook/powershelltips/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -189,7 +189,7 @@
   
     
     <li data-nav-id="/coderbook/02powershell/" title="Powershell" class="dd-item 
-        
+        parent
         
         
         ">
@@ -218,8 +218,8 @@
   
     
     <li data-nav-id="/coderbook/powershelltips/" title="PowerShell Tips and Quirks" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/powershelltips/">
@@ -357,7 +357,19 @@
                     
           
           
-            Categories
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/02powershell/'>Powershell</a> > PowerShell Tips and Quirks
+          
+         
+          
+         
           
            
                   </span>
@@ -371,7 +383,14 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#reserved-variable-names">reserved variable names</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -382,12 +401,21 @@
         
         <div id="body-inner">
           
-            <h1>Categories</h1>
+            <h1>PowerShell Tips and Quirks</h1>
           
 
         
 
 
+
+
+<h2 id="reserved-variable-names">reserved variable names</h2>
+
+<p>Do not use these as variable names - PowerShell will not complain if you do, you&rsquo;ll just see weird results (variable names are case insensitive)</p>
+
+<pre><code class="language-powershell">$input
+$home
+</code></pre>
 
 
 <footer class=" footline" >
@@ -528,6 +556,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -544,6 +573,9 @@
             
                 
                     
+                        
+                        
+                    
                 
                 
 
@@ -583,8 +615,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/02powershell/" title="Powershell"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/psmodules/" title="Creating Modules" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
