@@ -1,31 +1,52 @@
 [
 {
-	"uri": "https://efficienthacks.github.io/coderbook/basics/first-content/",
-	"title": "First Content dsfgsdfg",
+	"uri": "https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/01async-await/",
+	"title": "Async and await",
 	"tags": [],
 	"description": "",
-	"content": "some content\n"
+	"content": " tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.\nTypically, I write synchronous code because it is easier to debug, after it works, then I\u0026rsquo;ll use async/await.\nTo make async methods synchronous (i.e. block further code execution until method finishes), add .Result to the end of the method call. E.g. client.DownloadFileAsync().Result\nVideo This video does a great job at explaining async and await. Tim goes through the example of downloading a sequence of files. (Watch it in double speed):\n  Here\u0026rsquo;s how to cancel tasks and get progress on the task\n  "
 },
 {
-	"uri": "https://efficienthacks.github.io/coderbook/basics/second-content/",
-	"title": "Second Content",
+	"uri": "https://efficienthacks.github.io/coderbook/02powershell/00quirks/",
+	"title": "PowerShell Tips and Quirks",
 	"tags": [],
 	"description": "",
-	"content": " Some content title asdfgasdfg\nSecond content adfgadfgafsg\nSome content title2 asdfgasdg\nSecond content Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg Lorem Ipsum.a\nasdgasdg\n"
+	"content": " reserved variable names Do not use these as variable names - PowerShell will not complain if you do, you\u0026rsquo;ll just see weird results (variable names are case insensitive)\n$input $home  "
 },
 {
-	"uri": "https://efficienthacks.github.io/coderbook/basics/second-content/somefile/",
-	"title": "Second Content 2",
+	"uri": "https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/02dyanamic-types/",
+	"title": "Ignoring Types",
 	"tags": [],
 	"description": "",
-	"content": " Second content Some content title Lorem Ipsum.\n"
+	"content": " Strongly typed vs weakly typed Strongly typed means that the compiler will complain if a method does not exist in the class specified during variable declaration.\nAnimal duck = Factory.MakeDuck(); duck.quack(); //compile error because quack() is not defined in Animal even though you know the underlying object is a duck  Weakly typed means that the compiler will not care whether the method exists or not (it will be done at runtime)\ndynamic duck = Factory.MakeDuck(); duck.quack(); //a method called \u0026quot;quack()\u0026quot; will be checked at runtime. Also, the autocomplete will not work for dynamic variables.  There may be cases where you will need to ignore the object type in order to make classes decoupled. It\u0026rsquo;s highly recommended that you have unit tests that will catch type errors.\nI typically use dynamic when parsing JSON data with arbitrary/unknown fields.\nType checking Here\u0026rsquo;s how you check whether an object is of a certain type\nif(someObject is Duck d) //shorthand for typecasting someObject to \u0026quot;Duck\u0026quot; within the if block { d.quack(); }  "
 },
 {
-	"uri": "https://efficienthacks.github.io/coderbook/basics/",
-	"title": "Basics",
+	"uri": "https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/03calling-privatemethods/",
+	"title": "Calling Private Methods",
 	"tags": [],
 	"description": "",
-	"content": " Chapter X Some Chapter title Lorem Ipsum.\n"
+	"content": " Intro to reflection "
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/02powershell/02creating-modules/",
+	"title": "Creating Modules",
+	"tags": [],
+	"description": "",
+	"content": " There are Script modules (.psm1 files) and Binary modules (aka cmdlets)\nScript Module A script module is essentially any valid PowerShell script saved in a .psm1 extension.\nfunction Show-Calendar { } Export-ModuleMember -Function Show-Calendar  The paths where you can install your module are located in the $env:PSModulePath global variable. Be sure to create a folder for your module to exist in, even if it is only a single .psm1 file\nBy default, all functions in your script are accessible to users who import your .psm1 file, but properties are not.\nBinary (C#) Module Make a class library (dll)\nYou have to import the module by dll name: Import-Module BinModuleTest\\PSbinModule.dll\nusing System.Management.Automation; // Windows PowerShell namespace. namespace ModuleCmdlets { [Cmdlet(VerbsDiagnostic.Test, \u0026quot;BinaryModuleCmdlet1\u0026quot;)] public class TestBinaryModuleCmdlet1Command : Cmdlet { protected override void BeginProcessing() { WriteObject(\u0026quot;BinaryModuleCmdlet1 exported by the ModuleCmdlets module.\u0026quot;); } } [Cmdlet(VerbsDiagnostic.Test, \u0026quot;BinaryModuleCmdlet2\u0026quot;)] public class TestBinaryModuleCmdlet2Command : Cmdlet { protected override void BeginProcessing() { WriteObject(\u0026quot;BinaryModuleCmdlet2 exported by the ModuleCmdlets module.\u0026quot;); } } [Cmdlet(VerbsDiagnostic.Test, \u0026quot;BinaryModuleCmdlet3\u0026quot;)] public class TestBinaryModuleCmdlet3Command : Cmdlet { protected override void BeginProcessing() { WriteObject(\u0026quot;BinaryModuleCmdlet3 exported by the ModuleCmdlets module.\u0026quot;); } } }  You invoke the cmdlet like this: \u0026ldquo;Test-BinaryModuleCmdlet1\u0026rdquo;\nDebugging Binary PS Modules If you\u0026rsquo;re using Visual Studio (and making a .NET Framework library), right click on the csproj and add this to the Debug command line args: -noexit -command \u0026quot;\u0026amp;{ import-module .\\[dllName].dll -verbose}\u0026quot;\nReference: https://www.powershellmagazine.com/2014/04/08/basics-of-writing-a-powershell-module-with-c-part-2-debugging/\nIf you are making a .NET Standard library, you\u0026rsquo;ll have to add a post build event: add dotnet publish --no-build to the post build event and change the command line argument to reference .\\publish\\[dllName].dll\nThe post build event copies all the dlls (in nuget packages) that you reference (like json.net) into the output folder.\nOriginal stackoverflow answer\n"
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/",
+	"title": ".NET Intermediate Topics",
+	"tags": [],
+	"description": "",
+	"content": " A guide to .NET for people who already know the basics FAQs .NET Standard vs .NET Core vs .NET Framework? Target .NET Core for executables that can be deployed on linux, mac + Windows.\nTarget .NET Framework if you\u0026rsquo;re in a Windows-only environment or need to use Windows-specific functionality (like the UI, or Active Directory)\nWhere possible, target .NET Standard for common code libraries (can be used by both .NET Core and Framework)\n"
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/02powershell/",
+	"title": "Powershell",
+	"tags": [],
+	"description": "",
+	"content": " A guide to PowerShell for people who already know the basics FAQs PowerShell Core? Windows PowerShell? "
 },
 {
 	"uri": "https://efficienthacks.github.io/coderbook/",
@@ -44,27 +65,6 @@
 {
 	"uri": "https://efficienthacks.github.io/coderbook/tags/",
 	"title": "Tags",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/basics/third/",
-	"title": "Third",
-	"tags": ["tag2", "tag21"],
-	"description": "",
-	"content": "draft\nfunction Show-Calendar { } Export-ModuleMember -Function Show-Calendar     "
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/tags/tag2/",
-	"title": "tag2",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/tags/tag21/",
-	"title": "tag21",
 	"tags": [],
 	"description": "",
 	"content": ""

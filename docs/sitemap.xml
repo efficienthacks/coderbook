@@ -3,28 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/basics/first-content/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/01async-await/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/basics/second-content/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/02powershell/00quirks/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/basics/second-content/somefile/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/02dyanamic-types/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/basics/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/03calling-privatemethods/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/02powershell/02creating-modules/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/01dotnet-intermediatetopics/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/02powershell/</loc>
+    <lastmod>2019-06-16T15:59:41-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -35,24 +49,6 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/tags/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/basics/third/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/tags/tag2/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/tags/tag21/</loc>
-    <lastmod>2019-06-12T07:53:15-07:00</lastmod>
     <priority>0</priority>
   </url>
   

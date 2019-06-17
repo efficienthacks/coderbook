@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title> :: My New Hugo Site</title>
+    <title>Ignoring Types :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560745714" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/01dotnet-intermediatetopics/02dyanamic-types/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -92,7 +92,7 @@
   
     
     <li data-nav-id="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -147,8 +147,8 @@
   
     
     <li data-nav-id="/coderbook/01dotnet-intermediatetopics/02dyanamic-types/" title="Ignoring Types" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/01dotnet-intermediatetopics/02dyanamic-types/">
@@ -322,12 +322,55 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/01dotnet-intermediatetopics/'>.NET Intermediate Topics</a> > Ignoring Types
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
 
         
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#strongly-typed-vs-weakly-typed">Strongly typed vs weakly typed</a></li>
+<li><a href="#type-checking">Type checking</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -338,17 +381,47 @@
         
         <div id="body-inner">
           
+            <h1>Ignoring Types</h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
 
- 
-<p>asdf</p>
+
+
+<h2 id="strongly-typed-vs-weakly-typed">Strongly typed vs weakly typed</h2>
+
+<p>Strongly typed means that the compiler will complain if a method does not exist in the class specified during variable declaration.</p>
+
+<pre><code class="language-csharp">Animal duck = Factory.MakeDuck();
+duck.quack();   //compile error because quack() is not defined in Animal even though you know the underlying object is a duck
+</code></pre>
+
+<p>Weakly typed means that the compiler will not care whether the method exists or not (it will be done at runtime)</p>
+
+<pre><code class="language-csharp">dynamic duck = Factory.MakeDuck();
+duck.quack();   //a method called &quot;quack()&quot; will be checked at runtime.  Also, the autocomplete will not work for dynamic variables.
+</code></pre>
+
+<p>There may be cases where you will need to ignore the object type in order to make classes decoupled.  It&rsquo;s highly recommended that you have unit tests that will catch type errors.</p>
+
+<p>I typically use <code>dynamic</code> when parsing JSON data with arbitrary/unknown fields.</p>
+
+<h2 id="type-checking">Type checking</h2>
+
+<p>Here&rsquo;s how you check whether an object is of a certain type</p>
+
+<pre><code class="language-csharp">if(someObject is Duck d)    //shorthand for typecasting someObject to &quot;Duck&quot; within the if block
+{
+    d.quack();  
+}
+</code></pre>
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -380,8 +453,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -398,21 +469,8 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
+                        
                     
                 
                 
@@ -430,6 +488,26 @@
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
                 
                 
 
@@ -501,8 +579,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/01dotnet-intermediatetopics/01async-await/" title="Async and await"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/03calling-privatemethods/" title="Calling Private Methods" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -535,4 +615,3 @@
 
   </body>
 </html>
-

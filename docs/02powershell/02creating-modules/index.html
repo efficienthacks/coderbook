@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title> :: My New Hugo Site</title>
+    <title>Creating Modules :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560745714" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/02powershell/02creating-modules/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -206,7 +206,7 @@
   
     
     <li data-nav-id="/coderbook/02powershell/" title="Powershell" class="dd-item 
-        
+        parent
         
         
         ">
@@ -261,8 +261,8 @@
   
     
     <li data-nav-id="/coderbook/02powershell/02creating-modules/" title="Creating Modules" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/02powershell/02creating-modules/">
@@ -322,12 +322,58 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/02powershell/'>Powershell</a> > Creating Modules
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
 
         
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#script-module">Script Module</a></li>
+<li><a href="#binary-c-module">Binary (C#) Module</a>
+<ul>
+<li><a href="#debugging-binary-ps-modules">Debugging Binary PS Modules</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -338,17 +384,90 @@
         
         <div id="body-inner">
           
+            <h1>Creating Modules</h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
 
- 
-<p>asdf</p>
+
+
+<p>There are <strong>Script</strong> modules (.psm1 files) and <strong>Binary</strong> modules (aka cmdlets)</p>
+
+<h2 id="script-module">Script Module</h2>
+
+<p>A script module is essentially any valid PowerShell script saved in a .psm1 extension.</p>
+
+<pre><code class="language-powershell">function Show-Calendar {
+}
+Export-ModuleMember -Function Show-Calendar
+</code></pre>
+
+<p>The paths where you can install your module are located in the $env:PSModulePath global variable.  Be sure to create a folder for your module to exist in, even if it is only a single .psm1 file</p>
+
+<p>By default, all functions in your script are accessible to users who import your .psm1 file, but properties are not.</p>
+
+<h2 id="binary-c-module">Binary (C#) Module</h2>
+
+<p>Make a class library (dll)</p>
+
+<p>You have to import the module by dll name:  <code>Import-Module BinModuleTest\PSbinModule.dll</code></p>
+
+<pre><code class="language-csharp">using System.Management.Automation;           // Windows PowerShell namespace.
+
+namespace ModuleCmdlets
+{
+    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet1&quot;)]
+    public class TestBinaryModuleCmdlet1Command : Cmdlet
+    {
+        protected override void BeginProcessing()
+        {
+            WriteObject(&quot;BinaryModuleCmdlet1 exported by the ModuleCmdlets module.&quot;);
+        }
+    }
+
+    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet2&quot;)]
+    public class TestBinaryModuleCmdlet2Command : Cmdlet
+    {
+        protected override void BeginProcessing()
+        {
+            WriteObject(&quot;BinaryModuleCmdlet2 exported by the ModuleCmdlets module.&quot;);
+        }
+    }
+
+    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet3&quot;)]
+    public class TestBinaryModuleCmdlet3Command : Cmdlet
+    {
+        protected override void BeginProcessing()
+        {
+            WriteObject(&quot;BinaryModuleCmdlet3 exported by the ModuleCmdlets module.&quot;);
+        }
+    }
+
+}
+</code></pre>
+
+<p>You invoke the cmdlet like this: &ldquo;Test-BinaryModuleCmdlet1&rdquo;</p>
+
+<h3 id="debugging-binary-ps-modules">Debugging Binary PS Modules</h3>
+
+<p>If you&rsquo;re using Visual Studio (and making a .NET Framework library), right click on the csproj and add this to the Debug command line args:
+<code>-noexit -command &quot;&amp;{ import-module .\[dllName].dll -verbose}&quot;</code></p>
+
+<p><img src="2019-06-16-15-50-18.png" alt="" />
+Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writing-a-powershell-module-with-c-part-2-debugging/">https://www.powershellmagazine.com/2014/04/08/basics-of-writing-a-powershell-module-with-c-part-2-debugging/</a></p>
+
+<p>If you are making a <strong>.NET Standard library</strong>, you&rsquo;ll have to add a post build event: add <code>dotnet publish --no-build</code> to the post build event and change the command line argument to reference <code>.\publish\[dllName].dll</code></p>
+
+<p>The post build event copies all the dlls (in nuget packages) that you reference (like json.net) into the output folder.</p>
+
+<p><a href="https://stackoverflow.com/questions/52920092/binary-powershell-core-cmdlet-using-simpleinjector-results-in-filenotfoundexcept/52922720?noredirect=1#comment99721805_52922720">Original stackoverflow answer</a></p>
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -449,6 +568,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -464,6 +584,9 @@
             
                 
                     
+                        
+                        
+                    
                 
                 
 
@@ -480,6 +603,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -501,8 +625,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/02powershell/00quirks/" title="PowerShell Tips and Quirks"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/02powershell/00quirks/" title="PowerShell Tips and Quirks" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -535,4 +661,3 @@
 
   </body>
 </html>
-

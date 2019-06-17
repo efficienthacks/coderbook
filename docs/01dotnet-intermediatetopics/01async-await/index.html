@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title> :: My New Hugo Site</title>
+    <title>Async and await :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560745714" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/01dotnet-intermediatetopics/01async-await/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -92,7 +92,7 @@
   
     
     <li data-nav-id="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -121,8 +121,8 @@
   
     
     <li data-nav-id="/coderbook/01dotnet-intermediatetopics/01async-await/" title="Async and await" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/01dotnet-intermediatetopics/01async-await/">
@@ -322,12 +322,55 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/01dotnet-intermediatetopics/'>.NET Intermediate Topics</a> > Async and await
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
 
         
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#tldr">tldr</a></li>
+<li><a href="#video">Video</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -338,17 +381,45 @@
         
         <div id="body-inner">
           
+            <h1>Async and await</h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
 
- 
-<p>asdf</p>
+
+
+<h2 id="tldr">tldr</h2>
+
+<p>async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.</p>
+
+<p>Typically, I write synchronous code because it is easier to debug, after it works, then I&rsquo;ll use async/await.</p>
+
+<p>To make async methods synchronous (i.e. block further code execution until method finishes), add <code>.Result</code> to the end of the method call.  E.g.  <code>client.DownloadFileAsync().Result</code></p>
+
+<h2 id="video">Video</h2>
+
+<p>This video does a great job at explaining async and await.  Tim goes through the example of downloading a sequence of files.  (Watch it in double speed):</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/2moh18sh5p4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+<p>Here&rsquo;s how to cancel tasks and get progress on the task</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/ZTKGRJy5P2M" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -380,8 +451,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -397,6 +466,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -414,55 +484,8 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -494,6 +517,56 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -501,8 +574,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/01dotnet-intermediatetopics/02dyanamic-types/" title="Ignoring Types" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -535,4 +610,3 @@
 
   </body>
 </html>
-
