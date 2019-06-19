@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Tags :: My New Hugo Site</title>
+    <title>Ignoring Types :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560955140" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/tags/">
+  <body class="" data-url="/coderbook/dotnet/dynamictypes/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -74,7 +74,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -129,8 +129,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/dynamictypes/" title="Ignoring Types" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/dotnet/dynamictypes/">
@@ -380,7 +380,19 @@
                     
           
           
-            Tags
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > Ignoring Types
+          
+         
+          
+         
           
            
                   </span>
@@ -394,7 +406,15 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#strongly-typed-vs-dynamically-typed">Strongly typed vs dynamically typed</a></li>
+<li><a href="#tip-type-checking-and-casting-in-one-line">Tip: Type checking and casting in one line</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -405,12 +425,43 @@
         
         <div id="body-inner">
           
-            <h1>Tags</h1>
+            <h1>Ignoring Types</h1>
           
 
         
 
 
+
+
+<h2 id="strongly-typed-vs-dynamically-typed">Strongly typed vs dynamically typed</h2>
+
+<p>Strongly typed means that the compiler will complain if a method does not exist in the class specified during variable declaration.  C# is strongly typed, but if you are used to dynamically typed languages (like Python), you can do that too.</p>
+
+<pre><code class="language-csharp">//strongly typed
+Animal duck = Factory.MakeDuck();
+duck.quack();   //compile error because quack() is not defined in Animal even though you know the underlying object is a duck
+</code></pre>
+
+<p>Dynamically typed means that the compiler will not care whether the method exists or not (it will be done at runtime)</p>
+
+<pre><code class="language-csharp">//dynamically typed
+dynamic duck = Factory.MakeDuck();
+duck.quack();   //a method called &quot;quack()&quot; will be checked at runtime.  Also, the autocomplete will not work for dynamic variables.
+</code></pre>
+
+<p>There may be cases where you will need to ignore the object type in order to make classes decoupled.  It&rsquo;s highly recommended that you have unit tests that will catch type errors.</p>
+
+<p>I typically use <code>dynamic</code> when parsing JSON data with arbitrary/unknown fields.</p>
+
+<h2 id="tip-type-checking-and-casting-in-one-line">Tip: Type checking and casting in one line</h2>
+
+<p>Here&rsquo;s how you check whether an object is of a certain type</p>
+
+<pre><code class="language-csharp">if(someObject is Duck d)    //shorthand for typecasting someObject to &quot;Duck&quot; within the if block
+{
+    d.quack();  
+}
+</code></pre>
 
 
 <footer class=" footline" >
@@ -447,8 +498,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -464,6 +513,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -481,21 +533,6 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -508,36 +545,24 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
             
         
@@ -573,6 +598,37 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -602,8 +658,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/dotnet/asyncawait/" title="async and await"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/dotnet/reflection/" title="Reflection" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

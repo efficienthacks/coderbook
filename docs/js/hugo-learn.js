@@ -16,13 +16,13 @@ var getUrlParameter = function getUrlParameter(sPageURL) {
     }
 };
 
-// Execute actions on images generated from Markdown pages
-var images = $("div#body-inner img").not(".inline");
-// Wrap image inside a featherlight (to get a full size view in a popup)
-images.wrap(function(){
-  var image =$(this);
-  return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
-});
+// // Execute actions on images generated from Markdown pages
+// var images = $("div#body-inner img").not(".inline");
+// // Wrap image inside a featherlight (to get a full size view in a popup)
+// images.wrap(function(){
+//   var image =$(this);
+//   return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
+// });
 
 // Change styles, depending on parameters set to the image
 images.each(function(index){

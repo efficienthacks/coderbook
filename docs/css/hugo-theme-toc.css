@@ -58,7 +58,7 @@
     color: #99979c;
 }
 
-@media only screen and (max-width: 1026px) {
+@media only screen and (max-width: 1337px) {
     #sticky-wrapper {
         display: none;
     }

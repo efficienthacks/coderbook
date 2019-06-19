@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Tags :: My New Hugo Site</title>
+    <title>Reflection :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1560955140" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/tags/">
+  <body class="" data-url="/coderbook/dotnet/reflection/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -74,7 +74,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -155,8 +155,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/reflection/" title="Reflection" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/dotnet/reflection/">
@@ -380,7 +380,19 @@
                     
           
           
-            Tags
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > Reflection
+          
+         
+          
+         
           
            
                   </span>
@@ -394,7 +406,25 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#load-c-objects">Load C# Objects</a></li>
+<li><a href="#create-c-objects-w-reflection">Create C# Objects (w/Reflection)</a>
+<ul>
+<li><a href="#notes">Notes</a></li>
+</ul></li>
+<li><a href="#invoking-methods-including-private-methods">Invoking methods (including private methods)</a>
+<ul>
+<li><a href="#invoking-a-static-method-on-a-class">Invoking a static method on a class</a></li>
+<li><a href="#invoking-an-async-method-on-an-instance">Invoking an async method on an instance</a></li>
+<li><a href="#invoking-methods-by-index">Invoking Methods By Index</a></li>
+<li><a href="#invoking-private-methods-by-index-name">Invoking Private Methods by index/name</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -405,12 +435,111 @@
         
         <div id="body-inner">
           
-            <h1>Tags</h1>
+            <h1>Reflection</h1>
           
 
         
 
 
+
+
+<p>If you have scripting language that allows you to call C# (e.g. Powershell), or if you want to call dll&rsquo;s without having to reference them, then you need to learn how to use Reflection.</p>
+
+<p>What is &ldquo;reflection&rdquo;?  It&rsquo;s a way of programatically examining and calling code from an assembly (.dll/.exe) at runtime.</p>
+
+<p>The examples here are in C#, but the concepts apply when you are using scripting languages that use .NET.</p>
+
+<h2 id="load-c-objects">Load C# Objects</h2>
+
+<p>How would you use classes from a different dll without importing it?
+You could use <code>Assembly.UnsafeLoadFrom(&quot;path to dll&quot;);</code>  this will return an <code>Assembly</code> object, which you can use to create instances programatically.</p>
+
+<pre><code>var targetAssmbly = Assembly.UnsafeLoadFrom(@&quot;\\pathTo\your.dll&quot;);
+var instance = targetAssmbly.CreateInstance(&quot;Some.Class.In.Assembly&quot;);
+</code></pre>
+
+<h2 id="create-c-objects-w-reflection">Create C# Objects (w/Reflection)</h2>
+
+<p>Let&rsquo;s start with two fundamental methods <code>CreateInstance</code> and <code>GetType</code>.  These are instance methods in <code>System.Reflection.Assembly</code>.</p>
+
+<p>CreateInstance is equivalent to programatically making a new object.</p>
+
+<pre><code>//this is the Reflection equivalent of doing var x = new System.Collections.ArrayList();
+var x = &quot;&quot;.GetType().Assembly.CreateInstance(&quot;System.Collections.ArrayList&quot;);
+</code></pre>
+
+<p>GetType is equivalent to getting a handle to a class so that you can call a static method on it.</p>
+
+<pre><code>//if you just want to call a static method
+//(such as System.Convert.FromBase64String)
+var convertType = &quot;&quot;.GetType().Assembly.GetType(&quot;System.Convert&quot;)
+</code></pre>
+
+<h3 id="notes">Notes</h3>
+
+<p>Note that there is also a <code>Type.GetType(string)</code> static method that searches the current assembly for that Type.  This can also be used.</p>
+
+<p>Note that you are only allowed to access classes from the same assembly as &lsquo;String&rsquo; (mscorlib.dll)</p>
+
+<h2 id="invoking-methods-including-private-methods">Invoking methods (including private methods)</h2>
+
+<p>To invoke methods with parameters, you need to pass in the parameter list as an array of C# objects.</p>
+
+<p>But in most scripting languages, there is no notion of a &ldquo;type&rdquo;.  So how do you create a C# array of C# objects?</p>
+
+<p>Answer: Use the <code>ArrayList.Add(object)</code> function to add objects of any type, then use the <code>ArrayList.ToArray()</code> to convert it to a C# array of objects.</p>
+
+<p>There are two options that you can use to invoke methods.
+- with the method name: <code>Type.GetMethod(&quot;nameOfMethod&quot;).Invoke(...)</code>
+- get all the methods of the class, then select which one you want to invoke (by index): <code>Type.GetMethods()[3].Invoke(...)</code></p>
+
+<p>Questions you might have are:
+- how do you invoke a method on a class vs an instance?<br />
+- how do you invoke async methods?
+- how do you invoke private methods?</p>
+
+<h3 id="invoking-a-static-method-on-a-class">Invoking a static method on a class</h3>
+
+<pre><code>//Example of how to dynamically invoke 'System.Convert.FromBase64String()'
+&quot;&quot;.GetType().Assembly.GetType(&quot;System.Convert&quot;).GetMethod(&quot;FromBase64String&quot;).Invoke(null, new string[]{&quot;base64 string&quot;});
+</code></pre>
+
+<p>The first argument to <code>Invoke</code> is the object you want to target.  In this case, we are not calling this method on an object, so it is <code>null</code>.
+The second argument to <code>Invoke</code> is the parameter list for the method <code>FromBase64String</code>. It must be passed as an <code>Object[]</code>.</p>
+
+<h3 id="invoking-an-async-method-on-an-instance">Invoking an async method on an instance</h3>
+
+<p>Here is another example of reflectively invoking a method on an instance of an object.  Note the <code>dynamic</code>  declaration of <code>resultsToAwait</code>.</p>
+
+<pre><code>var targetAssmbly = Assembly.UnsafeLoadFrom(@&quot;\\pathTo\your.dll&quot;);
+var instance = targetAssmbly.CreateInstance(&quot;Some.Class.In.Assembly&quot;);
+dynamic resultsToAwait = targetAssmbly.GetType(&quot;Some.Class.In.Assembly&quot;).GetMethod(&quot;GetStuffAsync&quot;).Invoke(instance, null); 
+//'null' because GetStuffAsync does not need parameters
+
+IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
+//assuming that the results return an IEnumerable, you have to check the return type.
+</code></pre>
+
+<h3 id="invoking-methods-by-index">Invoking Methods By Index</h3>
+
+<p>One reason for using this is if there are overloaded methods with the same number of parameters.</p>
+
+<p>For example, <code>Assembly.Load(AssemblyName)</code> and <code>Assembly.Load(byte[])</code></p>
+
+<p>The first step is to list the methods - note that the methods can appear in a different order when you are running the code on a different machine.</p>
+
+<p>This will list all the <strong>public</strong> methods of a given type.</p>
+
+<pre><code>MethodInfo[] allMethods = &quot;&quot;.GetType().GetMethods();
+</code></pre>
+
+<h3 id="invoking-private-methods-by-index-name">Invoking Private Methods by index/name</h3>
+
+<p>You need to use these objects called &lsquo;BindingFlags&rsquo; and use the method: <code>GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)</code></p>
+
+<pre><code>var privateMethods = &quot;&quot;.GetType()
+    .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+</code></pre>
 
 
 <footer class=" footline" >
@@ -447,6 +576,77 @@
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                         
                         
                     
@@ -486,72 +686,6 @@
 
                     
                     
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
                         
                     
                     
@@ -602,8 +736,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/dotnet/dynamictypes/" title="Ignoring Types"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/powershell/" title="Powershell" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
