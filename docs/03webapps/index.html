@@ -13,18 +13,18 @@
     <title>Web Apps :: My New Hugo Site</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1560955140" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1561127322" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1560955140"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1561127322"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -50,14 +50,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1560955140"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1560955140"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561127322"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561127322"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1560955140"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1561127322"></script>
 
     
   </div>
@@ -173,6 +173,32 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/dotnet/decompiler/" title="Debugging with no source" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/dotnet/decompiler/">
+          Debugging with no source
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -208,32 +234,6 @@
           
           
         
-          
-            
-            
-
-
- 
-  
-    
-    <li data-nav-id="/coderbook/powershell/tips/" title="PowerShell Tips and Quirks" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/coderbook/powershell/tips/">
-          PowerShell Tips and Quirks
-          
-            <i class="fa fa-check read-icon"></i>
-          
-      </a>
-      
-              
-    </li>
-  
- 
-
-            
           
             
             
@@ -331,6 +331,83 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/azure/" title="Azure Basics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/azure/">
+          Azure Basics
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/azure/keyvault" title="Remove creds from code" class="dd-item ">
+        <a href="/coderbook/azure/keyvault/">
+        Remove creds from code
+        <i class="fa fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/05about/" title="About" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/05about/">
+          About
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -407,6 +484,35 @@
         
 
 
+
+
+<h3 id="a-guide-to-web-development-in-net">A guide to Web Development in .NET</h3>
+
+<p>(Make sure you take a look at the Azure Components section)</p>
+
+<h1 id="faqs">FAQs</h1>
+
+<h2 id="what-s-the-general-design-of-a-web-application">What&rsquo;s the general design of a web application?</h2>
+
+<p>Currently, the &lsquo;web application&rsquo; component are just web APIs.  Client front-ends (i.e. Angular, React, Progressive Web Apps, Mobile apps) will call the web app endpoints to retrieve data (typically in JSON format).</p>
+
+<p>The web app (i.e. backend) interacts with databases and possibly other web services, while the client app (i.e. front end) displays that data in a meaningful way for the user.</p>
+
+<p>Regarding authentication, the back end provides a bearer token (usually in JWT format) that is stored in &ldquo;local storage&rdquo; in the browser/mobile application - traditionally, the user identifier were stored cookies.</p>
+
+<ul>
+<li>It&rsquo;s 2019 when I&rsquo;m writing this, so things might change.</li>
+</ul>
+
+<h2 id="asp-net-core-and-or-framework">ASP.NET Core and or Framework?</h2>
+
+<p>Here&rsquo;s the official documentation on that.</p>
+
+<p><a href="https://docs.microsoft.com/en-us/dotnet/standard/choosing-core-framework-server">https://docs.microsoft.com/en-us/dotnet/standard/choosing-core-framework-server</a></p>
+
+<p>Basically, use .NET Core if you&rsquo;re starting a new csproj.  It&rsquo;s hard to just move from .NET Framework to Core.</p>
+
+<p>Where possible, keep your code in libraries targeting .NET Standard.  This is so that it can be reused in projects targeting either Core or Framework.</p>
 
 
 <footer class=" footline" >
@@ -506,55 +612,6 @@
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
                         
             
             
@@ -574,6 +631,55 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
                     
@@ -582,6 +688,57 @@
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -604,7 +761,7 @@
             <a class="nav nav-prev" href="/coderbook/powershell/pipinginput/" title="Piping input"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/azure/" title="Azure Basics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -613,23 +770,23 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1560955140"></script>
-    <script src="/coderbook/js/clipboard.min.js?1560955140"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1560955140"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1560955140"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1560955140"></script>
-    <script src="/coderbook/js/featherlight.min.js?1560955140"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1560955140"></script>
-    <script src="/coderbook/js/highlight.pack.js?1560955140"></script>
+    <script src="/coderbook/js/scrollspy.js?1561127322"></script>
+    <script src="/coderbook/js/clipboard.min.js?1561127322"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1561127322"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561127322"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1561127322"></script>
+    <script src="/coderbook/js/featherlight.min.js?1561127322"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561127322"></script>
+    <script src="/coderbook/js/highlight.pack.js?1561127322"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1560955140"></script>
-    <script src="/coderbook/js/learn.js?1560955140"></script>
-    <script src="/coderbook/js/hugo-learn.js?1560955140"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1560955140"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1561127322"></script>
+    <script src="/coderbook/js/learn.js?1561127322"></script>
+    <script src="/coderbook/js/hugo-learn.js?1561127322"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1561127322"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1560955140" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1560955140"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1561127322" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1561127322"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

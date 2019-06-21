@@ -3,11 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/powershell/tips/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</loc>
     <lastmod>2019-06-19T07:38:13-07:00</lastmod>
   </url>
@@ -19,12 +14,17 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/reflection/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/powershell/modules/</loc>
     <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/dotnet/decompiler/</loc>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
   </url>
   
   <url>
@@ -44,12 +44,27 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/03webapps/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/azure/</loc>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/05about/</loc>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/azure/keyvault/</loc>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
   </url>
   
   <url>

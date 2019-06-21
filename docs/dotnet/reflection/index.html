@@ -13,18 +13,18 @@
     <title>Reflection :: My New Hugo Site</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1560955140" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1560955140" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1561127322" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1561127322" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1560955140"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1561127322"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -50,14 +50,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1560955140"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1560955140"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561127322"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561127322"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1560955140"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1561127322"></script>
 
     
   </div>
@@ -173,6 +173,32 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/dotnet/decompiler/" title="Debugging with no source" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/dotnet/decompiler/">
+          Debugging with no source
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -208,32 +234,6 @@
           
           
         
-          
-            
-            
-
-
- 
-  
-    
-    <li data-nav-id="/coderbook/powershell/tips/" title="PowerShell Tips and Quirks" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/coderbook/powershell/tips/">
-          PowerShell Tips and Quirks
-          
-            <i class="fa fa-check read-icon"></i>
-          
-      </a>
-      
-              
-    </li>
-  
- 
-
-            
           
             
             
@@ -331,6 +331,83 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/azure/" title="Azure Basics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/azure/">
+          Azure Basics
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/azure/keyvault" title="Remove creds from code" class="dd-item ">
+        <a href="/coderbook/azure/keyvault/">
+        Remove creds from code
+        <i class="fa fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/05about/" title="About" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/05about/">
+          About
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -410,12 +487,13 @@
 <ul>
 <li>
 <ul>
+<li><a href="#what-is-reflection">What is &ldquo;reflection&rdquo;?</a></li>
 <li><a href="#load-c-objects">Load C# Objects</a></li>
 <li><a href="#create-c-objects-w-reflection">Create C# Objects (w/Reflection)</a>
 <ul>
 <li><a href="#notes">Notes</a></li>
 </ul></li>
-<li><a href="#invoking-methods-including-private-methods">Invoking methods (including private methods)</a>
+<li><a href="#invoking-private-methods">Invoking [private] methods</a>
 <ul>
 <li><a href="#invoking-a-static-method-on-a-class">Invoking a static method on a class</a></li>
 <li><a href="#invoking-an-async-method-on-an-instance">Invoking an async method on an instance</a></li>
@@ -443,9 +521,11 @@
 
 
 
-<p>If you have scripting language that allows you to call C# (e.g. Powershell), or if you want to call dll&rsquo;s without having to reference them, then you need to learn how to use Reflection.</p>
+<p>If you have scripting language that allows you to call C# (e.g. Powershell), or if you want to call undocumented private methods, then you need to learn how to use Reflection.</p>
 
-<p>What is &ldquo;reflection&rdquo;?  It&rsquo;s a way of programatically examining and calling code from an assembly (.dll/.exe) at runtime.</p>
+<h2 id="what-is-reflection">What is &ldquo;reflection&rdquo;?</h2>
+
+<p>It&rsquo;s a way of programatically examining and calling code from an assembly (.dll/.exe) at runtime.</p>
 
 <p>The examples here are in C#, but the concepts apply when you are using scripting languages that use .NET.</p>
 
@@ -481,9 +561,9 @@ var convertType = &quot;&quot;.GetType().Assembly.GetType(&quot;System.Convert&q
 
 <p>Note that you are only allowed to access classes from the same assembly as &lsquo;String&rsquo; (mscorlib.dll)</p>
 
-<h2 id="invoking-methods-including-private-methods">Invoking methods (including private methods)</h2>
+<h2 id="invoking-private-methods">Invoking [private] methods</h2>
 
-<p>To invoke methods with parameters, you need to pass in the parameter list as an array of C# objects.</p>
+<p>To invoke any method with parameters, you need to pass in the parameter list as an array of C# objects.</p>
 
 <p>But in most scripting languages, there is no notion of a &ldquo;type&rdquo;.  So how do you create a C# array of C# objects?</p>
 
@@ -511,7 +591,7 @@ The second argument to <code>Invoke</code> is the parameter list for the method 
 
 <p>Here is another example of reflectively invoking a method on an instance of an object.  Note the <code>dynamic</code>  declaration of <code>resultsToAwait</code>.</p>
 
-<pre><code>var targetAssmbly = Assembly.UnsafeLoadFrom(@&quot;\\pathTo\your.dll&quot;);
+<pre><code class="language-csharp">var targetAssmbly = Assembly.UnsafeLoadFrom(@&quot;\\pathTo\your.dll&quot;);
 var instance = targetAssmbly.CreateInstance(&quot;Some.Class.In.Assembly&quot;);
 dynamic resultsToAwait = targetAssmbly.GetType(&quot;Some.Class.In.Assembly&quot;).GetMethod(&quot;GetStuffAsync&quot;).Invoke(instance, null); 
 //'null' because GetStuffAsync does not need parameters
@@ -530,14 +610,14 @@ IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
 
 <p>This will list all the <strong>public</strong> methods of a given type.</p>
 
-<pre><code>MethodInfo[] allMethods = &quot;&quot;.GetType().GetMethods();
+<pre><code class="language-csharp">MethodInfo[] allMethods = &quot;&quot;.GetType().GetMethods();
 </code></pre>
 
 <h3 id="invoking-private-methods-by-index-name">Invoking Private Methods by index/name</h3>
 
 <p>You need to use these objects called &lsquo;BindingFlags&rsquo; and use the method: <code>GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)</code></p>
 
-<pre><code>var privateMethods = &quot;&quot;.GetType()
+<pre><code class="language-csharp">var privateMethods = &quot;&quot;.GetType()
     .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
 </code></pre>
 
@@ -639,39 +719,24 @@ IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
             
         
@@ -701,11 +766,74 @@ IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
 
                     
                     
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
 
                     
             
         
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
             
         
@@ -739,7 +867,7 @@ IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
             <a class="nav nav-prev" href="/coderbook/dotnet/dynamictypes/" title="Ignoring Types"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/powershell/" title="Powershell" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/dotnet/decompiler/" title="Debugging with no source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -748,23 +876,23 @@ IEnumerable&lt;dynamic&gt; results = await resultsToAwait;
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1560955140"></script>
-    <script src="/coderbook/js/clipboard.min.js?1560955140"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1560955140"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1560955140"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1560955140"></script>
-    <script src="/coderbook/js/featherlight.min.js?1560955140"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1560955140"></script>
-    <script src="/coderbook/js/highlight.pack.js?1560955140"></script>
+    <script src="/coderbook/js/scrollspy.js?1561127322"></script>
+    <script src="/coderbook/js/clipboard.min.js?1561127322"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1561127322"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561127322"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1561127322"></script>
+    <script src="/coderbook/js/featherlight.min.js?1561127322"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561127322"></script>
+    <script src="/coderbook/js/highlight.pack.js?1561127322"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1560955140"></script>
-    <script src="/coderbook/js/learn.js?1560955140"></script>
-    <script src="/coderbook/js/hugo-learn.js?1560955140"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1560955140"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1561127322"></script>
+    <script src="/coderbook/js/learn.js?1561127322"></script>
+    <script src="/coderbook/js/hugo-learn.js?1561127322"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1561127322"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1560955140" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1560955140"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1561127322" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1561127322"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title> :: My New Hugo Site</title>
+    <title>Debugging with no source :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1561127322" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/dotnet/decompiler/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -74,7 +74,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -181,8 +181,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/decompiler/" title="Debugging with no source" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/dotnet/decompiler/">
@@ -443,35 +443,94 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > Debugging with no source
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
 
         
 		
         
+          <div class="toc toc-aside" data-max-depth="">
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#no-source-no-problem">No Source? No Problem.</a></li>
+<li><a href="#one-step-further">One step further</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initAsideToc();
+    });
+</script>
+        
         <div id="body-inner">
+          
+            <h1>Debugging with no source</h1>
           
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
-
- 
 
 
-<h1 id="quick-usage-docs-for-net-coders">Quick usage docs for .NET coders</h1>
 
-<p><center></p>
+<h2 id="no-source-no-problem">No Source? No Problem.</h2>
 
-<h3 id="less-explanations-more-code-examples">less explanations, more code examples.</h3>
+<p>Well-known decompilers are .NET Reflector, ILSpy.  These will restore the source code from .NET dll or exe files (aka assemblies).  You can even save the decompiled source as a csproj.</p>
 
-<p></center></p>
+<h2 id="one-step-further">One step further</h2>
 
-<h2 id="hello">Hello!</h2>
+<p>A newer tool called &ldquo;dnSpy&rdquo; <a href="https://github.com/0xd4d/dnSpy">https://github.com/0xd4d/dnSpy</a> lets you debug and edit .NET assemblies! (you can attach to a running process as well as launch)</p>
 
-<p>If you&rsquo;re a developer who knows the basics and want to know how to use some new API/feature as quickly as possible, you&rsquo;re in the right place.</p>
+<p>To debug webapps running in IISExpress, you need to view the debug output from Visual Studio and find your dll in that list (because IISexpress copies the dlls to temp locations).</p>
+
+<p>Fun fact: dnSpy uses the same engine as ILSpy to decompile</p>
+
+<p><strong>Here it is in action:</strong></p>
+
+<p><img src="debug-animated.gif" alt="&quot;dnSpy in action&quot;" /></p>
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -502,8 +561,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -520,21 +577,8 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
+                        
                     
                 
                 
@@ -579,8 +623,43 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
                     
                         
             
@@ -607,21 +686,6 @@
 
                     
                     
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
                     
 
                     
@@ -705,8 +769,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/" title="Reflection"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/powershell/" title="Powershell" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -739,4 +805,3 @@
 
   </body>
 </html>
-

@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title> :: My New Hugo Site</title>
+    <title>Azure Basics :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1561127322" rel="stylesheet">
@@ -33,7 +33,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/azure/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -338,8 +338,8 @@
   
     
     <li data-nav-id="/coderbook/azure/" title="Azure Basics" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/azure/">
@@ -443,7 +443,38 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > Azure Basics
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
 
+        
+          <div id="chapter">
         
 		
         
@@ -452,26 +483,30 @@
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
-
- 
 
 
-<h1 id="quick-usage-docs-for-net-coders">Quick usage docs for .NET coders</h1>
 
-<p><center></p>
+<h3 id="a-guide-to-the-most-frequently-used-features-in-azure">A guide to the most frequently-used features in Azure</h3>
 
-<h3 id="less-explanations-more-code-examples">less explanations, more code examples.</h3>
+<h1 id="faqs">FAQs</h1>
 
-<p></center></p>
+<h2 id="which-azure-resources-are-the-most-important">Which Azure resources are the most important?</h2>
 
-<h2 id="hello">Hello!</h2>
+<p>Azure has a TON of &ldquo;resources&rdquo;, but you probably won&rsquo;t use most of them.  To get started, you&rsquo;ll want to install the Azure CLI.</p>
 
-<p>If you&rsquo;re a developer who knows the basics and want to know how to use some new API/feature as quickly as possible, you&rsquo;re in the right place.</p>
+<p>The most popular resources are: Storage account (which includes table, queue features as well), Key Vault and App Service (think of it as a shared VM that hosts your backend web applications).</p>
+
+<p>Azure also has VM resources if you need a cloud dev environment or want to deploy your web application with some custom database.</p>
+
+<p>App services and VMs can be assigned a &ldquo;managed service identity&rdquo; (MSI), which is used behind the scenes so that you don&rsquo;t have to authenticate to the storage account/key vault without having to deal with storing secrets.</p>
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
+        
+            </div> 
         
         </div> 
         
@@ -655,6 +690,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -662,6 +698,28 @@
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
                     
                         
             
@@ -681,32 +739,15 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
         
         
 
 
         
+            <a class="nav nav-prev" href="/coderbook/03webapps/" title="Web Apps"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/azure/keyvault" title="Remove creds from code" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -739,4 +780,3 @@
 
   </body>
 </html>
-
