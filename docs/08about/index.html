@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>async and await :: My New Hugo Site</title>
+    <title>About :: My New Hugo Site</title>
     
     
     <link href="/coderbook/css/nucleus.css?1561213443" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/dotnet/asyncawait/">
+  <body class="" data-url="/coderbook/08about/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -84,7 +84,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/" title=".NET Intermediate Topics" class="dd-item 
-        parent
+        
         
         
         ">
@@ -110,7 +110,7 @@
  
   
     
-      <li data-nav-id="/dotnet/asyncawait" title="async and await" class="dd-item active">
+      <li data-nav-id="/dotnet/asyncawait" title="async and await" class="dd-item ">
         <a href="/coderbook/dotnet/asyncawait/">
         async and await
         <i class="fa fa-check read-icon"></i>
@@ -324,8 +324,8 @@
   
     
     <li data-nav-id="/coderbook/08about/" title="About" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/08about/">
@@ -394,13 +394,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > async and await
-          
-         
+            <a href='/coderbook/'></a> > About
           
          
           
@@ -415,28 +409,9 @@
         
 		
         
-          <div class="toc toc-aside" data-max-depth="">
-	<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#tldr">tldr</a></li>
-<li><a href="#quick-code-snippet">Quick code snippet</a></li>
-<li><a href="#video">Video</a></li>
-</ul></li>
-</ul>
-</nav>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        initAsideToc();
-    });
-</script>
-        
         <div id="body-inner">
           
-            <h1>async and await</h1>
+            <h1>About</h1>
           
 
         
@@ -446,64 +421,31 @@
 
 
 
-<h2 id="tldr">tldr</h2>
+<h2 id="why-this-site">Why this site?</h2>
 
-<p>async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.</p>
+<p>I&rsquo;ve created this site after reading a lot of bad documentation with so much fluff and thought to myself &ldquo;Why can&rsquo;t you just give me the damn code snippet?&rdquo;</p>
 
-<p>Typically, I write synchronous code because it is easier to debug, after it works, then I&rsquo;ll use async/await.</p>
+<p>So I sought to create my own documentation site as I learn new technologies in the hopes that it would save you some time and frustration.</p>
 
-<p>To make async methods synchronous (i.e. block further code execution until method finishes), add <code>.Result</code> to the end of the method call.  E.g.  <code>client.DownloadFileAsync().Result</code></p>
+<h2 id="whoami">whoami</h2>
 
-<h2 id="quick-code-snippet">Quick code snippet</h2>
+<p>My name is Ambrose and I love coding because it lets me create useful tools for others.</p>
 
-<p>This is how you create a batch of web requests to run in parallel.  (You await on <code>Task.WhenAll()</code> instead of awaiting after each call to <code>DownloadWebsiteAsync()</code>)</p>
+<p>I got started with computers by creating a website on GeoCities.  My latest project aside from this site is a web application I built that helps you listen to your selection of web articles on your smartphone - <a href="https://myorator.net">My Orator</a>.</p>
 
-<pre><code class="language-csharp">public async Task RunDownloadParallelAsync()
-{
-    List&lt;string&gt; websites = GetWebsiteList();
-    var tasks = new List&lt;Task&lt;DownloadWebsiteResult&gt;&gt;();
+<p>Besides computer stuff, I am a student of traditional Shaolin Kung Fu.</p>
 
-    foreach (string site in websites)
-    {
-        tasks.Add(DownloadWebsiteAsync(site));
-    }
-
-    List&lt;DownloadWebsiteResult&gt; results = await Task.WhenAll(tasks);
-
-    foreach (DownloadWebsiteResult dwr in results)
-    {
-        ReportWebsiteInfo(dwr);
-    }
-}
-</code></pre>
-
-<ul>
-<li>Code snippet is part of the example used in the following video.</li>
-</ul>
-
-<h2 id="video">Video</h2>
-
-<p>This video does a great job at explaining async and await.  Tim goes through the example of downloading a sequence of files.  (Watch it in double speed):</p>
-
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/2moh18sh5p4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
-
-
-<p>Here&rsquo;s how to cancel tasks and get progress on the task</p>
-
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/ZTKGRJy5P2M" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
-
+<p>Here&rsquo;s how you can reach me (apologies in advance, I&rsquo;m slow to respond):
+<center>
+<img src="2019-06-19-07-03-11.png" alt="&quot;Ambrose&quot;" />
+<a href="https://linkedin.com/in/ehacks"><i class="fa fa-linkedin"></i> </a> /
+<a href="https://twitter.com/efficienthacks"><i class="fa fa-twitter"></i></a>
+</center></p>
 
 
 <footer class=" footline" >
 	
 </footer>
-
 
         
         </div> 
@@ -519,6 +461,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -534,6 +477,9 @@
             
                 
                     
+                        
+                        
+                    
                 
                 
 
@@ -546,26 +492,6 @@
             
             
                 
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -610,22 +536,6 @@
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
                         
             
             
@@ -641,22 +551,6 @@
                     
             
         
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
             
         
@@ -709,6 +603,55 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -716,10 +659,10 @@
 
 
         
-            <a class="nav nav-prev" href="/coderbook/dotnet/" title=".NET Intermediate Topics"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/azure/keyvault" title="Remove creds from code"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/dotnet/dynamictypes" title="Ignoring Types" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -752,4 +695,3 @@
 
   </body>
 </html>
-

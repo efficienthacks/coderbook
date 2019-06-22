@@ -11,6 +11,62 @@
     
     
     <item>
+      <title>async and await</title>
+      <link>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</guid>
+      <description>tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.
+Typically, I write synchronous code because it is easier to debug, after it works, then I&amp;rsquo;ll use async/await.
+To make async methods synchronous (i.e. block further code execution until method finishes), add .Result to the end of the method call. E.g. client.DownloadFileAsync().Result
+Quick code snippet This is how you create a batch of web requests to run in parallel.</description>
+    </item>
+    
+    <item>
+      <title>Ignoring Types</title>
+      <link>https://efficienthacks.github.io/coderbook/dotnet/dynamictypes/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/dotnet/dynamictypes/</guid>
+      <description>Strongly typed vs dynamically typed Strongly typed means that the compiler will complain if a method does not exist in the class specified during variable declaration. C# is strongly typed, but if you are used to dynamically typed languages (like Python), you can do that too.
+//strongly typed Animal duck = Factory.MakeDuck(); duck.quack(); //compile error because quack() is not defined in Animal even though you know the underlying object is a duck  Dynamically typed means that the compiler will not care whether the method exists or not (it will be done at runtime)</description>
+    </item>
+    
+    <item>
+      <title>Reflection</title>
+      <link>https://efficienthacks.github.io/coderbook/dotnet/reflection/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/dotnet/reflection/</guid>
+      <description>If you have scripting language that allows you to call C# (e.g. Powershell), or if you want to call undocumented private methods, then you need to learn how to use Reflection.
+What is &amp;ldquo;reflection&amp;rdquo;? It&amp;rsquo;s a way of programatically examining and calling code from an assembly (.dll/.exe) at runtime.
+The examples here are in C#, but the concepts apply when you are using scripting languages that use .NET.
+Load C# Objects How would you use classes from a different dll without importing it?</description>
+    </item>
+    
+    <item>
+      <title>Creating Modules</title>
+      <link>https://efficienthacks.github.io/coderbook/powershell/modules/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/powershell/modules/</guid>
+      <description>There are Script modules (.psm1 files) and Binary modules (aka cmdlets)
+Script Module A script module is essentially any valid PowerShell script saved in a .psm1 extension.
+function Show-Calendar { } Export-ModuleMember -Function Show-Calendar  The paths where you can install your module are located in the $env:PSModulePath global variable. Be sure to create a folder for your module to exist in, even if it is only a single .</description>
+    </item>
+    
+    <item>
+      <title>Debugging with no source</title>
+      <link>https://efficienthacks.github.io/coderbook/dotnet/decompiler/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/dotnet/decompiler/</guid>
+      <description>No Source? No Problem. Well-known decompilers are .NET Reflector, ILSpy. These will restore the source code from .NET dll or exe files (aka assemblies). You can even save the decompiled source as a csproj.
+One step further A newer tool called &amp;ldquo;dnSpy&amp;rdquo; https://github.com/0xd4d/dnSpy lets you debug and edit .NET assemblies! (you can attach to a running process as well as launch)
+To debug webapps running in IISExpress, you need to view the debug output from Visual Studio and find your dll in that list (because IISexpress copies the dlls to temp locations).</description>
+    </item>
+    
+    <item>
       <title>Remove creds from code</title>
       <link>https://efficienthacks.github.io/coderbook/azure/keyvault/</link>
       <pubDate>Tue, 18 Jun 2019 20:31:44 -0700</pubDate>
