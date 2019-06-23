@@ -4,32 +4,37 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</loc>
-    <lastmod>2019-06-22T07:22:59-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/dynamictypes/</loc>
-    <lastmod>2019-06-22T07:22:59-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/reflection/</loc>
-    <lastmod>2019-06-22T07:22:59-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/powershell/modules/</loc>
-    <lastmod>2019-06-22T07:22:59-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/decompiler/</loc>
-    <lastmod>2019-06-22T07:22:59-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/powershell/pipinginput/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
@@ -48,27 +53,50 @@
   </url>
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/devops/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/08about/</loc>
     <lastmod>2019-06-22T06:42:07-07:00</lastmod>
   </url>
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/devops/git/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/azure/keyvault/</loc>
-    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/</loc>
-    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/categories/</loc>
-    <priority>0</priority>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/tags/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/tags/csharp/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/tags/something/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/</loc>
+    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/categories/</loc>
     <priority>0</priority>
   </url>
   

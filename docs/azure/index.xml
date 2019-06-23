@@ -11,15 +11,5 @@
 	<atom:link href="https://efficienthacks.github.io/coderbook/azure/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>Remove creds from code</title>
-      <link>https://efficienthacks.github.io/coderbook/azure/keyvault/</link>
-      <pubDate>Tue, 18 Jun 2019 20:31:44 -0700</pubDate>
-      
-      <guid>https://efficienthacks.github.io/coderbook/azure/keyvault/</guid>
-      <description>The code Here&amp;rsquo;s how to do it quickly in a Console application (works the same way when you do it for a web application - sample web app project available in &amp;lsquo;Further Reading&amp;rsquo; section):
-using Microsoft.Azure.KeyVault; using Microsoft.Azure.Services.AppAuthentication; static void Main(string[] args) { string secretstr,error ; var azureServiceTokenProvider = new AzureServiceTokenProvider(&amp;quot;RunAs=Developer; DeveloperTool=AzureCli&amp;quot;); //this is an optional parameter to use the same creds as &amp;quot;az login&amp;quot; in Azure CLI (a command line tool that you have to install separately), remove this when you deploy it in Azure.</description>
-    </item>
-    
   </channel>
 </rss>

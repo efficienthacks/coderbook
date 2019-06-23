@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>csharp on My New Hugo Site</title>
+    <link>https://efficienthacks.github.io/coderbook/tags/csharp/</link>
+    <description>Recent content in csharp on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Jun 2019 08:32:33 -0700</lastBuildDate>
+    
+	<atom:link href="https://efficienthacks.github.io/coderbook/tags/csharp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>async and await</title>
+      <link>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</link>
+      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
+      
+      <guid>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</guid>
+      <description>tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.
+Typically, I write synchronous code because it is easier to debug, after it works, then I&amp;rsquo;ll use async/await.
+To make async methods synchronous (i.e. block further code execution until method finishes), add .Result to the end of the method call. E.g. client.DownloadFileAsync().Result
+Quick code snippet This is how you create a batch of web requests to run in parallel.</description>
+    </item>
+    
+  </channel>
+</rss>

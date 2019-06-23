@@ -2,7 +2,7 @@
 {
 	"uri": "https://efficienthacks.github.io/coderbook/dotnet/asyncawait/",
 	"title": "async and await",
-	"tags": [],
+	"tags": ["csharp", "something"],
 	"description": "",
 	"content": " tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.\nTypically, I write synchronous code because it is easier to debug, after it works, then I\u0026rsquo;ll use async/await.\nTo make async methods synchronous (i.e. block further code execution until method finishes), add .Result to the end of the method call. E.g. client.DownloadFileAsync().Result\nQuick code snippet This is how you create a batch of web requests to run in parallel. (You await on Task.WhenAll() instead of awaiting after each call to DownloadWebsiteAsync())\npublic async Task RunDownloadParallelAsync() { List\u0026lt;string\u0026gt; websites = GetWebsiteList(); var tasks = new List\u0026lt;Task\u0026lt;DownloadWebsiteResult\u0026gt;\u0026gt;(); foreach (string site in websites) { tasks.Add(DownloadWebsiteAsync(site)); } List\u0026lt;DownloadWebsiteResult\u0026gt; results = await Task.WhenAll(tasks); foreach (DownloadWebsiteResult dwr in results) { ReportWebsiteInfo(dwr); } }   Code snippet is part of the example used in the following video.  Video This video does a great job at explaining async and await. Tim goes through the example of downloading a sequence of files. (Watch it in double speed):\n  Here\u0026rsquo;s how to cancel tasks and get progress on the task\n  "
 },
@@ -35,6 +35,13 @@
 	"content": " No Source? No Problem. Well-known decompilers are .NET Reflector, ILSpy. These will restore the source code from .NET dll or exe files (aka assemblies). You can even save the decompiled source as a csproj.\nOne step further A newer tool called \u0026ldquo;dnSpy\u0026rdquo; https://github.com/0xd4d/dnSpy lets you debug and edit .NET assemblies! (you can attach to a running process as well as launch)\nTo debug webapps running in IISExpress, you need to view the debug output from Visual Studio and find your dll in that list (because IISexpress copies the dlls to temp locations).\nFun fact: dnSpy uses the same engine as ILSpy to decompile\nHere it is in action:\n"
 },
 {
+	"uri": "https://efficienthacks.github.io/coderbook/powershell/pipinginput/",
+	"title": "Piping input",
+	"tags": [],
+	"description": "",
+	"content": " So how do take input (which is usually an array of objects) that is passed to your module?\nPiping Input With PowerShell Module You just add an attribute to the parameter.\nfunction show-data { param( [Parameter(ValueFromPipeline=$true)] $InputObject ) begin { $objects = @() } process { $objects += $InputObject } end { foreach($obj in $objects) { $obj #$obj is written to the pipeline on each iteration of the loop } } } Get-ChildItem | show-data  Note that process is called for each item in the array being piped in. In the code snippet, we collected all the items to be processed during end\nUsing C# module In C# code, this is what it looks like:\nusing System.Management.Automation; //get this from nuget package manager - use PowerShellStandard.Library [Cmdlet(VerbsDiagnostic.Test, \u0026quot;PipelineObjDyn\u0026quot;)] public class TestPipelineDynamic : Cmdlet { [Parameter(ValueFromPipeline = true)] public dynamic ObjectFromPipeline { get; set; } //using dynamic because we don't know what type is going to be returned; using PSObject would be better. private List\u0026lt;dynamic\u0026gt; objects; protected override void BeginProcessing() { objects = new List\u0026lt;dynamic\u0026gt;(); } protected override void ProcessRecord() { objects.Add(ObjectFromPipeline); } protected override void EndProcessing() { foreach (var obj in objects) { WriteObject(obj); //writes object to the pipeline } } }  I strongly recommend using Visual Studio to set breakpoints and see what the underlying object (ObjectFromPipeline) looks like. You\u0026rsquo;ll get a much better understanding of what\u0026rsquo;s going on.\nCmdlet development tips When developing cmdlets (binary PS modules), you will want to convert PSObject to/from Dictionary\u0026lt;string,object\u0026gt; (or ExpandoObject)\npublic static class HelperExtensions { public static PSObject AsPSObject(this ExpandoObject eo) { //makes it so that your C# objects can be filtered/manipulated with powershell syntax var newpso = new PSObject(); var expandoAsDict = ((IDictionary\u0026lt;string, object\u0026gt;)eo); foreach (var k in expandoAsDict.Keys) { newpso.Members.Add(new PSNoteProperty(k, expandoAsDict[k])); } return newpso; } public static IDictionary\u0026lt;string,object\u0026gt; AsDictionary(this PSObject pso) { //makes stuff coming in from the pipeline easier to handle var newDict = new Dictionary\u0026lt;string, object\u0026gt;(); foreach (var prop in pso.Properties) { newDict[prop.Name] = prop.Value; } return newDict; } }  Example Cmdlet Code Example cmdlet that reads a csv file and outputs results as an array of PSObjects\n[Cmdlet(VerbsDiagnostic.Test, \u0026quot;WriteObject\u0026quot;)] public class TestBinaryModuleCmdlet1Command : Cmdlet { protected override void BeginProcessing() { using (var reader = new StreamReader(@\u0026quot;D:\\temp\\test.csv\u0026quot;)) { using (var csv = new CsvReader(reader)) { var records = csv.GetRecords\u0026lt;dynamic\u0026gt;(); foreach(var rec in records) { WriteObject(((ExpandoObject)rec).AsPSObject()); } } } } }  CsvReader is part of the CsvHelper nuget package\n"
+},
+{
 	"uri": "https://efficienthacks.github.io/coderbook/dotnet/",
 	"title": ".NET Intermediate Topics",
 	"tags": [],
@@ -63,6 +70,13 @@
 	"content": " A guide to the most frequently-used features in Azure FAQs Which Azure resources are the most important? Azure has a TON of \u0026ldquo;resources\u0026rdquo;, but you probably won\u0026rsquo;t use most of them. To get started, you\u0026rsquo;ll want to install the Azure CLI.\nThe most popular resources are: Storage account (which includes table, queue features as well), Key Vault and App Service (think of it as a shared VM that hosts your backend web applications).\nAzure also has VM resources if you need a cloud dev environment or want to deploy your web application with some custom database.\nApp services and VMs can be assigned a \u0026ldquo;managed service identity\u0026rdquo; (MSI), which is used behind the scenes so that you don\u0026rsquo;t have to authenticate to the storage account/key vault without having to deal with storing secrets.\n"
 },
 {
+	"uri": "https://efficienthacks.github.io/coderbook/devops/",
+	"title": "Devops (git/CI)",
+	"tags": [],
+	"description": "",
+	"content": " What is Azure DevOps? This was the service formerly known as VSTS (renamed in 2018).\nIt\u0026rsquo;s a combination of services that support code development - each of the services have strange names though. Here\u0026rsquo;s what they mean:\n Boards = a Kanban board and a place where you track issues/work items sprints Repos = a git repository (can be public or private) Pipelines = a Continuous Integration tool - i.e. you check in the code and the tool does the build and deploy on some other server. You can have build scripts in PowerShell Artifacts = your own package feed (nuget, Maven, npm)  It can be installed either on your own server or used as a service (https://dev.azure.com).\n Disclaimer: I work at Microsoft (but not on the Azure Devops product). I would still recommend this service even if I didn\u0026rsquo;t.  How much? Pretty much free for 5 users or less.\nhttps://azure.microsoft.com/en-us/pricing/details/devops/azure-devops-services/\n"
+},
+{
 	"uri": "https://efficienthacks.github.io/coderbook/08about/",
 	"title": "About",
 	"tags": [],
@@ -70,11 +84,39 @@
 	"content": " Why this site? I\u0026rsquo;ve created this site after reading a lot of bad documentation with so much fluff and thought to myself \u0026ldquo;Why can\u0026rsquo;t you just give me the damn code snippet?\u0026rdquo;\nSo I sought to create my own documentation site as I learn new technologies in the hopes that it would save you some time and frustration.\nwhoami My name is Ambrose and I love coding because it lets me create useful tools for others.\nI got started with computers by creating a website on GeoCities. My latest project aside from this site is a web application I built that helps you listen to your selection of web articles on your smartphone - My Orator.\nBesides computer stuff, I am a student of traditional Shaolin Kung Fu.\nHere\u0026rsquo;s how you can reach me (apologies in advance, I\u0026rsquo;m slow to respond):    /  \n"
 },
 {
+	"uri": "https://efficienthacks.github.io/coderbook/devops/git/",
+	"title": "Git (cmd line)",
+	"tags": [],
+	"description": "",
+	"content": " Initiate a Git repo from a folder with contents Say you already have a code project going in a folder and want to version control it in Git, here\u0026rsquo;s how you do it:\ngit init git remote add origin [git URL] git add . git commit -m \u0026quot;[commit message]\u0026quot; git push --set-upstream origin master  Git (with submodules) Submodules are essentially a reference to another Git repo. You may want to break up a modular component and track it in its own repo.\nBy default, when you clone a git repo, it will not copy the submodules.\nClone a git repo with submodules git clone [git URL] --recursive or --recurse-submodules\nGrab submodules if you forget to recursively clone git submodule update --init --recursive\nAdd a submodule git submodule add [URL of submodule]\nOther useful commands git status  More Reading This article includes a section that covers how to make a folder in your repo into a submodule.\nhttps://github.blog/2016-02-01-working-with-submodules/\n"
+},
+{
 	"uri": "https://efficienthacks.github.io/coderbook/azure/keyvault/",
 	"title": "Remove creds from code",
 	"tags": [],
 	"description": "",
 	"content": " The code Here\u0026rsquo;s how to do it quickly in a Console application (works the same way when you do it for a web application - sample web app project available in \u0026lsquo;Further Reading\u0026rsquo; section):\nusing Microsoft.Azure.KeyVault; using Microsoft.Azure.Services.AppAuthentication; static void Main(string[] args) { string secretstr,error ; var azureServiceTokenProvider = new AzureServiceTokenProvider(\u0026quot;RunAs=Developer; DeveloperTool=AzureCli\u0026quot;); //this is an optional parameter to use the same creds as \u0026quot;az login\u0026quot; in Azure CLI (a command line tool that you have to install separately), remove this when you deploy it in Azure. //by default, it uses VS creds, Azure CLI, then Azure AD (if running on a domain joined machine) - whatever works first - I ran into an issue where I wanted to run it under a different cred than VS and it took me a while to figure out how to get it to just use Azure CLI creds. try { var callback = new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback); //this is where the magic happens (it tries multiple ways to authentication) var keyVaultClient = new KeyVaultClient(callback); var secrets = keyVaultClient.GetSecretsAsync(\u0026quot;https://testvault123.vault.azure.net/\u0026quot;).Result; //get all secrets var secret = keyVaultClient.GetSecretAsync(\u0026quot;https://testvault123.vault.azure.net/secrets/ambroseSecret\u0026quot;).Result; //get secret called 'ambroseSecret' secretstr = $\u0026quot;Secret: {secret.Value}\u0026quot;; } catch (Exception exp) { error = $\u0026quot;Something went wrong: {exp.Message}\u0026quot;; } var principal = azureServiceTokenProvider.PrincipalUsed != null ? $\u0026quot;Principal Used: {azureServiceTokenProvider.PrincipalUsed}\u0026quot; : string.Empty; } //set a breakpoint here to inspect the variables  Why use a KeyVault? To keep creds out of source control. (even if it\u0026rsquo;s just creds for dev/test)\nIt works by using your local creds when in development and using a \u0026ldquo;managed identity\u0026rdquo;. When you run your code on an Azure App Service or an Azure VM with a managed identity enabled, the library automatically uses the managed identity. You might have to go to the Azure portal to enable managed identity.\nHere\u0026rsquo;s how you enable managed identity on from the Azure portal - (as of 2019): Further Reading The official documentation:\nhttps://docs.microsoft.com/en-us/azure/key-vault/service-to-service-authentication\nTry it out with a sample web application:\nhttps://github.com/Azure-Samples/app-service-msi-keyvault-dotnet\n"
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/tags/csharp/",
+	"title": "csharp",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/tags/something/",
+	"title": "something",
+	"tags": [],
+	"description": "",
+	"content": ""
 },
 {
 	"uri": "https://efficienthacks.github.io/coderbook/",
@@ -86,13 +128,6 @@
 {
 	"uri": "https://efficienthacks.github.io/coderbook/categories/",
 	"title": "Categories",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/tags/",
-	"title": "Tags",
 	"tags": [],
 	"description": "",
 	"content": ""

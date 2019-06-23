@@ -11,16 +11,5 @@
 	<atom:link href="https://efficienthacks.github.io/coderbook/powershell/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>Creating Modules</title>
-      <link>https://efficienthacks.github.io/coderbook/powershell/modules/</link>
-      <pubDate>Sun, 09 Jun 2019 08:32:33 -0700</pubDate>
-      
-      <guid>https://efficienthacks.github.io/coderbook/powershell/modules/</guid>
-      <description>There are Script modules (.psm1 files) and Binary modules (aka cmdlets)
-Script Module A script module is essentially any valid PowerShell script saved in a .psm1 extension.
-function Show-Calendar { } Export-ModuleMember -Function Show-Calendar  The paths where you can install your module are located in the $env:PSModulePath global variable. Be sure to create a folder for your module to exist in, even if it is only a single .</description>
-    </item>
-    
   </channel>
 </rss>
