@@ -43,8 +43,8 @@
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/03webapps/</loc>
-    <lastmod>2019-06-21T07:27:41-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/web/</loc>
+    <lastmod>2019-06-23T18:55:39-07:00</lastmod>
   </url>
   
   <url>
@@ -70,6 +70,11 @@
   <url>
     <loc>https://efficienthacks.github.io/coderbook/azure/keyvault/</loc>
     <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/web/authn/</loc>
+    <lastmod>2019-06-23T18:55:39-07:00</lastmod>
   </url>
   
   <url>

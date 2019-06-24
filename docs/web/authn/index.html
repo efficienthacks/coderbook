@@ -20,16 +20,16 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>csharp :: My New Hugo Site</title>
+    <title>Authentication (with tokens) :: My New Hugo Site</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1561341406" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1561341406" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1561341405" rel="stylesheet">
     <link href="/coderbook/css/hugo-theme.css?1561341406" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/tags/csharp/">
+  <body class="" data-url="/coderbook/web/authn/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -324,7 +324,7 @@
   
     
     <li data-nav-id="/coderbook/web/" title="Web Apps" class="dd-item 
-        
+        parent
         
         
         ">
@@ -353,8 +353,8 @@
   
     
     <li data-nav-id="/coderbook/web/authn/" title="Authentication (with tokens)" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/web/authn/">
@@ -576,7 +576,19 @@
                     
           
           
-            csharp
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/web/'>Web Apps</a> > Authentication (with tokens)
+          
+         
+          
+         
           
            
                   </span>
@@ -592,7 +604,15 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#the-basics-of-sign-in-with">The basics of &ldquo;Sign in with _____&rdquo;</a></li>
+<li><a href="#example-sign-in-using-a-microsoft-account-console-application">Example: Sign in using a Microsoft Account (console application)</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -605,9 +625,7 @@
           
           <h1>
             
-              taxonomy :
-            
-            csharp
+            Authentication (with tokens)
           </h1>
           
 
@@ -616,12 +634,129 @@
 
 
 
+	
 
-<ul>
-	
-		<li><a href="/coderbook/dotnet/asyncawait/">async and await</a></li>
-	
-</ul>
+<h2 id="the-basics-of-sign-in-with">The basics of &ldquo;Sign in with _____&rdquo;</h2>
+
+<p>First, make the user log in via an authentication provider (e.g. Google, Azure AD, Microsoft account)</p>
+
+<p>The authn provider will send the user&rsquo;s token to your website (the reply URL you specify)</p>
+
+<p>From your website, you take this token (which typically includes the user&rsquo;s email and name) and verify it using another endpoint provided by the authn provider.</p>
+
+<h2 id="example-sign-in-using-a-microsoft-account-console-application">Example: Sign in using a Microsoft Account (console application)</h2>
+
+<p>You actually don&rsquo;t need a web application to make use of OAuth.  According to <a href="https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/authentication-guidance?view=azure-devops#q-can-i-use-adal-if-i-log-into-my-organization-with-a-microsoft-account-msa">this answer</a>, you can use a special client ID and reply URL to obtain a JWT (which includes the user&rsquo;s name and email address).</p>
+
+<p>Because this is a console app and you want to use OAuth for authentication, you have to create a project that targets .NET Framework.  The reason is that it pops up a browser window (which is tied to .NET Framework) to have the user (who is at the command line) authenticate to Microsoft.  This is done in the <code>PromptForAuthn</code> method.</p>
+
+<p>Because this token is submitted to you by the user, you have to take this token and send it to <a href="https://login.microsoftonline.com/..">https://login.microsoftonline.com/..</a>. and to verify the token&rsquo;s signature.  Which is what the <code>Validate</code> method does.</p>
+
+<pre><code class="language-csharp">using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GettingAADToken
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var token = PromptForAuthn();
+            var x = Validate(token.Parameter);
+            var name = x.Claims.Where(y =&gt; y.Type == &quot;upn&quot;).First().Value;
+        }
+
+        static string requestedResource = &quot;499b84ac-1321-427f-aa17-267ca6975798&quot;;   //azure devops
+        static string clientId = &quot;872cd9fa-d31f-45e0-9eab-6e460a02d1f1&quot;; //visual studio
+        static string tenantId = &quot;72f988bf-86f1-41af-91ab-2d7cd011db47&quot;; // Microsoft tenant's ID
+        public static AuthenticationHeaderValue PromptForAuthn()
+        {
+            AuthenticationContext ctx = GetAuthenticationContext(tenantId); 
+            AuthenticationResult result = null;
+            IPlatformParameters promptBehavior = new PlatformParameters(PromptBehavior.Auto);
+
+            try
+            {
+                result = ctx.AcquireTokenAsync(requestedResource, clientId, new Uri(&quot;urn:ietf:wg:oauth:2.0:oob&quot;), promptBehavior).Result;
+                Console.WriteLine(&quot;Token expires on: &quot; + result.ExpiresOn);
+                var bearerAuthHeader = new AuthenticationHeaderValue(&quot;Bearer&quot;, result.AccessToken);
+                return bearerAuthHeader;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // If the token has expired, prompt the user with a login prompt
+                result = ctx.AcquireTokenAsync(requestedResource, &quot;872cd9fa-d31f-45e0-9eab-6e460a02d1f1&quot;, new Uri(&quot;urn:ietf:wg:oauth:2.0:oob&quot;), promptBehavior).Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(&quot;{0}: {1}&quot;, ex.GetType(), ex.Message);
+            }
+
+            return null;
+        }
+
+        private static AuthenticationContext GetAuthenticationContext(string tenant)
+        {
+            AuthenticationContext ctx = null;
+            if (tenant != null)
+                ctx = new AuthenticationContext(&quot;https://login.microsoftonline.com/&quot; + tenant);
+            else
+            {
+                ctx = new AuthenticationContext(&quot;https://login.windows.net/common&quot;);
+                if (ctx.TokenCache.Count &gt; 0)
+                {
+                    string homeTenant = ctx.TokenCache.ReadItems().First().TenantId;
+                    ctx = new AuthenticationContext(&quot;https://login.microsoftonline.com/&quot; + homeTenant);
+                }
+            }
+            return ctx;
+        }
+
+        public static JwtSecurityToken Validate(string token)
+        {
+            string stsDiscoveryEndpoint = &quot;https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration&quot;;
+
+            ConfigurationManager&lt;OpenIdConnectConfiguration&gt; configManager = new ConfigurationManager&lt;OpenIdConnectConfiguration&gt;(stsDiscoveryEndpoint, new OpenIdConnectConfigurationRetriever());
+
+            OpenIdConnectConfiguration config = configManager.GetConfigurationAsync().Result;
+
+            TokenValidationParameters validationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                IssuerSigningKeys = config.SigningKeys,
+                ValidateLifetime = true
+            };
+
+            validationParameters.ValidAudience = requestedResource;
+            validationParameters.ValidIssuer = $&quot;https://sts.windows.net/{tenantId}/&quot;;
+
+            JwtSecurityTokenHandler tokendHandler = new JwtSecurityTokenHandler();
+
+            SecurityToken jwt;
+
+            var result = tokendHandler.ValidateToken(token, validationParameters, out jwt);
+            
+            return jwt as JwtSecurityToken;
+        }
+    }
+}
+
+</code></pre>
+
+<p>[todo: add snippet to sign in with Google/Microsoft account for a web application]</p>
+
+
+
 
 
 <footer class=" footline" >
@@ -844,6 +979,45 @@
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
                 
                 
 
@@ -917,40 +1091,6 @@
 
                     
                     
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
                     
 
                     
@@ -964,8 +1104,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/web/" title="Web Apps"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/azure/" title="Azure Basics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
