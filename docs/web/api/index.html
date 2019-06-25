@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Categories :: CoderBook - useful documentation for .NET coders</title>
+    <title>Web API Intro :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1561440653" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/categories/">
+  <body class="" data-url="/coderbook/web/api/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -324,7 +324,7 @@
   
     
     <li data-nav-id="/coderbook/web/" title="Web Apps" class="dd-item 
-        
+        parent
         
         
         ">
@@ -353,8 +353,8 @@
   
     
     <li data-nav-id="/coderbook/web/api/" title="Web API Intro" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/web/api/">
@@ -602,7 +602,19 @@
                     
           
           
-            Categories
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/web/'>Web Apps</a> > Web API Intro
+          
+         
+          
+         
           
            
                   </span>
@@ -618,7 +630,15 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#parsing-json-from-a-post-parameter">Parsing JSON from a POST parameter</a></li>
+</ul></li>
+</ul>
+</nav>
 </div>
 
 <script>
@@ -631,7 +651,7 @@
           
           <h1>
             
-            Categories
+            Web API Intro
           </h1>
           
 
@@ -640,10 +660,63 @@
 
 
 
-
-<ul>
 	
-</ul>
+
+<h2 id="tools">Tools</h2>
+
+<p>Just get <a href="https://www.getpostman.com/">Postman</a>, it&rsquo;s the industry standard for testing HTTP requests.</p>
+
+<p>The template code for a controller is as follows (in VS, this is the &lsquo;MVC&rsquo; template - i.e. it extends Controller, not ControllerBase):</p>
+
+<pre><code class="language-csharp">[Route(&quot;api/[controller]&quot;)]     //don't need to change this, but if you have other controllers, you need this attribute.  The [controller] part corresponds to 'Value' in this case (the substring in your class name before 'Controller')
+public class ValuesController : Controller
+{
+    // GET api/values
+    [HttpGet]
+    public IEnumerable&lt;string&gt; Get()    //note that the method name doesn't matter, you can call it whatever you want
+    {
+        return new string[] { &quot;value1&quot;, &quot;value2&quot; };
+    }
+
+    // GET api/values/5
+    [HttpGet(&quot;{id309g333}&quot;)]
+    public string Get(int id309g333)   //Here, I'm emphasizing that the variable names in the attribute must match.
+    {
+        return &quot;value&quot;;
+    }
+</code></pre>
+
+<h2 id="parsing-json-from-a-post-parameter">Parsing JSON from a POST parameter</h2>
+
+<p>You don&rsquo;t need to parse any JSON, but you do need to create a class and use the <code>[FromBody]</code> attribute.</p>
+
+<pre><code class="language-csharp">[HttpPost(&quot;login&quot;)]
+public IActionResult Login([FromBody] UserPassModel up)
+{
+    ...
+}
+
+public class UserPassModel
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
+}
+</code></pre>
+
+<p>Your HTTP POST request will look like this (note the &lsquo;JSON (application/json)&rsquo;)</p>
+
+<p><img src="2019-06-24-17-54-49.png" alt="" /></p>
+
+<pre><code class="language-json">{
+    &quot;username&quot;:&quot;ambrose&quot;,
+    &quot;password&quot;:&quot;0iashdg0h3&quot;
+}
+</code></pre>
+
+<p>The json names can be lower case.  .NET will automatically parse the JSON and make it a <code>UserPassModel</code> object.</p>
+
+
+
 
 
 <footer class=" footline" >
@@ -866,6 +939,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -880,6 +954,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -897,39 +972,8 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
                         
-                    
-                    
-
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -989,6 +1033,40 @@
 
                     
                     
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
 
                     
@@ -1002,8 +1080,10 @@
 
 
         
+            <a class="nav nav-prev" href="/coderbook/web/" title="Web Apps"> <i class="fa fa-chevron-left"></i></a>
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+        
+            <a class="nav nav-next" href="/coderbook/web/authn/" title="Authentication (with tokens)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
