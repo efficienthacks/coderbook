@@ -1128,3 +1128,8 @@ pre .copy-to-clipboard:hover {
 }
 
 /*# sourceMappingURL=theme.css.map */
+.featherlight .featherlight-content {
+    text-align: center;
+    border-radius: 8px !important;
+    background-blend-mode: darken;
+}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Web Apps on CoderBook - useful documentation for .NET coders</title>
+    <title>Web services on CoderBook - useful documentation for .NET coders</title>
     <link>https://efficienthacks.github.io/coderbook/web/</link>
-    <description>Recent content in Web Apps on CoderBook - useful documentation for .NET coders</description>
+    <description>Recent content in Web services on CoderBook - useful documentation for .NET coders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 18 Jun 2019 19:45:42 -0700</lastBuildDate>
