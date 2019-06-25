@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Remove creds from code on My New Hugo Site</title>
+    <title>Keyvault on CoderBook - useful documentation for .NET coders</title>
     <link>https://efficienthacks.github.io/coderbook/azure/keyvault/</link>
-    <description>Recent content in Remove creds from code on My New Hugo Site</description>
+    <description>Recent content in Keyvault on CoderBook - useful documentation for .NET coders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 18 Jun 2019 20:31:44 -0700</lastBuildDate>

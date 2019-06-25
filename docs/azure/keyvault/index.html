@@ -20,21 +20,21 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Remove creds from code :: My New Hugo Site</title>
+    <title>Keyvault :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1561341405" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1561426062" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1561341405"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1561426062"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561341405"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561341405"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561426062"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561426062"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1561341405"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1561426062"></script>
 
     
   </div>
@@ -414,13 +414,13 @@
  
   
     
-    <li data-nav-id="/coderbook/azure/keyvault/" title="Remove creds from code" class="dd-item 
+    <li data-nav-id="/coderbook/azure/keyvault/" title="Keyvault" class="dd-item 
         parent
         active
         
         ">
       <a href="/coderbook/azure/keyvault/">
-          Remove creds from code
+          Keyvault
           
             <i class="fa fa-check read-icon"></i>
           
@@ -584,7 +584,7 @@
             
           
           
-            <a href='/coderbook/'></a> > <a href='/coderbook/azure/'>Azure Basics</a> > Remove creds from code
+            <a href='/coderbook/'></a> > <a href='/coderbook/azure/'>Azure Basics</a> > Keyvault
           
          
           
@@ -608,8 +608,9 @@
 <ul>
 <li>
 <ul>
-<li><a href="#the-code">The code</a></li>
 <li><a href="#why-use-a-keyvault">Why use a KeyVault?</a></li>
+<li><a href="#the-code">The code</a></li>
+<li><a href="#how-does-it-work">How does it work?</a></li>
 <li><a href="#further-reading">Further Reading</a></li>
 </ul></li>
 </ul>
@@ -626,7 +627,7 @@
           
           <h1>
             
-            Remove creds from code
+            Keyvault
           </h1>
           
 
@@ -637,6 +638,12 @@
 
 	
 
+<h2 id="why-use-a-keyvault">Why use a KeyVault?</h2>
+
+<p>To keep creds out of source control.  (even if it&rsquo;s just creds for dev/test)</p>
+
+<p>Even if you don&rsquo;t use keyvault, you should use environment variables to keep your secrets into being checked into git.  The Keyvault API uses different mechanisms to access the keyvault - i.e. no code changes required if running locally or running in production.</p>
+
 <h2 id="the-code">The code</h2>
 
 <p>Here&rsquo;s how to do it quickly in a Console application (works the same way when you do it for a web application - sample web app project available in &lsquo;Further Reading&rsquo; section):</p>
@@ -646,9 +653,8 @@ using Microsoft.Azure.Services.AppAuthentication;
 static void Main(string[] args)
 {
     string secretstr,error ;
-    var azureServiceTokenProvider = new AzureServiceTokenProvider(&quot;RunAs=Developer; DeveloperTool=AzureCli&quot;);  //this is an optional parameter to use the same creds as &quot;az login&quot; in Azure CLI (a command line tool that you have to install separately), remove this when you deploy it in Azure.
-
-    //by default, it uses VS creds, Azure CLI, then Azure AD (if running on a domain joined machine) - whatever works first - I ran into an issue where I wanted to run it under a different cred than VS and it took me a while to figure out how to get it to just use Azure CLI creds.
+    var azureServiceTokenProvider = new AzureServiceTokenProvider();  
+    //details: by default, it uses VS creds, Azure CLI, then Azure AD (if running on a domain joined machine) - whatever works first - I ran into an issue where I wanted to run it under a different cred than VS and it took me a while to figure out how to get it to just use Azure CLI creds.  If you have different creds that you use in Visual Studio, pass in this parameter :&quot;RunAs=Developer; DeveloperTool=AzureCli&quot;
 
     try
     {
@@ -671,9 +677,7 @@ static void Main(string[] args)
 } //set a breakpoint here to inspect the variables
 </code></pre>
 
-<h2 id="why-use-a-keyvault">Why use a KeyVault?</h2>
-
-<p>To keep creds out of source control.  (even if it&rsquo;s just creds for dev/test)</p>
+<h2 id="how-does-it-work">How does it work?</h2>
 
 <p>It works by using your local creds when in development and using a &ldquo;managed identity&rdquo;.  When you run your code on an <strong>Azure App Service</strong> or an <strong>Azure VM</strong> with a managed identity enabled, the library automatically uses the managed identity.  You might have to go to the Azure portal to enable managed identity.</p>
 
@@ -1051,23 +1055,23 @@ static void Main(string[] args)
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1561341405"></script>
-    <script src="/coderbook/js/clipboard.min.js?1561341405"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1561341405"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561341405"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1561341405"></script>
-    <script src="/coderbook/js/featherlight.min.js?1561341405"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561341405"></script>
-    <script src="/coderbook/js/highlight.pack.js?1561341405"></script>
+    <script src="/coderbook/js/scrollspy.js?1561426062"></script>
+    <script src="/coderbook/js/clipboard.min.js?1561426062"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1561426062"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561426062"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1561426062"></script>
+    <script src="/coderbook/js/featherlight.min.js?1561426062"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561426062"></script>
+    <script src="/coderbook/js/highlight.pack.js?1561426062"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1561341405"></script>
-    <script src="/coderbook/js/learn.js?1561341405"></script>
-    <script src="/coderbook/js/hugo-learn.js?1561341405"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1561341405"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1561426062"></script>
+    <script src="/coderbook/js/learn.js?1561426062"></script>
+    <script src="/coderbook/js/hugo-learn.js?1561426062"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1561426062"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1561341405" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1561341405"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1561426062" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1561426062"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>csharp on My New Hugo Site</title>
+    <title>csharp on CoderBook - useful documentation for .NET coders</title>
     <link>https://efficienthacks.github.io/coderbook/tags/csharp/</link>
-    <description>Recent content in csharp on My New Hugo Site</description>
+    <description>Recent content in csharp on CoderBook - useful documentation for .NET coders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Jun 2019 08:32:33 -0700</lastBuildDate>

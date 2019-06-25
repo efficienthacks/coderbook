@@ -20,21 +20,21 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Authentication (with tokens) :: My New Hugo Site</title>
+    <title>Authentication (with tokens) :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1561341405" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1561341406" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1561426062" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1561426062" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1561341406"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1561426062"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561341406"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561341406"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1561426062"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1561426062"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1561341406"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1561426062"></script>
 
     
   </div>
@@ -414,13 +414,13 @@
  
   
     
-    <li data-nav-id="/coderbook/azure/keyvault/" title="Remove creds from code" class="dd-item 
+    <li data-nav-id="/coderbook/azure/keyvault/" title="Keyvault" class="dd-item 
         
         
         
         ">
       <a href="/coderbook/azure/keyvault/">
-          Remove creds from code
+          Keyvault
           
             <i class="fa fa-check read-icon"></i>
           
@@ -609,7 +609,8 @@
 <li>
 <ul>
 <li><a href="#the-basics-of-sign-in-with">The basics of &ldquo;Sign in with _____&rdquo;</a></li>
-<li><a href="#example-sign-in-using-a-microsoft-account-console-application">Example: Sign in using a Microsoft Account (console application)</a></li>
+<li><a href="#sign-in-using-a-microsoft-account-console-application">Sign in using a Microsoft Account (console application)</a></li>
+<li><a href="#making-your-web-application-generate-oauth-tokens-from-scratch">Making your web application generate OAuth tokens (from scratch)</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -644,7 +645,7 @@
 
 <p>From your website, you take this token (which typically includes the user&rsquo;s email and name) and verify it using another endpoint provided by the authn provider.</p>
 
-<h2 id="example-sign-in-using-a-microsoft-account-console-application">Example: Sign in using a Microsoft Account (console application)</h2>
+<h2 id="sign-in-using-a-microsoft-account-console-application">Sign in using a Microsoft Account (console application)</h2>
 
 <p>You actually don&rsquo;t need a web application to make use of OAuth.  According to <a href="https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/authentication-guidance?view=azure-devops#q-can-i-use-adal-if-i-log-into-my-organization-with-a-microsoft-account-msa">this answer</a>, you can use a special client ID and reply URL to obtain a JWT (which includes the user&rsquo;s name and email address).</p>
 
@@ -752,6 +753,156 @@ namespace GettingAADToken
 }
 
 </code></pre>
+
+<h2 id="making-your-web-application-generate-oauth-tokens-from-scratch">Making your web application generate OAuth tokens (from scratch)</h2>
+
+<p>This is a .NET Core 2.1 example.  You can start from a blank Web API project.</p>
+
+<p><strong>Step 1: Add a secret string</strong></p>
+
+<p>This will be used to generate and verify the bearer token.  I&rsquo;ll be providing code to read the token from an environment variable so you don&rsquo;t check secrets into git.</p>
+
+<p>appsettings.json</p>
+
+<pre><code class="language-json">{
+  &quot;Logging&quot;: {
+    ...
+  },
+  &quot;AppSettings&quot;: {
+    &quot;Token&quot;: &quot;myTokenEnvVar&quot;
+  }
+}
+</code></pre>
+
+<p><strong>Step 2: Add token generation logic to your authentication logic</strong></p>
+
+<p>Make a new controller called <code>AuthnController</code> with the following method.  Of course, this won&rsquo;t work yet because you need to set up some configuration.  But go ahead and try it anyways and see what happens.</p>
+
+<pre><code class="language-csharp">
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+
+...
+private readonly IConfiguration _config;
+public AuthnController(IConfiguration config)
+{
+    _config = config;
+}
+
+[HttpPost(&quot;login&quot;)]
+public IActionResult Login([FromBody] UserPassModel up)
+{
+    if(IsUserValid(up.Username, up.Password))   //this would be some backend database check
+    {
+        return Unauthorized();
+    }
+
+    var tokenHandler = new JwtSecurityTokenHandler();
+
+    //read the key from the environment variable
+    var key = Encoding.ASCII.GetBytes(
+        System.Environment.GetEnvironmentVariable(
+            _config.GetSection(&quot;AppSettings:Token&quot;).Value,
+            EnvironmentVariableTarget.User
+        )
+    );
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Issuer = &quot;self&quot;,    //in our scenario, Issuer and Audience won't be verified, only the key will
+        Audience = &quot;aud&quot;,
+        Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Email, &quot;emailAddressHere&quot;),
+            new Claim(ClaimTypes.Name, up.Username)
+            //you can have as few or as many claims here
+        }),
+        Expires = DateTime.UtcNow.AddDays(10),
+        SigningCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha256Signature)
+
+    };
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+    var tokenString = tokenHandler.WriteToken(token);
+
+
+    return Ok(tokenString);
+}
+</code></pre>
+
+<p><strong>Step 3: Add Configuration code to Startup.cs</strong></p>
+
+<pre><code class="language-csharp"> public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+    var key = Encoding.ASCII.GetBytes(
+         System.Environment.GetEnvironmentVariable(
+            Configuration.GetSection(&quot;AppSettings:Token&quot;).Value,
+            EnvironmentVariableTarget.User
+        )
+        );
+
+    services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =&gt;
+    {
+        options.IncludeErrorDetails = true;
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+            ValidIssuer = &quot;self&quot;,
+            ValidateIssuer = true,
+            ValidateAudience = false
+
+        };
+    });
+}
+</code></pre>
+
+<p><strong>Step 4: Add code to the <code>Configure()</code> method in the same file</strong></p>
+
+<p>This one is easily missed.  You have to add <code>app.UseAuthentication()</code> and this has to be before <code>app.UseMvc()</code></p>
+
+<pre><code class="language-csharp">public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    app.UseAuthentication();  //&lt;-- this is important
+    app.UseMvc();
+}
+</code></pre>
+
+<p><strong>Step 5: Profit</strong></p>
+
+<p>Finally, you need a method that requires authentication to test this out.</p>
+
+<p>You need to add the <code>[Authorize]</code> attribute to the controller.</p>
+
+<pre><code class="language-csharp">[Authorize]
+[Route(&quot;api/[controller]&quot;)]
+public class RequiresAuthnController : Controller
+{
+    [HttpGet(&quot;getuser/{id}&quot;)]
+    public IActionResult GetUser(int id)
+    {
+        return Ok(&quot;user here &quot; + id + User.Identity.Name);
+    }
+</code></pre>
+
+<p>Here&rsquo;s what it looks like in Postman</p>
+
+<p><img src="2019-06-24-18-25-39.png" alt="" /></p>
 
 <p>[todo: add snippet to sign in with Google/Microsoft account for a web application]</p>
 
@@ -1116,23 +1267,23 @@ namespace GettingAADToken
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1561341406"></script>
-    <script src="/coderbook/js/clipboard.min.js?1561341406"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1561341406"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561341406"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1561341406"></script>
-    <script src="/coderbook/js/featherlight.min.js?1561341406"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561341406"></script>
-    <script src="/coderbook/js/highlight.pack.js?1561341406"></script>
+    <script src="/coderbook/js/scrollspy.js?1561426062"></script>
+    <script src="/coderbook/js/clipboard.min.js?1561426062"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1561426062"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1561426062"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1561426062"></script>
+    <script src="/coderbook/js/featherlight.min.js?1561426062"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1561426062"></script>
+    <script src="/coderbook/js/highlight.pack.js?1561426062"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1561341406"></script>
-    <script src="/coderbook/js/learn.js?1561341406"></script>
-    <script src="/coderbook/js/hugo-learn.js?1561341406"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1561341406"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1561426062"></script>
+    <script src="/coderbook/js/learn.js?1561426062"></script>
+    <script src="/coderbook/js/hugo-learn.js?1561426062"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1561426062"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1561341406" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1561341406"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1561426062" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1561426062"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
