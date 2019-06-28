@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Creating Modules :: CoderBook - useful documentation for .NET coders</title>
+    <title>Implementing AsJob :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1561723459" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/powershell/modules/">
+  <body class="" data-url="/coderbook/powershell/asjob/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -254,7 +254,7 @@
     
     <li data-nav-id="/coderbook/powershell/modules/" title="Creating Modules" class="dd-item 
         parent
-        active
+        
         
         ">
       <a href="/coderbook/powershell/modules/">
@@ -308,8 +308,8 @@
   
     
     <li data-nav-id="/coderbook/powershell/asjob/" title="Implementing AsJob" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/powershell/asjob/">
@@ -636,7 +636,13 @@
             
           
           
-            <a href='/coderbook/'></a> > <a href='/coderbook/powershell/'>Powershell</a> > Creating Modules
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/powershell/'>Powershell</a> > <a href='/coderbook/powershell/modules/'>Creating Modules</a> > Implementing AsJob
+          
+         
           
          
           
@@ -660,11 +666,10 @@
 <ul>
 <li>
 <ul>
-<li><a href="#script-module">Script Module</a></li>
-<li><a href="#binary-c-module">Binary (C#) Module</a>
-<ul>
-<li><a href="#debugging-binary-ps-modules">Debugging Binary PS Modules</a></li>
-</ul></li>
+<li><a href="#modify-the-c-module-code">Modify the C# module code</a></li>
+<li><a href="#implement-the-job-class">Implement the Job class</a></li>
+<li><a href="#back-to-the-c-module-code">Back to the C# module code</a></li>
+<li><a href="#references">References</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -680,7 +685,7 @@
           
           <h1>
             
-            Creating Modules
+            Implementing AsJob
           </h1>
           
 
@@ -691,76 +696,107 @@
 
 	
 
-<p>There are <strong>Script</strong> modules (.psm1 files) and <strong>Binary</strong> modules (aka cmdlets)</p>
+<p><code>-AsJob</code> is a common switch in all the official PowerShell cmdlets that allow them to run in the background.  But how do you implement it?</p>
 
-<h2 id="script-module">Script Module</h2>
+<p>You&rsquo;ll have to restructure your module a little bit.  There&rsquo;s probably another way in which you don&rsquo;t have to, but I haven&rsquo;t figured that out.</p>
 
-<p>A script module is essentially any valid PowerShell script saved in a .psm1 extension.</p>
+<h2 id="modify-the-c-module-code">Modify the C# module code</h2>
 
-<pre><code class="language-powershell">function Show-Calendar {
-}
-Export-ModuleMember -Function Show-Calendar
-</code></pre>
+<p>For the C# cmdlet module, do this - this is standard template code obtained from the official documentation (see resources below).</p>
 
-<p>The paths where you can install your module are located in the $env:PSModulePath global variable.  Be sure to create a folder for your module to exist in, even if it is only a single .psm1 file</p>
-
-<p>By default, all functions in your script are accessible to users who import your .psm1 file, but properties are not.</p>
-
-<h2 id="binary-c-module">Binary (C#) Module</h2>
-
-<p>Make a class library (dll)</p>
-
-<p>You have to import the module by dll name:  <code>Import-Module BinModuleTest\PSbinModule.dll</code></p>
-
-<pre><code class="language-csharp">using System.Management.Automation;           // Windows PowerShell namespace.
-
-namespace ModuleCmdlets
+<pre><code class="language-csharp">protected override void ProcessRecord()
 {
-    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet1&quot;)]
-    public class TestBinaryModuleCmdlet1Command : Cmdlet
+  if (asjob)
+  {
+    // Add the job definition to the job repository,
+    // return the job object, and then create the thread
+    // used to run the job.
+    JobRepository.Add(job); //the job instance comes later - scroll down to the last step to see how to instantiate it
+    WriteObject(job);
+    ThreadPool.QueueUserWorkItem(WorkItem);
+  }
+  else
+  {
+    //this is to process the 'job' synchronously (i.e. normally)
+    job.ProcessJob();
+    foreach (PSObject p in job.Output)
     {
-        protected override void BeginProcessing()
-        {
-            WriteObject(&quot;BinaryModuleCmdlet1 exported by the ModuleCmdlets module.&quot;);
-        }
+      WriteObject(p);
     }
-
-    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet2&quot;)]
-    public class TestBinaryModuleCmdlet2Command : Cmdlet
-    {
-        protected override void BeginProcessing()
-        {
-            WriteObject(&quot;BinaryModuleCmdlet2 exported by the ModuleCmdlets module.&quot;);
-        }
-    }
-
-    [Cmdlet(VerbsDiagnostic.Test, &quot;BinaryModuleCmdlet3&quot;)]
-    public class TestBinaryModuleCmdlet3Command : Cmdlet
-    {
-        protected override void BeginProcessing()
-        {
-            WriteObject(&quot;BinaryModuleCmdlet3 exported by the ModuleCmdlets module.&quot;);
-        }
-    }
-
+  }
 }
 </code></pre>
 
-<p>You invoke the cmdlet like this: &ldquo;Test-BinaryModuleCmdlet1&rdquo;</p>
+<h2 id="implement-the-job-class">Implement the Job class</h2>
 
-<h3 id="debugging-binary-ps-modules">Debugging Binary PS Modules</h3>
+<p>I went and made my own JobImpl that&rsquo;s different from the example in the offical docs.  You have to make a new file PSJobImpl.cs:</p>
 
-<p>If you&rsquo;re using Visual Studio (and making a .NET Framework library), right click on the csproj and add this to the Debug command line args:
-<code>-noexit -command &quot;&amp;{ import-module .\[dllName].dll -verbose}&quot;</code></p>
+<pre><code class="language-csharp">public class PSJobImpl: Job
+{
+    //this is what will be executed in the background
+    Action&lt;PSDataCollection&lt;PSObject&gt;&gt; _logicWithOutput;
 
-<p><img src="2019-06-16-15-50-18.png" alt="" />
-Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writing-a-powershell-module-with-c-part-2-debugging/">https://www.powershellmagazine.com/2014/04/08/basics-of-writing-a-powershell-module-with-c-part-2-debugging/</a></p>
+    public PSJobImpl(string command, Action&lt;PSDataCollection&lt;PSObject&gt;&gt; logicWOutput) : base(command)
+    {
+        SetJobState(JobState.NotStarted);
+        _logicWithOutput = logicWOutput;
+    }
+    public override string StatusMessage
+    {
+        get { return &quot;Status&quot;; }
+    }
 
-<p>If you are making a <strong>.NET Standard library</strong>, you&rsquo;ll have to add a post build event: add <code>dotnet publish --no-build</code> to the post build event and change the command line argument to reference <code>.\publish\[dllName].dll</code></p>
+    public override bool HasMoreData
+    {
+        get
+        {
+            return hasMoreData;
+        }
+    }
+    private bool hasMoreData = true;
 
-<p>The post build event copies all the dlls (in nuget packages) that you reference (like json.net) into the output folder.</p>
+    public override string Location
+    {
+        get { return &quot;Location&quot;; }
+    }
 
-<p><a href="https://stackoverflow.com/questions/52920092/binary-powershell-core-cmdlet-using-simpleinjector-results-in-filenotfoundexcept/52922720?noredirect=1#comment99721805_52922720">Original stackoverflow answer</a></p>
+    public override void StopJob()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ProcessJob()
+    {
+        SetJobState(JobState.Running);
+        DoProcessLogic();
+        SetJobState(JobState.Completed);
+    }
+
+    void DoProcessLogic()
+    {
+        if(_logicWithOutput != null)
+        {
+            _logicWithOutput(Output);
+            Output.Complete();
+        }
+    }
+}
+</code></pre>
+
+<h2 id="back-to-the-c-module-code">Back to the C# module code</h2>
+
+<p>Here is how you instantiate the job that was used in the first step.</p>
+
+<pre><code class="language-csharp">PSJobImpl job = new PSJobImpl(&quot;CmdletName&quot;, (outputCollection) =&gt;
+{
+    //instead of calling WriteObject, call this:
+    outputCollection.Add(&quot;[PSObject goes here]&quot;);
+});
+</code></pre>
+
+<h2 id="references">References</h2>
+
+<p>Official docs: <a href="https://docs.microsoft.com/en-us/powershell/developer/cmdlet/how-to-support-jobs">https://docs.microsoft.com/en-us/powershell/developer/cmdlet/how-to-support-jobs</a></p>
 
 
 
@@ -950,62 +986,8 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
                         
                         
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1038,6 +1020,7 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
             
                 
                     
+                    
                 
                 
 
@@ -1052,10 +1035,16 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
             
         
                     
+            
+        
+                    
                         
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1066,6 +1055,22 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -1130,6 +1135,40 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
 
                     
                     
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
 
                     
@@ -1143,10 +1182,10 @@ Reference: <a href="https://www.powershellmagazine.com/2014/04/08/basics-of-writ
 
 
         
-            <a class="nav nav-prev" href="/coderbook/powershell/" title="Powershell"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/powershell/pipinginput/" title="Accepting Piped input"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/powershell/pipinginput/" title="Accepting Piped input" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/web/" title="Web services" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

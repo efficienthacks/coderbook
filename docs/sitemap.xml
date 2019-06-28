@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/powershell/pipinginput/</loc>
+    <lastmod>2019-06-28T07:52:57-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</loc>
     <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
@@ -28,13 +33,13 @@
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/powershell/pipinginput/</loc>
+    <loc>https://efficienthacks.github.io/coderbook/dotnet/</loc>
     <lastmod>2019-06-23T09:34:25-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/dotnet/</loc>
-    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+    <loc>https://efficienthacks.github.io/coderbook/powershell/asjob/</loc>
+    <lastmod>2019-06-28T07:52:57-04:00</lastmod>
   </url>
   
   <url>
@@ -79,7 +84,7 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/web/authn/</loc>
-    <lastmod>2019-06-24T18:26:36-07:00</lastmod>
+    <lastmod>2019-06-28T08:03:13-04:00</lastmod>
   </url>
   
   <url>
