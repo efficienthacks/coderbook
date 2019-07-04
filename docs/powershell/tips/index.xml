@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PowerShell Tips and Quirks on My New Hugo Site</title>
+    <title>PowerShell Tips and Quirks on CoderBook - useful documentation for .NET coders</title>
     <link>https://efficienthacks.github.io/coderbook/powershell/tips/</link>
-    <description>Recent content in PowerShell Tips and Quirks on My New Hugo Site</description>
+    <description>Recent content in PowerShell Tips and Quirks on CoderBook - useful documentation for .NET coders</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Jun 2019 08:32:33 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jul 2019 08:32:33 -0700</lastBuildDate>
     
 	<atom:link href="https://efficienthacks.github.io/coderbook/powershell/tips/index.xml" rel="self" type="application/rss+xml" />
     

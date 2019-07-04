@@ -1,5 +1,12 @@
 [
 {
+	"uri": "https://efficienthacks.github.io/coderbook/powershell/tips/",
+	"title": "PowerShell Tips and Quirks",
+	"tags": [],
+	"description": "",
+	"content": " Filtering with \u0026lsquo;where\u0026rsquo; Here, we are only selecting the Id.\nPS C:\\Users\\amb12\u0026gt; Get-Process | where { $_.ProcessName -eq 'cmd' } | select Id Id -- 24552 30828   If you want to write your own cmdlets that accept piped input works, see the section called \u0026ldquo;accepting piped input\u0026rdquo;. \nLooping with % (foreach) Let\u0026rsquo;s say you don\u0026rsquo;t want the heading \u0026lsquo;Id\u0026rsquo;, you can use a foreach loop:\nPS C:\\Users\\amb12\u0026gt; Get-Process | where { $_.ProcessName -eq 'cmd' } | %{$_.Id} 24552 30828  Reserved variable names Do not use these as variable names - PowerShell will not complain if you do, you\u0026rsquo;ll just see weird results (variable names are case insensitive)\n$input $home  "
+},
+{
 	"uri": "https://efficienthacks.github.io/coderbook/powershell/pipinginput/",
 	"title": "Accepting Piped input",
 	"tags": [],
@@ -9,7 +16,7 @@
 {
 	"uri": "https://efficienthacks.github.io/coderbook/dotnet/asyncawait/",
 	"title": "async and await",
-	"tags": ["csharp", "something"],
+	"tags": [],
 	"description": "",
 	"content": " tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.\nTypically, I write synchronous code because it is easier to debug, after it works, then I\u0026rsquo;ll use async/await.\nTo make async methods synchronous (i.e. block further code execution until method finishes), add .Result to the end of the method call. E.g. client.DownloadFileAsync().Result\nQuick code snippet This is how you create a batch of web requests to run in parallel. (You await on Task.WhenAll() instead of awaiting after each call to DownloadWebsiteAsync())\npublic async Task RunDownloadParallelAsync() { List\u0026lt;string\u0026gt; websites = GetWebsiteList(); var tasks = new List\u0026lt;Task\u0026lt;DownloadWebsiteResult\u0026gt;\u0026gt;(); foreach (string site in websites) { tasks.Add(DownloadWebsiteAsync(site)); } List\u0026lt;DownloadWebsiteResult\u0026gt; results = await Task.WhenAll(tasks); foreach (DownloadWebsiteResult dwr in results) { ReportWebsiteInfo(dwr); } }   Code snippet is part of the example used in the following video.  Video This video does a great job at explaining async and await. Tim goes through the example of downloading a sequence of files. (Watch it in double speed):\n  Here\u0026rsquo;s how to cancel tasks and get progress on the task\n  "
 },
@@ -57,21 +64,28 @@
 },
 {
 	"uri": "https://efficienthacks.github.io/coderbook/powershell/",
-	"title": "Powershell",
+	"title": "PowerShell",
 	"tags": [],
 	"description": "",
 	"content": " A guide to PowerShell for people who already know the basics FAQs PowerShell Core? Windows PowerShell? As of 2019, PowerShell Core (aka PowerShell 6) is missing a lot of features (especially for AD and Exchange management). It is a separate install and it\u0026rsquo;s named pwsh.exe. It uses .NET Core.\nWindows PowerShell is the original - found in C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe it comes with Windows and has version 1.0 to 5.1. It is using the .NET Framework.\nPowershell modules written in .NET Standard will work on both.\n"
 },
 {
 	"uri": "https://efficienthacks.github.io/coderbook/web/",
-	"title": "Web services",
+	"title": "Web Backend (services)",
 	"tags": [],
 	"description": "",
 	"content": " A guide to Web Development in .NET (Make sure you take a look at the Azure Components section)\nFAQs What\u0026rsquo;s the general design of a web application? Currently, the \u0026lsquo;web application\u0026rsquo; component are just web APIs. Client front-ends (i.e. Angular, React, Progressive Web Apps, Mobile apps) will call the web app endpoints to retrieve data (typically in JSON format).\nThe web app (i.e. backend) interacts with databases and possibly other web services, while the client app (i.e. front end) displays that data in a meaningful way for the user.\nRegarding authentication, the back end provides a bearer token (usually in JWT format) that is stored in \u0026ldquo;local storage\u0026rdquo; in the browser/mobile application - traditionally, the user identifier were stored cookies.\n It\u0026rsquo;s 2019 when I\u0026rsquo;m writing this, so things might change.  ASP.NET Core and or Framework? Here\u0026rsquo;s the official documentation on that.\nhttps://docs.microsoft.com/en-us/dotnet/standard/choosing-core-framework-server\nBasically, use .NET Core if you\u0026rsquo;re starting a new csproj. It\u0026rsquo;s hard to just move from .NET Framework to Core.\nWhere possible, keep your code in libraries targeting .NET Standard. This is so that it can be reused in projects targeting either Core or Framework.\n"
 },
 {
+	"uri": "https://efficienthacks.github.io/coderbook/webui/",
+	"title": "Web Frontend (UI)",
+	"tags": [],
+	"description": "",
+	"content": " A guide to Web Front End (JavaScript/HTML/CSS) *disclaimer: I\u0026rsquo;m not a web UI person, but I know a good UI when I see one\nFAQs React? Angular? Progressive Web App? Angular has a huge learning curve. React Native is very popular for mobile apps. Progressive Web Apps are web apps that work offline. It really depends on what you\u0026rsquo;re trying to accomplish.\nRather than spending countless hours researching, learn them all and see what works best for your project.\nGoogle has a ton of reference and tutorials available at: https://developers.google.com/web/\nWeb UI with C#? In .NET Core 3.0, Microsoft is introducing Blazor. The workshop (where you build a pizza ordering app) is quite comprehensive, you will learn a lot by going through this: https://aka.ms/blazorworkshop\n"
+},
+{
 	"uri": "https://efficienthacks.github.io/coderbook/azure/",
-	"title": "Azure Basics",
+	"title": "Azure",
 	"tags": [],
 	"description": "",
 	"content": " A guide to the most frequently-used features in Azure FAQs Which Azure resources are the most important? Azure has a TON of \u0026ldquo;resources\u0026rdquo;, but you probably won\u0026rsquo;t use most of them. To get started, you\u0026rsquo;ll want to install the Azure CLI.\nThe most popular resources are: Storage account (which includes table, queue features as well), Key Vault and App Service (think of it as a shared VM that hosts your backend web applications).\nAzure also has VM resources if you need a cloud dev environment or want to deploy your web application with some custom database.\nApp services and VMs can be assigned a \u0026ldquo;managed service identity\u0026rdquo; (MSI), which is used behind the scenes so that you don\u0026rsquo;t have to authenticate to the storage account/key vault without having to deal with storing secrets.\n"
@@ -89,6 +103,13 @@
 	"tags": [],
 	"description": "",
 	"content": " Why this site? I\u0026rsquo;ve created this site after reading a lot of bad documentation with so much fluff and thought to myself \u0026ldquo;Why can\u0026rsquo;t you just give me the damn code snippet?\u0026rdquo;\nSo I sought to create my own documentation site as I learn new technologies in the hopes that it would save you some time and frustration.\nwhoami My name is Ambrose and I love coding because it lets me create useful tools for others.\nI got started with computers by creating a website on GeoCities. My latest project aside from this site is a web application I built that helps you listen to your selection of web articles on your smartphone - My Orator.\nBesides computer stuff, I am a student of traditional Shaolin Kung Fu.\nHere\u0026rsquo;s how you can reach me (apologies in advance, I\u0026rsquo;m slow to respond):    /  \n"
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/webui/css/",
+	"title": "CSS tips",
+	"tags": [],
+	"description": "",
+	"content": " CSS can be confusing as hell, what style overrides what? Typically, you would use the browser\u0026rsquo;s F12 tool to see what styles are being applied to the selected element.\nThe most useful thing about CSS is to make your content responsive (i.e. elements reformat depending on the width of the user\u0026rsquo;s browser).\nMaking it responsive Here\u0026rsquo;s how you would add padding to the left and right for screen size \u0026gt; 1337 pixels. (This is what I use for this site on the Category pages)\nThis goes between \u0026lt;style\u0026gt; tags or in the .css file:\n.paddedContent { padding-right: 10rem; padding-left: 10rem; } @media only all and (max-width: 1337px) { .paddedContent { padding: 5px 1rem; } }  Then wrap your content in a div:\n\u0026lt;div class=\u0026quot;paddedContent\u0026quot;\u0026gt; Your text here \u0026lt;/div\u0026gt;  Quick Reference Selectors:\ntag .class #id  "
 },
 {
 	"uri": "https://efficienthacks.github.io/coderbook/web/api/",
@@ -119,27 +140,6 @@
 	"content": " The basics of \u0026ldquo;Sign in with _____\u0026rdquo; First, make the user log in via an authentication provider (e.g. Google, Azure AD, Microsoft account)\nThe authn provider will send the user\u0026rsquo;s token to your website (the reply URL you specify)\nFrom your website, you take this token (which typically includes the user\u0026rsquo;s email and name) and verify it using another endpoint provided by the authn provider.\nSign in using a Microsoft Account (console application) Special thanks to Khoa Nguyen who got figured out how to do a MSA login via a console app.\nYou actually don\u0026rsquo;t need a web application to make use of OAuth. According to this answer, you can use a special client ID and reply URL to obtain a JWT (which includes the user\u0026rsquo;s name and email address).\nBecause this is a console app and you want to use OAuth for authentication, you have to create a project that targets .NET Framework. The reason is that it pops up a browser window (which is tied to .NET Framework) to have the user (who is at the command line) authenticate to Microsoft. This is done in the PromptForAuthn method.\nBecause this token is submitted to you by the user, you have to take this token and send it to https://login.microsoftonline.com/... and to verify the token\u0026rsquo;s signature. Which is what the Validate method does.\nusing Microsoft.IdentityModel.Clients.ActiveDirectory; using Microsoft.IdentityModel.Protocols; using Microsoft.IdentityModel.Protocols.OpenIdConnect; using Microsoft.IdentityModel.Tokens; using System; using System.Collections.Generic; using System.IdentityModel.Tokens.Jwt; using System.Linq; using System.Net.Http.Headers; using System.Text; using System.Threading.Tasks; namespace GettingAADToken { class Program { static void Main(string[] args) { var token = PromptForAuthn(); var x = Validate(token.Parameter); var name = x.Claims.Where(y =\u0026gt; y.Type == \u0026quot;upn\u0026quot;).First().Value; } static string requestedResource = \u0026quot;499b84ac-1321-427f-aa17-267ca6975798\u0026quot;; //azure devops static string clientId = \u0026quot;872cd9fa-d31f-45e0-9eab-6e460a02d1f1\u0026quot;; //visual studio static string tenantId = \u0026quot;72f988bf-86f1-41af-91ab-2d7cd011db47\u0026quot;; // Microsoft tenant's ID public static AuthenticationHeaderValue PromptForAuthn() { AuthenticationContext ctx = GetAuthenticationContext(tenantId); AuthenticationResult result = null; IPlatformParameters promptBehavior = new PlatformParameters(PromptBehavior.Auto); try { result = ctx.AcquireTokenAsync(requestedResource, clientId, new Uri(\u0026quot;urn:ietf:wg:oauth:2.0:oob\u0026quot;), promptBehavior).Result; Console.WriteLine(\u0026quot;Token expires on: \u0026quot; + result.ExpiresOn); var bearerAuthHeader = new AuthenticationHeaderValue(\u0026quot;Bearer\u0026quot;, result.AccessToken); return bearerAuthHeader; } catch (UnauthorizedAccessException) { // If the token has expired, prompt the user with a login prompt result = ctx.AcquireTokenAsync(requestedResource, \u0026quot;872cd9fa-d31f-45e0-9eab-6e460a02d1f1\u0026quot;, new Uri(\u0026quot;urn:ietf:wg:oauth:2.0:oob\u0026quot;), promptBehavior).Result; } catch (Exception ex) { Console.WriteLine(\u0026quot;{0}: {1}\u0026quot;, ex.GetType(), ex.Message); } return null; } private static AuthenticationContext GetAuthenticationContext(string tenant) { AuthenticationContext ctx = null; if (tenant != null) ctx = new AuthenticationContext(\u0026quot;https://login.microsoftonline.com/\u0026quot; + tenant); else { ctx = new AuthenticationContext(\u0026quot;https://login.windows.net/common\u0026quot;); if (ctx.TokenCache.Count \u0026gt; 0) { string homeTenant = ctx.TokenCache.ReadItems().First().TenantId; ctx = new AuthenticationContext(\u0026quot;https://login.microsoftonline.com/\u0026quot; + homeTenant); } } return ctx; } public static JwtSecurityToken Validate(string token) { string stsDiscoveryEndpoint = \u0026quot;https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration\u0026quot;; ConfigurationManager\u0026lt;OpenIdConnectConfiguration\u0026gt; configManager = new ConfigurationManager\u0026lt;OpenIdConnectConfiguration\u0026gt;(stsDiscoveryEndpoint, new OpenIdConnectConfigurationRetriever()); OpenIdConnectConfiguration config = configManager.GetConfigurationAsync().Result; TokenValidationParameters validationParameters = new TokenValidationParameters { ValidateAudience = true, ValidateIssuer = true, IssuerSigningKeys = config.SigningKeys, ValidateLifetime = true }; validationParameters.ValidAudience = requestedResource; validationParameters.ValidIssuer = $\u0026quot;https://sts.windows.net/{tenantId}/\u0026quot;; JwtSecurityTokenHandler tokendHandler = new JwtSecurityTokenHandler(); SecurityToken jwt; var result = tokendHandler.ValidateToken(token, validationParameters, out jwt); return jwt as JwtSecurityToken; } } }  Making your web application generate OAuth tokens (from scratch) This is a .NET Core 2.1 example. You can start from a blank Web API project.\nStep 1: Add a secret string\nThis will be used to generate and verify the bearer token. I\u0026rsquo;ll be providing code to read the token from an environment variable so you don\u0026rsquo;t check secrets into git.\nappsettings.json\n{ \u0026quot;Logging\u0026quot;: { ... }, \u0026quot;AppSettings\u0026quot;: { \u0026quot;Token\u0026quot;: \u0026quot;myTokenEnvVar\u0026quot; } }  Step 2: Add token generation logic to your authentication logic\nMake a new controller called AuthnController with the following method. Of course, this won\u0026rsquo;t work yet because you need to set up some configuration. But go ahead and try it anyways and see what happens.\nusing System; using System.Collections.Generic; using System.IdentityModel.Tokens.Jwt; using System.Linq; using System.Security.Claims; using System.Text; using System.Threading.Tasks; using Microsoft.AspNetCore.Authorization; using Microsoft.AspNetCore.Mvc; using Microsoft.Extensions.Configuration; using Microsoft.IdentityModel.Tokens; ... private readonly IConfiguration _config; public AuthnController(IConfiguration config) { _config = config; } [HttpPost(\u0026quot;login\u0026quot;)] public IActionResult Login([FromBody] UserPassModel up) { if(IsUserValid(up.Username, up.Password)) //this would be some backend database check { return Unauthorized(); } var tokenHandler = new JwtSecurityTokenHandler(); //read the key from the environment variable var key = Encoding.ASCII.GetBytes( System.Environment.GetEnvironmentVariable( _config.GetSection(\u0026quot;AppSettings:Token\u0026quot;).Value, EnvironmentVariableTarget.User ) ); var tokenDescriptor = new SecurityTokenDescriptor { Issuer = \u0026quot;self\u0026quot;, //in our scenario, Issuer and Audience won't be verified, only the key will Audience = \u0026quot;aud\u0026quot;, Subject = new System.Security.Claims.ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Email, \u0026quot;emailAddressHere\u0026quot;), new Claim(ClaimTypes.Name, up.Username) //you can have as few or as many claims here }), Expires = DateTime.UtcNow.AddDays(10), SigningCredentials = new SigningCredentials( new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature) }; var token = tokenHandler.CreateToken(tokenDescriptor); var tokenString = tokenHandler.WriteToken(token); return Ok(tokenString); }  Step 3: Add Configuration code to Startup.cs\npublic void ConfigureServices(IServiceCollection services) { services.AddMvc(); var key = Encoding.ASCII.GetBytes( System.Environment.GetEnvironmentVariable( Configuration.GetSection(\u0026quot;AppSettings:Token\u0026quot;).Value, EnvironmentVariableTarget.User ) ); services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme) .AddJwtBearer(options =\u0026gt; { options.IncludeErrorDetails = true; options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters { ValidateIssuerSigningKey = true, IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), ValidIssuer = \u0026quot;self\u0026quot;, ValidateIssuer = true, ValidateAudience = false }; }); }  Step 4: Add code to the Configure() method in the same file\nThis one is easily missed. You have to add app.UseAuthentication() and this has to be before app.UseMvc()\npublic void Configure(IApplicationBuilder app, IHostingEnvironment env) { if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); } app.UseAuthentication(); //\u0026lt;-- this is important app.UseMvc(); }  Step 5: Profit\nFinally, you need a method that requires authentication to test this out.\nYou need to add the [Authorize] attribute to the controller.\n[Authorize] [Route(\u0026quot;api/[controller]\u0026quot;)] public class RequiresAuthnController : Controller { [HttpGet(\u0026quot;getuser/{id}\u0026quot;)] public IActionResult GetUser(int id) { return Ok(\u0026quot;user here \u0026quot; + id + User.Identity.Name); }  Here\u0026rsquo;s what it looks like in Postman\n[todo: add snippet to sign in with Google/Microsoft account for a web application]\n"
 },
 {
-	"uri": "https://efficienthacks.github.io/coderbook/tags/",
-	"title": "Tags",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/tags/csharp/",
-	"title": "csharp",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
-	"uri": "https://efficienthacks.github.io/coderbook/tags/something/",
-	"title": "something",
-	"tags": [],
-	"description": "",
-	"content": ""
-},
-{
 	"uri": "https://efficienthacks.github.io/coderbook/",
 	"title": "",
 	"tags": [],
@@ -149,6 +149,13 @@
 {
 	"uri": "https://efficienthacks.github.io/coderbook/categories/",
 	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "https://efficienthacks.github.io/coderbook/tags/",
+	"title": "Tags",
 	"tags": [],
 	"description": "",
 	"content": ""

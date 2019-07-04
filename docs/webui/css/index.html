@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Git (cmd line) :: CoderBook - useful documentation for .NET coders</title>
+    <title>CSS tips :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1562246610" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/devops/git/">
+  <body class="" data-url="/coderbook/webui/css/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -464,7 +464,7 @@
   
     
     <li data-nav-id="/coderbook/webui/" title="Web Frontend (UI)" class="dd-item 
-        
+        parent
         
         
         ">
@@ -493,8 +493,8 @@
   
     
     <li data-nav-id="/coderbook/webui/css/" title="CSS tips" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/webui/css/">
@@ -588,7 +588,7 @@
   
     
     <li data-nav-id="/coderbook/devops/" title="Devops (git/CI)" class="dd-item 
-        parent
+        
         
         
         ">
@@ -617,8 +617,8 @@
   
     
     <li data-nav-id="/coderbook/devops/git/" title="Git (cmd line)" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/coderbook/devops/git/">
@@ -724,7 +724,7 @@
             
           
           
-            <a href='/coderbook/'></a> > <a href='/coderbook/devops/'>Devops (git/CI)</a> > Git (cmd line)
+            <a href='/coderbook/'></a> > <a href='/coderbook/webui/'>Web Frontend (UI)</a> > CSS tips
           
          
           
@@ -748,15 +748,8 @@
 <ul>
 <li>
 <ul>
-<li><a href="#initiate-a-git-repo-from-a-folder-with-contents">Initiate a Git repo from a folder with contents</a></li>
-<li><a href="#git-with-submodules">Git (with submodules)</a>
-<ul>
-<li><a href="#clone-a-git-repo-with-submodules">Clone a git repo with submodules</a></li>
-<li><a href="#grab-submodules-if-you-forget-to-recursively-clone">Grab submodules if you forget to recursively clone</a></li>
-</ul></li>
-<li><a href="#add-a-submodule">Add a submodule</a></li>
-<li><a href="#other-useful-commands">Other useful commands</a></li>
-<li><a href="#more-reading">More Reading</a></li>
+<li><a href="#making-it-responsive">Making it <em>responsive</em></a></li>
+<li><a href="#quick-reference">Quick Reference</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -772,7 +765,7 @@
           
           <h1>
             
-            Git (cmd line)
+            CSS tips
           </h1>
           
 
@@ -783,47 +776,42 @@
 
 	
 
-<h2 id="initiate-a-git-repo-from-a-folder-with-contents">Initiate a Git repo from a folder with contents</h2>
+<p>CSS can be confusing as hell, what style overrides what?  Typically, you would use the browser&rsquo;s F12 tool to see what styles are being applied to the selected element.</p>
 
-<p>Say you already have a code project going in a folder and want to version control it in Git, here&rsquo;s how you do it:</p>
+<p>The most useful thing about CSS is to make your content responsive (i.e. elements reformat depending on the width of the user&rsquo;s browser).</p>
 
-<pre><code class="language-bash">git init
-git remote add origin [git URL]
-git add .
-git commit -m &quot;[commit message]&quot;
-git push --set-upstream origin master
+<h2 id="making-it-responsive">Making it <em>responsive</em></h2>
+
+<p>Here&rsquo;s how you would add padding to the left and right for screen size &gt; 1337 pixels.  (This is what I use for this site on the Category pages)</p>
+
+<p><small>This goes between <code>&lt;style&gt;</code> tags or in the .css file:</small></p>
+
+<pre><code class="language-css">.paddedContent {
+    padding-right: 10rem;
+    padding-left: 10rem;
+}
+@media only all and (max-width: 1337px) {
+    .paddedContent {
+        padding: 5px 1rem;
+    }
+}
 </code></pre>
 
-<h2 id="git-with-submodules">Git (with submodules)</h2>
+<p>Then wrap your content in a div:</p>
 
-<p>Submodules are essentially a reference to another Git repo.  You may want to break up a modular component and track it in its own repo.</p>
-
-<p>By default, when you clone a git repo, it will not copy the submodules.</p>
-
-<h3 id="clone-a-git-repo-with-submodules">Clone a git repo with submodules</h3>
-
-<p><code>git clone [git URL] --recursive</code> or  <code>--recurse-submodules</code></p>
-
-<h3 id="grab-submodules-if-you-forget-to-recursively-clone">Grab submodules if you forget to recursively clone</h3>
-
-<p>This also updates the submodules to point to their latest branch HEAD.</p>
-
-<p><code>git submodule update --remote --recursive</code></p>
-
-<h2 id="add-a-submodule">Add a submodule</h2>
-
-<p><code>git submodule add [URL of submodule]</code></p>
-
-<h2 id="other-useful-commands">Other useful commands</h2>
-
-<pre><code>git status
+<pre><code class="language-html">&lt;div class=&quot;paddedContent&quot;&gt;
+    Your text here
+&lt;/div&gt;
 </code></pre>
 
-<h2 id="more-reading">More Reading</h2>
+<h2 id="quick-reference">Quick Reference</h2>
 
-<p>This article includes a section that covers how to make a folder in your repo into a submodule.</p>
+<p>Selectors:</p>
 
-<p><a href="https://github.blog/2016-02-01-working-with-submodules/">https://github.blog/2016-02-01-working-with-submodules/</a></p>
+<pre><code>tag
+.class
+#id
+</code></pre>
 
 
 
@@ -1131,6 +1119,45 @@ git push --set-upstream origin master
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
                 
                 
 
@@ -1199,45 +1226,6 @@ git push --set-upstream origin master
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -1256,10 +1244,10 @@ git push --set-upstream origin master
 
 
         
-            <a class="nav nav-prev" href="/coderbook/devops/" title="Devops (git/CI)"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/webui/" title="Web Frontend (UI)"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/08about/" title="About" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/azure/" title="Azure" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

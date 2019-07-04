@@ -3,13 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/powershell/tips/</loc>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/powershell/pipinginput/</loc>
     <lastmod>2019-06-28T07:52:57-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/asyncawait/</loc>
-    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
@@ -44,17 +49,22 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/powershell/</loc>
-    <lastmod>2019-06-19T07:38:13-07:00</lastmod>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/web/</loc>
-    <lastmod>2019-06-25T06:31:42-07:00</lastmod>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/webui/</loc>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/azure/</loc>
-    <lastmod>2019-06-25T06:31:42-07:00</lastmod>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
@@ -68,8 +78,13 @@
   </url>
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/webui/css/</loc>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/web/api/</loc>
-    <lastmod>2019-06-25T06:31:42-07:00</lastmod>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
@@ -84,25 +99,7 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/web/authn/</loc>
-    <lastmod>2019-06-28T08:03:13-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/tags/</loc>
-    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/tags/csharp/</loc>
-    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/tags/something/</loc>
-    <lastmod>2019-06-23T09:34:25-07:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
   
   <url>
@@ -112,6 +109,11 @@
   
   <url>
     <loc>https://efficienthacks.github.io/coderbook/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/tags/</loc>
     <priority>0</priority>
   </url>
   

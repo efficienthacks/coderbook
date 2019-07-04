@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Git (cmd line) :: CoderBook - useful documentation for .NET coders</title>
+    <title>Web Frontend (UI) :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1562246610" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/devops/git/">
+  <body class="" data-url="/coderbook/webui/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -464,8 +464,8 @@
   
     
     <li data-nav-id="/coderbook/webui/" title="Web Frontend (UI)" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/webui/">
@@ -588,7 +588,7 @@
   
     
     <li data-nav-id="/coderbook/devops/" title="Devops (git/CI)" class="dd-item 
-        parent
+        
         
         
         ">
@@ -617,8 +617,8 @@
   
     
     <li data-nav-id="/coderbook/devops/git/" title="Git (cmd line)" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/coderbook/devops/git/">
@@ -720,13 +720,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/coderbook/'></a> > <a href='/coderbook/devops/'>Devops (git/CI)</a> > Git (cmd line)
-          
-         
+            <a href='/coderbook/'></a> > Web Frontend (UI)
           
          
           
@@ -741,39 +735,11 @@
               
               </div>
         
+          <div id="chapter">
+        
 		
         
-          <div class="toc toc-aside" data-max-depth="">
-	<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#initiate-a-git-repo-from-a-folder-with-contents">Initiate a Git repo from a folder with contents</a></li>
-<li><a href="#git-with-submodules">Git (with submodules)</a>
-<ul>
-<li><a href="#clone-a-git-repo-with-submodules">Clone a git repo with submodules</a></li>
-<li><a href="#grab-submodules-if-you-forget-to-recursively-clone">Grab submodules if you forget to recursively clone</a></li>
-</ul></li>
-<li><a href="#add-a-submodule">Add a submodule</a></li>
-<li><a href="#other-useful-commands">Other useful commands</a></li>
-<li><a href="#more-reading">More Reading</a></li>
-</ul></li>
-</ul>
-</nav>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        initAsideToc();
-    });
-</script>
-        
         <div id="body-inner">
-          
-          <h1>
-            
-            Git (cmd line)
-          </h1>
           
 
         
@@ -783,47 +749,23 @@
 
 	
 
-<h2 id="initiate-a-git-repo-from-a-folder-with-contents">Initiate a Git repo from a folder with contents</h2>
+<h3 id="a-guide-to-web-front-end-javascript-html-css">A guide to Web Front End (JavaScript/HTML/CSS)</h3>
 
-<p>Say you already have a code project going in a folder and want to version control it in Git, here&rsquo;s how you do it:</p>
+<p><small>*disclaimer: I&rsquo;m not a web UI person, but I know a good UI when I see one</small></p>
 
-<pre><code class="language-bash">git init
-git remote add origin [git URL]
-git add .
-git commit -m &quot;[commit message]&quot;
-git push --set-upstream origin master
-</code></pre>
+<h1 id="faqs">FAQs</h1>
 
-<h2 id="git-with-submodules">Git (with submodules)</h2>
+<h2 id="react-angular-progressive-web-app">React? Angular? Progressive Web App?</h2>
 
-<p>Submodules are essentially a reference to another Git repo.  You may want to break up a modular component and track it in its own repo.</p>
+<p>Angular has a huge learning curve.  React Native is very popular for mobile apps.  Progressive Web Apps are web apps that work offline.  It really depends on what you&rsquo;re trying to accomplish.</p>
 
-<p>By default, when you clone a git repo, it will not copy the submodules.</p>
+<p>Rather than spending countless hours researching, learn them all and see what works best for your project.</p>
 
-<h3 id="clone-a-git-repo-with-submodules">Clone a git repo with submodules</h3>
+<p>Google has a ton of reference and tutorials available at: <a href="https://developers.google.com/web/">https://developers.google.com/web/</a></p>
 
-<p><code>git clone [git URL] --recursive</code> or  <code>--recurse-submodules</code></p>
+<h2 id="web-ui-with-c">Web UI with C#?</h2>
 
-<h3 id="grab-submodules-if-you-forget-to-recursively-clone">Grab submodules if you forget to recursively clone</h3>
-
-<p>This also updates the submodules to point to their latest branch HEAD.</p>
-
-<p><code>git submodule update --remote --recursive</code></p>
-
-<h2 id="add-a-submodule">Add a submodule</h2>
-
-<p><code>git submodule add [URL of submodule]</code></p>
-
-<h2 id="other-useful-commands">Other useful commands</h2>
-
-<pre><code>git status
-</code></pre>
-
-<h2 id="more-reading">More Reading</h2>
-
-<p>This article includes a section that covers how to make a folder in your repo into a submodule.</p>
-
-<p><a href="https://github.blog/2016-02-01-working-with-submodules/">https://github.blog/2016-02-01-working-with-submodules/</a></p>
+<p>In .NET Core 3.0, Microsoft is introducing Blazor.  The workshop (where you build a pizza ordering app) is quite comprehensive, you will learn a lot by going through this:  <a href="https://aka.ms/blazorworkshop">https://aka.ms/blazorworkshop</a></p>
 
 
 
@@ -832,6 +774,8 @@ git push --set-upstream origin master
 <footer class=" footline" >
 	
 </footer>
+        
+            </div> 
         
         </div> 
         
@@ -1131,6 +1075,44 @@ git push --set-upstream origin master
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                 
                 
 
@@ -1199,45 +1181,6 @@ git push --set-upstream origin master
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -1256,10 +1199,10 @@ git push --set-upstream origin master
 
 
         
-            <a class="nav nav-prev" href="/coderbook/devops/" title="Devops (git/CI)"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/web/authn/" title="Authentication (with tokens)"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/08about/" title="About" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/webui/css/" title="CSS tips" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
