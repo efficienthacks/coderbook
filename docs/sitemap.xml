@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://efficienthacks.github.io/coderbook/devops/git/</loc>
+    <lastmod>2019-07-05T06:16:00-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://efficienthacks.github.io/coderbook/powershell/pipinginput/</loc>
     <lastmod>2019-06-28T07:52:57-04:00</lastmod>
   </url>
@@ -25,6 +30,11 @@
   <url>
     <loc>https://efficienthacks.github.io/coderbook/dotnet/reflection/</loc>
     <lastmod>2019-06-23T09:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://efficienthacks.github.io/coderbook/devops/ci/</loc>
+    <lastmod>2019-07-05T06:16:00-07:00</lastmod>
   </url>
   
   <url>
@@ -78,11 +88,6 @@
   </url>
   
   <url>
-    <loc>https://efficienthacks.github.io/coderbook/devops/ci/</loc>
-    <lastmod>2019-07-05T06:06:51-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://efficienthacks.github.io/coderbook/webui/css/</loc>
     <lastmod>2019-07-02T06:49:55-04:00</lastmod>
   </url>
@@ -90,11 +95,6 @@
   <url>
     <loc>https://efficienthacks.github.io/coderbook/web/api/</loc>
     <lastmod>2019-07-02T06:49:55-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://efficienthacks.github.io/coderbook/devops/git/</loc>
-    <lastmod>2019-07-05T06:06:51-07:00</lastmod>
   </url>
   
   <url>

@@ -23,18 +23,18 @@
     <title>Deploy on Code Checkin :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1562332067" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1562332067" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1562332620" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1562332067"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1562332620"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1562332067"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1562332067"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1562332620"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1562332620"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1562332067"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1562332620"></script>
 
     
   </div>
@@ -616,13 +616,13 @@
  
   
     
-    <li data-nav-id="/coderbook/devops/ci/" title="Deploy on Code Checkin" class="dd-item 
-        parent
-        active
+    <li data-nav-id="/coderbook/devops/git/" title="Git (cmd line)" class="dd-item 
+        
+        
         
         ">
-      <a href="/coderbook/devops/ci/">
-          Deploy on Code Checkin
+      <a href="/coderbook/devops/git/">
+          Git (cmd line)
           
             <i class="fa fa-check read-icon"></i>
           
@@ -642,13 +642,13 @@
  
   
     
-    <li data-nav-id="/coderbook/devops/git/" title="Git (cmd line)" class="dd-item 
-        
-        
+    <li data-nav-id="/coderbook/devops/ci/" title="Deploy on Code Checkin" class="dd-item 
+        parent
+        active
         
         ">
-      <a href="/coderbook/devops/git/">
-          Git (cmd line)
+      <a href="/coderbook/devops/ci/">
+          Deploy on Code Checkin
           
             <i class="fa fa-check read-icon"></i>
           
@@ -882,20 +882,18 @@ steps:
 
 <p>When you edit a release, it looks like this:
 <img src="2019-07-05-05-46-02.png" alt="" />
-This says &ldquo;Take the output artifact from the build pipeline, and run a task.&rdquo;</p>
+This says &ldquo;Take the output artifact from the build pipeline, and run a task.&rdquo;.
+&ldquo;Continuous deployment trigger&rdquo; means that this will automatically happen when an artifact is available.</p>
 
-<p>Continuous deployment trigger means that this will automatically happen when an artifact is available.</p>
+<p>When you click on <code>1 job, 1 task</code>, you will be able to see exactly what the release does.</p>
 
-<p>When you click on &lsquo;1 job, 1 task&rsquo;, you will be able to see exactly what the release does.</p>
-
-<p>In my case, it takes the artifact and commits and pushes changes into my &ldquo;github pages&rdquo; repository.</p>
+<p>In my case, it takes the artifact contents and pushes changes into my &ldquo;github pages&rdquo; repository (which is a totally different account than Azure Devops).</p>
 
 <p><img src="2019-07-05-05-53-49.png" alt="" /></p>
 
 <p>The PowerShell script is as follows - (note that I hardcode the variables here to make things simpler):</p>
 
-<pre><code class="language-powershell"># Get inputs.
-$docPath = '$(System.DefaultWorkingDirectory)\_coderdocs\*'
+<pre><code class="language-powershell">$docPath = '$(System.DefaultWorkingDirectory)\_coderdocs\*'
 $githubusername = 'efficienthacks'
 $githubemail = 'email@doesnt-matter.com'
 $githubaccesstoken = '[generate from github]'
@@ -905,7 +903,7 @@ $branchName = 'master'
 
 $defaultWorkingDirectory = '$(System.DefaultWorkingDirectory)'
 
-Write-Host &quot;Cloning existing GitHub repository&quot;
+Write-Host &quot;Cloning existing GitHub repository&quot; # these will be seen in the logs
 
 git clone https://${githubusername}:$githubaccesstoken@github.com/$githubusername/$repositoryname.git --branch=$branchName $defaultWorkingDirectory\coderdocs
 
@@ -919,8 +917,7 @@ $to = &quot;$defaultWorkingDirectory\coderdocs&quot;
 
 Write-Host &quot;Copying new documentation into branch&quot;
 
-Copy-Item $docPath $to -recurse -Force  #this copies my artifact which I named 'docs'  so I will have all the html files in $defaultWorkingDirectory\coderdocs\docs
-
+Copy-Item $docPath $to -recurse -Force  #this copies my artifact which I named 'docs' (from the build pipeline)  so I will have all the html files in $defaultWorkingDirectory\coderdocs\docs
 
 Write-Host &quot;Committing the GitHub repository&quot;
 
@@ -950,7 +947,7 @@ if ($lastexitcode -gt 0)
 
 <p><strong>Notes</strong></p>
 
-<p>When you create a release, you will choose the artifact(s), note that the artifact does not need to be generated from your Build Pipeline.  As of 2019, here are the supported artifacts:</p>
+<p>When you create a release, you will choose the artifact(s), note that the artifact does not need to be generated from your Build Pipeline.  As of 2019, here are the supported artifact sources:</p>
 
 <p><img src="2019-07-05-05-45-21.png" alt="" /></p>
 
@@ -1344,6 +1341,8 @@ if ($lastexitcode -gt 0)
             
                 
                     
+                        
+                        
                     
                 
                 
@@ -1352,6 +1351,26 @@ if ($lastexitcode -gt 0)
                     
                     
 
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
             
         
@@ -1377,34 +1396,15 @@ if ($lastexitcode -gt 0)
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
         
         
 
 
         
-            <a class="nav nav-prev" href="/coderbook/devops/" title="Devops (git/CI)"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/devops/git/" title="Git (cmd line)"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/devops/git/" title="Git (cmd line)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/08about/" title="About" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -1413,23 +1413,23 @@ if ($lastexitcode -gt 0)
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1562332067"></script>
-    <script src="/coderbook/js/clipboard.min.js?1562332067"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1562332067"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1562332067"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1562332067"></script>
-    <script src="/coderbook/js/featherlight.min.js?1562332067"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1562332067"></script>
-    <script src="/coderbook/js/highlight.pack.js?1562332067"></script>
+    <script src="/coderbook/js/scrollspy.js?1562332620"></script>
+    <script src="/coderbook/js/clipboard.min.js?1562332620"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1562332620"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1562332620"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1562332620"></script>
+    <script src="/coderbook/js/featherlight.min.js?1562332620"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1562332620"></script>
+    <script src="/coderbook/js/highlight.pack.js?1562332620"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1562332067"></script>
-    <script src="/coderbook/js/learn.js?1562332067"></script>
-    <script src="/coderbook/js/hugo-learn.js?1562332067"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1562332067"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1562332620"></script>
+    <script src="/coderbook/js/learn.js?1562332620"></script>
+    <script src="/coderbook/js/hugo-learn.js?1562332620"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1562332620"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1562332067" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1562332067"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1562332620" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1562332620"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
