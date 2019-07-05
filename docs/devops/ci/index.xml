@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deploy on Code Checkin on CoderBook - useful documentation for .NET coders</title>
+    <link>https://efficienthacks.github.io/coderbook/devops/ci/</link>
+    <description>Recent content in Deploy on Code Checkin on CoderBook - useful documentation for .NET coders</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Jul 2019 00:31:44 -0700</lastBuildDate>
+    
+	<atom:link href="https://efficienthacks.github.io/coderbook/devops/ci/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>

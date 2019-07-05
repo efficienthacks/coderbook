@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Azure :: CoderBook - useful documentation for .NET coders</title>
+    <title>Deploy on Code Checkin :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1562332067" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/azure/">
+  <body class="" data-url="/coderbook/devops/ci/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -526,8 +526,8 @@
   
     
     <li data-nav-id="/coderbook/azure/" title="Azure" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/coderbook/azure/">
@@ -588,7 +588,7 @@
   
     
     <li data-nav-id="/coderbook/devops/" title="Devops (git/CI)" class="dd-item 
-        
+        parent
         
         
         ">
@@ -617,8 +617,8 @@
   
     
     <li data-nav-id="/coderbook/devops/ci/" title="Deploy on Code Checkin" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/devops/ci/">
@@ -746,7 +746,13 @@
             
           
           
-            <a href='/coderbook/'></a> > Azure
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/devops/'>Devops (git/CI)</a> > Deploy on Code Checkin
+          
+         
           
          
           
@@ -761,11 +767,37 @@
               
               </div>
         
-          <div id="chapter">
-        
 		
         
+          <div class="toc toc-aside" data-max-depth="">
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#pipelines-ci">Pipelines = CI</a>
+<ul>
+<li><a href="#example-pipeline-this-site">Example pipeline (this site)</a></li>
+</ul></li>
+<li><a href="#deployment-secrets">Deployment Secrets</a></li>
+<li><a href="#what-does-a-build-involve-how-do-you-checkout-submodules">What does a build involve?  How do you checkout submodules?</a></li>
+<li><a href="#what-does-a-release-look-like">What does a release look like?</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initAsideToc();
+    });
+</script>
+        
         <div id="body-inner">
+          
+          <h1>
+            
+            Deploy on Code Checkin
+          </h1>
           
 
         
@@ -775,19 +807,152 @@
 
 	
 
-<h3 id="a-guide-to-the-most-frequently-used-features-in-azure">A guide to the most frequently-used features in Azure</h3>
+<p>This is known as &lsquo;Continuous Integration&rsquo; (CI).  But how do you do this in Azure Devops?</p>
 
-<h1 id="faqs">FAQs</h1>
+<p>This article succintly introduces the concept of Pipelines in Azure Devops.</p>
 
-<h2 id="which-azure-resources-are-the-most-important">Which Azure resources are the most important?</h2>
+<h2 id="pipelines-ci">Pipelines = CI</h2>
 
-<p>Azure has a TON of &ldquo;resources&rdquo;, but you probably won&rsquo;t use most of them.  To get started, you&rsquo;ll want to install the Azure CLI.</p>
+<p>Azure Devops calls this &lsquo;Pipelines&rsquo; - the two main sections are &lsquo;Builds&rsquo; and &lsquo;Releases&rsquo;.  Both are &lsquo;pipelines&rsquo;</p>
 
-<p>The most popular resources are: <strong>Storage account</strong> (which includes table, queue features as well), <strong>Key Vault</strong> and <strong>App Service</strong> (think of it as a shared VM that hosts your backend web applications).</p>
+<p><img src="2019-07-05-05-15-57.png" alt="" /></p>
 
-<p>Azure also has VM resources if you need a cloud dev environment or want to deploy your web application with some custom database.</p>
+<p>A &lsquo;Build pipeline&rsquo; means to check out the code and have the compiler (or whatever exe) build the code.  You can specify what the build task is using a PowerShell script.  A build pipeline can be auto-triggered when code is checked in.</p>
 
-<p>App services and VMs can be assigned a &ldquo;managed service identity&rdquo; (MSI), which is used behind the scenes so that you don&rsquo;t have to authenticate to the storage account/key vault without having to deal with storing secrets.</p>
+<p>A build pipeline generates an &ldquo;artifact&rdquo; (a zip file of the compiled source).</p>
+
+<p>A &lsquo;Release pipeline&rsquo; means to take the output of the build and actually deploy it on a server.  A release pipeline can be triggered after an artifact is created (from the build pipeline).</p>
+
+<h3 id="example-pipeline-this-site">Example pipeline (this site)</h3>
+
+<p>Let&rsquo;s take this site as an example.  It&rsquo;s a bunch of .md files and images which need to be run through <code>Hugo.exe</code> (a static site generator).</p>
+
+<p>A build pipeline is created that checks out the repository (of .md files) and calls a Hugo task to output the statically generated html into an &ldquo;artifact&rdquo;.</p>
+
+<p>The release pipeline takes the artifact and deploys it (my deploy task is a PowerShell script, you can also use Bash scripts too if that&rsquo;s your thing).</p>
+
+<h2 id="deployment-secrets">Deployment Secrets</h2>
+
+<p>Generally, there are tokens that are contained within the deploy script in the release pipeline.  This is so the &ldquo;artifact&rdquo; can be deployed on an unrelated server.  You should always use <strong>tokens</strong> (as opposed to credentials) as tokens can be changed and updated easily.</p>
+
+<p><strong>Be very careful of who can view your Azure Devops Pipelines!</strong></p>
+
+<p>Even if you mask variables, there are ways to print out the variables into the log files.</p>
+
+<h2 id="what-does-a-build-involve-how-do-you-checkout-submodules">What does a build involve?  How do you checkout submodules?</h2>
+
+<p>By default, git does not check out submodules (a reference to another git repo), You have to add <code>submodules: true</code> in the checkout step.</p>
+
+<p>Here is what my build definition looks like - you can go to <a href="https://aka.ms/yaml">https://aka.ms/yaml</a> for the specifications.</p>
+
+<pre><code class="language-yml">trigger:
+- master
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+steps:
+- checkout: self
+  submodules: true
+  displayName: 'Checkout repository including submodules'
+
+- task: HugoTask@1
+  displayName: 'Generate Hugo site'
+  inputs:
+    destination: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Hugo site as artifact'
+  inputs:
+    artifactName: 'docs'    #Note the artifact name, which you might need to reference in your scripts in the 'release' pipeline
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+</code></pre>
+
+<p>Ref: <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&amp;tabs=yaml">Official doc for predefined variables.</a></p>
+
+<p><strong>Notes</strong></p>
+
+<p>In 2019, there is a &lsquo;classic editor&rsquo; version of this where you can pick the tasks from a list, not sure if this will be removed, but it is more user friendly.</p>
+
+<p>When you create a new build pipeline, you have to select where the source is coming from, here is what&rsquo;s supported (2019):</p>
+
+<p><img src="2019-07-05-05-42-16.png" alt="" /></p>
+
+<h2 id="what-does-a-release-look-like">What does a release look like?</h2>
+
+<p>When you edit a release, it looks like this:
+<img src="2019-07-05-05-46-02.png" alt="" />
+This says &ldquo;Take the output artifact from the build pipeline, and run a task.&rdquo;</p>
+
+<p>Continuous deployment trigger means that this will automatically happen when an artifact is available.</p>
+
+<p>When you click on &lsquo;1 job, 1 task&rsquo;, you will be able to see exactly what the release does.</p>
+
+<p>In my case, it takes the artifact and commits and pushes changes into my &ldquo;github pages&rdquo; repository.</p>
+
+<p><img src="2019-07-05-05-53-49.png" alt="" /></p>
+
+<p>The PowerShell script is as follows - (note that I hardcode the variables here to make things simpler):</p>
+
+<pre><code class="language-powershell"># Get inputs.
+$docPath = '$(System.DefaultWorkingDirectory)\_coderdocs\*'
+$githubusername = 'efficienthacks'
+$githubemail = 'email@doesnt-matter.com'
+$githubaccesstoken = '[generate from github]'
+$repositoryname = 'coderdocs'
+$commitMessage = 'Automated Release $(Release.ReleaseId)'
+$branchName = 'master'
+
+$defaultWorkingDirectory = '$(System.DefaultWorkingDirectory)'
+
+Write-Host &quot;Cloning existing GitHub repository&quot;
+
+git clone https://${githubusername}:$githubaccesstoken@github.com/$githubusername/$repositoryname.git --branch=$branchName $defaultWorkingDirectory\coderdocs
+
+if ($lastexitcode -gt 0)
+{
+    Write-Host &quot;##vso[task.logissue type=error;]Unable to clone repository - check username, access token and repository name. Error code $lastexitcode&quot;
+    [Environment]::Exit(1)
+}
+
+$to = &quot;$defaultWorkingDirectory\coderdocs&quot;  
+
+Write-Host &quot;Copying new documentation into branch&quot;
+
+Copy-Item $docPath $to -recurse -Force  #this copies my artifact which I named 'docs'  so I will have all the html files in $defaultWorkingDirectory\coderdocs\docs
+
+
+Write-Host &quot;Committing the GitHub repository&quot;
+
+cd $defaultWorkingDirectory\coderdocs
+git config core.autocrlf false
+git config user.email $githubemail
+git config user.name $githubusername
+git add *
+git commit --allow-empty -m $commitMessage
+
+if ($lastexitcode -gt 0)
+{
+    Write-Host &quot;##vso[task.logissue type=error;]Error committing - see earlier log, error code $lastexitcode&quot;
+    [Environment]::Exit(1)
+}
+
+git push --quiet
+
+if ($lastexitcode -gt 0)
+{
+    Write-Host &quot;##vso[task.logissue type=error;]Error pushing to $branchName branch, probably an incorrect Personal Access Token, error code $lastexitcode&quot;
+    [Environment]::Exit(1)
+}
+</code></pre>
+
+<p>Credit: <a href="https://github.com/JamesRandall/Vsts-GitHub-Pages-Publish/blob/master/buildAndReleaseTask/publish.ps1">JamesRandall</a></p>
+
+<p><strong>Notes</strong></p>
+
+<p>When you create a release, you will choose the artifact(s), note that the artifact does not need to be generated from your Build Pipeline.  As of 2019, here are the supported artifacts:</p>
+
+<p><img src="2019-07-05-05-45-21.png" alt="" /></p>
 
 
 
@@ -796,8 +961,6 @@
 <footer class=" footline" >
 	
 </footer>
-        
-            </div> 
         
         </div> 
         
@@ -1131,44 +1294,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
                 
                 
 
@@ -1195,6 +1320,64 @@
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
                         
             
             
@@ -1213,34 +1396,15 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
         
         
 
 
         
-            <a class="nav nav-prev" href="/coderbook/webui/css/" title="CSS tips"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/devops/" title="Devops (git/CI)"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/azure/keyvault/" title="Keyvault" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/devops/git/" title="Git (cmd line)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
