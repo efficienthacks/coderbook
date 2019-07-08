@@ -23,18 +23,18 @@
     <title>PowerShell Tips and Quirks :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1562332620" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1562332620" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1562596201" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1562596201" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1562332620"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1562596201"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1562332620"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1562332620"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1562596201"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1562596201"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1562332620"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1562596201"></script>
 
     
   </div>
@@ -642,13 +642,13 @@
  
   
     
-    <li data-nav-id="/coderbook/devops/ci/" title="Deploy on Code Checkin" class="dd-item 
+    <li data-nav-id="/coderbook/devops/ci/" title="Deploy on Code Checkin (CI)" class="dd-item 
         
         
         
         ">
       <a href="/coderbook/devops/ci/">
-          Deploy on Code Checkin
+          Deploy on Code Checkin (CI)
           
             <i class="fa fa-check read-icon"></i>
           
@@ -776,6 +776,9 @@
 <ul>
 <li><a href="#filtering-with-where">Filtering with &lsquo;where&rsquo;</a></li>
 <li><a href="#looping-with-foreach">Looping with % (foreach)</a></li>
+<li><a href="#get-object-type">Get Object Type</a></li>
+<li><a href="#view-all-properties">View All Properties</a></li>
+<li><a href="#get-cmdlet-source">Get Cmdlet Source</a></li>
 <li><a href="#reserved-variable-names">Reserved variable names</a></li>
 </ul></li>
 </ul>
@@ -803,6 +806,8 @@
 
 	
 
+<p>There are a ton of PowerShell tips online, here I&rsquo;ve collected the ones where I will probably forget about and need to reference.  Please add some more in the comments section if you have a good tip.</p>
+
 <h2 id="filtering-with-where">Filtering with &lsquo;where&rsquo;</h2>
 
 <p>Here, we are only selecting the Id.</p>
@@ -814,6 +819,8 @@
 24552
 30828
 </code></pre>
+
+<p>Search online for &ldquo;Powershell comparison operators&rdquo; to see how to use the other ones like <code>-like -match -contains -is</code>.  <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_comparison_operators">Official docs</a></p>
 
 <p><small>
 If you want to write your own cmdlets that accept piped input works, see the section called &ldquo;accepting piped input&rdquo;.
@@ -828,9 +835,64 @@ If you want to write your own cmdlets that accept piped input works, see the sec
 30828
 </code></pre>
 
+<h2 id="get-object-type">Get Object Type</h2>
+
+<p>Everything being returned is a &ldquo;PSObject&rdquo; in C# (think of it as a dictionary).  If you want to see the actual type, call <code>GetType()</code> on the object.</p>
+
+<pre><code class="language-powershell">PS C:\Users\amb12&gt; (new-object System.Net.WebClient).GetType()
+
+IsPublic IsSerial Name       BaseType
+-------- -------- ----       --------
+True     False    WebClient  System.ComponentModel.Component
+</code></pre>
+
+<h2 id="view-all-properties">View All Properties</h2>
+
+<p>If you want to see the full properties, add a <code>| fl *</code> (format list) at the end of the object.</p>
+
+<pre><code class="language-powershell">PS C:\Users\amb12&gt; (new-object System.Net.WebClient).GetType() | fl *
+Module                     : System.dll
+Assembly                   : System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+TypeHandle                 : System.RuntimeTypeHandle
+DeclaringMethod            :
+BaseType                   : System.ComponentModel.Component
+UnderlyingSystemType       : System.Net.WebClient
+FullName                   : System.Net.WebClient
+...
+</code></pre>
+
+<h2 id="get-cmdlet-source">Get Cmdlet Source</h2>
+
+<p>You use the <code>Get-Command</code> cmdlet, with the full name of the cmdlet you wish to get the source for (not the alias).  Then get the <code>.DLL</code> property:</p>
+
+<pre><code>PS C:\Users\ambrose&gt; (Get-Command get-content).DLL
+
+C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\Microsoft.PowerShell.Commands.Management\v4.0_3.0.0.0__31bf3856ad364e35\Microsoft.PowerShell.Commands.Management.dll
+</code></pre>
+
+<p>This will work for cmdlets implemented in C#.  You have to open the dll in ILSpy and find the implementation manually (by convention, the name is part of the method e.g. <code>GetContentCommand</code>)</p>
+
+<p>If the cmdlet is implemented in PowerShell (e.g. <code>Add-PrinterDriver</code>), use <code>.Scriptblock</code>.</p>
+
+<pre><code>PS C:\Users\ambrose&gt; (Get-Command Add-PrinterDriver).ScriptBlock
+
+    [CmdletBinding(SupportsShouldProcess=$true, ConfirmImpact='Medium', PositionalBinding=$false)]
+
+
+    param(
+</code></pre>
+
+<p>By looking at the name of a command, there is no way to know whether the cmdlet is implemented in C# or in PowerShell.  You can use the <code>.CommandType</code> property to tell.</p>
+
+<pre><code>PS C:\Users\ambrose&gt; (get-command get-content).CommandType
+Cmdlet &lt;--this means implemented in C# (dll)
+PS C:\Users\ambrose&gt; (get-command Add-PrinterDriver).CommandType
+Function &lt;--this means Powershell
+</code></pre>
+
 <h2 id="reserved-variable-names">Reserved variable names</h2>
 
-<p>Do not use these as variable names - PowerShell will not complain if you do, you&rsquo;ll just see weird results (variable names are case insensitive)</p>
+<p>Do not use these as variable names - PowerShell will not complain if you do, however you&rsquo;ll just see weird results (variable names are case insensitive)</p>
 
 <pre><code class="language-powershell">$input
 $home
@@ -1295,23 +1357,23 @@ $home
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1562332620"></script>
-    <script src="/coderbook/js/clipboard.min.js?1562332620"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1562332620"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1562332620"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1562332620"></script>
-    <script src="/coderbook/js/featherlight.min.js?1562332620"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1562332620"></script>
-    <script src="/coderbook/js/highlight.pack.js?1562332620"></script>
+    <script src="/coderbook/js/scrollspy.js?1562596201"></script>
+    <script src="/coderbook/js/clipboard.min.js?1562596201"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1562596201"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1562596201"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1562596201"></script>
+    <script src="/coderbook/js/featherlight.min.js?1562596201"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1562596201"></script>
+    <script src="/coderbook/js/highlight.pack.js?1562596201"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1562332620"></script>
-    <script src="/coderbook/js/learn.js?1562332620"></script>
-    <script src="/coderbook/js/hugo-learn.js?1562332620"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1562332620"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1562596201"></script>
+    <script src="/coderbook/js/learn.js?1562596201"></script>
+    <script src="/coderbook/js/hugo-learn.js?1562596201"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1562596201"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1562332620" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1562332620"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1562596201" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1562596201"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
