@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>async and await :: CoderBook - useful documentation for .NET coders</title>
+    <title>Making HTTP Requests :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1562767736" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/dotnet/asyncawait/">
+  <body class="" data-url="/coderbook/dotnet/httpreq/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -113,8 +113,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/asyncawait/" title="async and await" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/coderbook/dotnet/asyncawait/">
@@ -191,8 +191,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/httpreq/" title="Making HTTP Requests" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/dotnet/httpreq/">
@@ -776,7 +776,7 @@
             
           
           
-            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > async and await
+            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > Making HTTP Requests
           
          
           
@@ -800,9 +800,11 @@
 <ul>
 <li>
 <ul>
-<li><a href="#tldr">tldr</a></li>
-<li><a href="#quick-code-snippet">Quick code snippet</a></li>
-<li><a href="#video">Video</a></li>
+<li><a href="#which-library-do-you-use">Which library do you use?</a></li>
+<li><a href="#http-request-with-serialized-json-objects">Http request with serialized JSON objects</a>
+<ul>
+<li><a href="#make-your-own-postasjsonasync-method">Make your own PostAsJsonAsync method</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
@@ -818,7 +820,7 @@
           
           <h1>
             
-            async and await
+            Making HTTP Requests
           </h1>
           
 
@@ -829,58 +831,81 @@
 
 	
 
-<h2 id="tldr">tldr</h2>
+<h2 id="which-library-do-you-use">Which library do you use?</h2>
 
-<p>async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to complete.</p>
+<p>There are many .NET libraries and classes that you may have heard of that can make an http request.  The one that is recommended by Microsoft (as of 2019) is the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient">HttpClient class</a>.</p>
 
-<p>Typically, I write synchronous code because it is easier to debug, after it works, then I&rsquo;ll use async/await.</p>
+<p>This class abstracts away the implementation details when used on multiple platforms.</p>
 
-<p>To make async methods synchronous (i.e. block further code execution until method finishes), add <code>.Result</code> to the end of the method call.  E.g.  <code>client.DownloadFileAsync().Result</code></p>
+<p>If you are ok with adding dependencies or you just want to do some quick automation, a great third party alternative is RestSharp (<a href="https://www.nuget.org/packages/RestSharp">nuget</a>).</p>
 
-<h2 id="quick-code-snippet">Quick code snippet</h2>
+<p><strong>Tip:</strong> (thanks to <a href="https://twitter.com/sneakerhax">@sneakerhax</a>) Postman can auto generate your request in C#.</p>
 
-<p>This is how you create a batch of web requests to run in parallel.  (You await on <code>Task.WhenAll()</code> instead of awaiting after each call to <code>DownloadWebsiteAsync()</code>)</p>
+<p>Click &lsquo;code&rsquo; in the top right.</p>
 
-<pre><code class="language-csharp">public async Task RunDownloadParallelAsync()
+<p><img src="2019-07-09-06-39-31.png" alt="" /></p>
+
+<p>Then choose C# from the dropdown menu.</p>
+
+<p><img src="2019-07-09-06-40-23.png" alt="" /></p>
+
+<h2 id="http-request-with-serialized-json-objects">Http request with serialized JSON objects</h2>
+
+<p>To pass a C# object from a client to the server, it will first need to be serialized in JSON.  So how do you use <code>HttpClient</code> to do this?</p>
+
+<p>Here is the server code (it&rsquo;s an ASP.NET web app):</p>
+
+<pre><code class="language-csharp">[Route(&quot;api/[controller]&quot;)]
+
+public class ToolInvokeController : Controller
 {
-    List&lt;string&gt; websites = GetWebsiteList();
-    var tasks = new List&lt;Task&lt;DownloadWebsiteResult&gt;&gt;();
-
-    foreach (string site in websites)
+    [HttpPost]
+    public void Post([FromBody]Person p)
     {
-        tasks.Add(DownloadWebsiteAsync(site));
-    }
-
-    List&lt;DownloadWebsiteResult&gt; results = await Task.WhenAll(tasks);
-
-    foreach (DownloadWebsiteResult dwr in results)
-    {
-        ReportWebsiteInfo(dwr);
-    }
+    }//In VS set breakpoint here to see whether p is deserialized properly
 }
 </code></pre>
 
-<ul>
-<li>Code snippet is part of the example used in the following video.</li>
-</ul>
+<p>Here is the client code with <code>HttpClient</code>:</p>
 
-<h2 id="video">Video</h2>
+<pre><code class="language-csharp">using Newtonsoft.Json;
 
-<p>This video does a great job at explaining async and await.  Tim goes through the example of downloading a sequence of files.  (Watch it in double speed):</p>
+...
+HttpClient client = new HttpClient();
+client.BaseAddress = new Uri(EndpointUri);
 
+HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;, 
+    new StringContent(
+        JsonConvert.SerializeObject(person),
+        Encoding.UTF8, &quot;application/json&quot;)
+    ).Result;
+</code></pre>
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/2moh18sh5p4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
+<p><details>
+<summary>PostAsJsonAsync - don&rsquo;t use it</summary>
+<small>There are recommendations to use <code>PostAsJsonAsync</code>, but this requires adding a nuget package (<code>Microsoft.AspNet.WebApi.Client</code>) which is not compatable with the latest version of the Newtonsoft.Json library  - you will see an error such as:</p>
 
+<pre><code>Could not load file or assembly 'Newtonsoft.Json, Version=[old version no.], Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed' or one of its dependencies
+</code></pre>
 
-<p>Here&rsquo;s how to cancel tasks and get progress on the task</p>
+<p></small>
+</details></p>
 
+<h3 id="make-your-own-postasjsonasync-method">Make your own PostAsJsonAsync method</h3>
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/ZTKGRJy5P2M" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
-</div>
+<p>Instead, you can make an extension method:</p>
 
+<pre><code class="language-csharp">public static class HttpClientExt{
+
+    public static async Task&lt;HttpResponseMessage&gt; PostAsJsonAsync&lt;T&gt;(this HttpClient client, string requestUrl, T theObj)
+    {
+        var stringContent = new StringContent(
+            JsonConvert.SerializeObject(theObj), 
+            Encoding.UTF8, &quot;application/json&quot;);
+        return await client.PostAsync(requestUrl, stringContent);
+    }//modified from: https://stackoverflow.com/a/40525794/2205372
+}
+</code></pre>
 
 
 
@@ -985,23 +1010,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
                         
                         
                     
@@ -1053,6 +1061,26 @@
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
                 
                 
 
@@ -1094,59 +1122,6 @@
                     
                     
 
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
                     
             
         
@@ -1201,6 +1176,9 @@
             
         
                     
+            
+        
+                    
                         
             
             
@@ -1215,6 +1193,22 @@
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -1300,6 +1294,40 @@
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -1342,10 +1370,10 @@
 
 
         
-            <a class="nav nav-prev" href="/coderbook/dotnet/" title=".NET Intermediate Topics"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/" title="Reflection"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/dotnet/dynamictypes/" title="Ignoring Types" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/dotnet/decompiler/" title="Debugging with no source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
