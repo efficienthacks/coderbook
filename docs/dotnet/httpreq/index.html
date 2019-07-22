@@ -23,18 +23,18 @@
     <title>Making HTTP Requests :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1562767736" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1562767736" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1563759849" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1563759849" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1562767736"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1563759849"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1562767736"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1562767736"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1563759849"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1563759849"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1562767736"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1563759849"></script>
 
     
   </div>
@@ -176,6 +176,44 @@
           
       </a>
       
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/coderbook/dotnet/reflection/assembly/" title="Library Version Issues" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/coderbook/dotnet/reflection/assembly/">
+          Library Version Issues
+          
+            <i class="fa fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
               
     </li>
   
@@ -888,22 +926,23 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
 <pre><code>Could not load file or assembly 'Newtonsoft.Json, Version=[old version no.], Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed' or one of its dependencies
 </code></pre>
 
-<p></small>
+<p>However if you really want to get this to work, you can use this
+</small>
 </details></p>
 
 <h3 id="make-your-own-postasjsonasync-method">Make your own PostAsJsonAsync method</h3>
 
 <p>Instead, you can make an extension method:</p>
 
-<pre><code class="language-csharp">public static class HttpClientExt{
-
-    public static async Task&lt;HttpResponseMessage&gt; PostAsJsonAsync&lt;T&gt;(this HttpClient client, string requestUrl, T theObj)
+<pre><code class="language-csharp">public static class HttpClientExt
+{
+    public static async System.Threading.Tasks.Task&lt;HttpResponseMessage&gt; PostAsJsonAsync&lt;T&gt;(this HttpClient client, string requestUrl, T theObj)
     {
         var stringContent = new StringContent(
-            JsonConvert.SerializeObject(theObj), 
-            Encoding.UTF8, &quot;application/json&quot;);
+            Newtonsoft.Json.JsonConvert.SerializeObject(theObj),
+            System.Text.Encoding.UTF8, &quot;application/json&quot;);
         return await client.PostAsync(requestUrl, stringContent);
-    }//modified from: https://stackoverflow.com/a/40525794/2205372
+    }  //modified from: https://stackoverflow.com/a/40525794/2205372
 }
 </code></pre>
 
@@ -1050,8 +1089,26 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
 
                     
                     
+                        
+                    
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
             
         
@@ -1209,40 +1266,6 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
                     
                         
             
@@ -1328,6 +1351,40 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -1370,7 +1427,7 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
 
 
         
-            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/" title="Reflection"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/assembly/" title="Library Version Issues"> <i class="fa fa-chevron-left"></i></a>
         
         
             <a class="nav nav-next" href="/coderbook/dotnet/decompiler/" title="Debugging with no source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -1382,23 +1439,23 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1562767736"></script>
-    <script src="/coderbook/js/clipboard.min.js?1562767736"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1562767736"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1562767736"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1562767736"></script>
-    <script src="/coderbook/js/featherlight.min.js?1562767736"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1562767736"></script>
-    <script src="/coderbook/js/highlight.pack.js?1562767736"></script>
+    <script src="/coderbook/js/scrollspy.js?1563759849"></script>
+    <script src="/coderbook/js/clipboard.min.js?1563759849"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1563759849"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1563759849"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1563759849"></script>
+    <script src="/coderbook/js/featherlight.min.js?1563759849"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1563759849"></script>
+    <script src="/coderbook/js/highlight.pack.js?1563759849"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1562767736"></script>
-    <script src="/coderbook/js/learn.js?1562767736"></script>
-    <script src="/coderbook/js/hugo-learn.js?1562767736"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1562767736"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1563759849"></script>
+    <script src="/coderbook/js/learn.js?1563759849"></script>
+    <script src="/coderbook/js/hugo-learn.js?1563759849"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1563759849"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1562767736" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1562767736"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1563759849" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1563759849"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

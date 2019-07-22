@@ -1,15 +1,3 @@
-<style>
-	.ex1 {
-		padding-right: 10rem;
-		padding-left: 10rem;
-	}
-	@media only all and (max-width: 1337px) {
-		.ex1 {
-			padding: 5px 1rem;
-		}
-	}
-</style>
-
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
   <head>
@@ -32,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title> :: CoderBook - useful documentation for .NET coders</title>
+    <title>Library Version Issues :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1563759849" rel="stylesheet">
@@ -55,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/">
+  <body class="" data-url="/coderbook/dotnet/reflection/assembly/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -96,7 +84,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/" title=".NET Intermediate Topics" class="dd-item 
-        
+        parent
         
         
         ">
@@ -177,7 +165,7 @@
   
     
     <li data-nav-id="/coderbook/dotnet/reflection/" title="Reflection" class="dd-item 
-        
+        parent
         
         
         ">
@@ -206,8 +194,8 @@
   
     
     <li data-nav-id="/coderbook/dotnet/reflection/assembly/" title="Library Version Issues" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/dotnet/reflection/assembly/">
@@ -804,126 +792,182 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/dotnet/'>.NET Intermediate Topics</a> > <a href='/coderbook/dotnet/reflection/'>Reflection</a> > Library Version Issues
+          
+         
+          
+         
+          
+         
+          
+           
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
             <div id="head-tags">
               
               </div>
         
 		
         
+          <div class="toc toc-aside" data-max-depth="">
+	<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#the-code">The code</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initAsideToc();
+    });
+</script>
+        
         <div id="body-inner">
+          
+          <h1>
+            
+            Library Version Issues
+          </h1>
           
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
-</span>
-
-<div class="ex1">
 
 
 
-<h1 id="docs-for-net-coders-who-need-to-hustle">Docs for .NET coders who need to hustle</h1>
-
-<p><center></p>
-
-<h3 id="less-theory-more-code-samples">Less theory, more code samples</h3>
-
-<p></center></p>
-
-<h2 id="hello">Hello!</h2>
-
-<p>If you&rsquo;re hacking on something, you don&rsquo;t have time to dive into details.</p>
-
-<p>You just need some code to get you moving in the right direction.</p>
-
-<p>Well, you&rsquo;re in the right place.</p>
-
-<p>My name is Ambrose and I like using .NET to build applications.</p>
-
-<p>When I started this (June 2019), .NET was in a transition phase of moving away from a Windows only environment into a multi-platform environment with the advent of .NET Core.</p>
-
-<p>I&rsquo;m documenting my learnings here in the hopes that it will help someone.  Please use the Disqus comments to ask questions or clarify something.</p>
-
-<p>Happy coding!</p>
-
-<p><a href="https://stackoverflow.com/users/2205372/ambrose-leung" target="_blank"><img src="https://stackoverflow.com/users/flair/2205372.png?theme=clean"  alt="profile for Ambrose Leung at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Ambrose Leung at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a></p>
 	
 
-<h3>Latest Posts</h3>
+<p>Have you ever ran into an error message like this but the version you have is newer than the one shown?</p>
+
+<pre><code>'Could not load file or assembly 'Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed' or one of its dependencies. The system cannot find the file specified.'
+</code></pre>
+
+<p>You can fix it by adding a callback that is invoked when the system can&rsquo;t find the exact version of the library.</p>
+
+<h2 id="the-code">The code</h2>
+
+<p>In this example, I am targeting .NET Framework 4.7.2 and the nuget package that I&rsquo;ve imported has a dependency on an older version of Json.NET and throws an error, however I need the newest version of Json.NET (I can&rsquo;t have 2 versions in the same project), so I&rsquo;m going to tell the runtime to just use the newer assembly that I have.</p>
+
+<pre><code class="language-csharp">void Main(string[] args){
+    //add these two lines as well as the MyResolveEventHandler below
+    AppDomain currentDomain = AppDomain.CurrentDomain;
+    currentDomain.AssemblyResolve += new ResolveEventHandler(MyResolveEventHandler);
+
+    //this is the code that was throwing the exception
+    HttpClient client = new HttpClient();
+    client.BaseAddress = new System.Uri( &quot;http://localhost&quot;);
+    var response = client.PostAsJsonAsync(&quot;/whatever/api&quot;, &quot;whatever&quot;).Result;  //this call will cause the FileNotFoundException because the nuget lib that implements PostAsJsonAsync references 6.0.0.0
+}
+
+private static System.Reflection.Assembly MyResolveEventHandler(object sender, ResolveEventArgs args)
+{
+    if(args.Name.StartsWith(&quot;Newtonsoft.Json&quot;)) {
+        //you can pick any class that is in the Newtonsoft.Json.dll
+        return typeof(Newtonsoft.Json.JsonConverter).Assembly;
+    }
+    return null;
+}
+</code></pre>
+
+<p>Note that using the newer version of the dll may not always work, in which case you can also load the assembly by file path.</p>
+
+<pre><code class="language-csharp">return System.Reflection.Assembly.LoadFrom($@&quot;C:\somepath\to\your.dll&quot;);
+</code></pre>
 
 
-		<h4>
-			<a href="/coderbook/dotnet/decompiler/"><b>Debugging with no source</b> </a>
-	    </h4>
-			
-				No Source? No Problem. Well-known decompilers are .NET Reflector, ILSpy. These will restore the source code from .NET dll or exe files (aka … <a href="/coderbook/dotnet/decompiler/">read more</a><br/>
-				<small>
-				Jul 8, 2019 &middot; 1 min <br/> 
-		    </small>
 
-		<h4>
-			<a href="/coderbook/powershell/modules/"><b>Creating Modules</b> </a>
-	    </h4>
-			
-				There are Script modules (.psm1 files) and Binary modules (aka cmdlets)
-Script Module A script module is essentially any valid PowerShell … <a href="/coderbook/powershell/modules/">read more</a><br/>
-				<small>
-				Jun 23, 2019 &middot; 2 min <br/> 
-		    </small>
 
-		<h4>
-			<a href="/coderbook/dotnet/reflection/"><b>Reflection</b> </a>
-	    </h4>
-			
-				If you have scripting language that allows you to call C# (e.g. Powershell), or if you want to call undocumented private methods, then you … <a href="/coderbook/dotnet/reflection/">read more</a><br/>
-				<small>
-				Jul 8, 2019 &middot; 3 min <br/> 
-		    </small>
 
-		<h4>
-			<a href="/coderbook/dotnet/reflection/assembly/"><b>Library Version Issues</b> </a>
-	    </h4>
-			
-				Have you ever ran into an error message like this but the version you have is newer than the one shown?
-'Could not load file or assembly … <a href="/coderbook/dotnet/reflection/assembly/">read more</a><br/>
-				<small>
-				Jul 21, 2019 &middot; 2 min <br/> 
-		    </small>
-
-		<h4>
-			<a href="/coderbook/dotnet/dynamictypes/"><b>Ignoring Types</b> </a>
-	    </h4>
-			
-				Strongly typed vs dynamically typed Strongly typed means that the compiler will complain if a method does not exist in the class specified … <a href="/coderbook/dotnet/dynamictypes/">read more</a><br/>
-				<small>
-				Jul 8, 2019 &middot; 1 min <br/> 
-		    </small>
-
-		<h4>
-			<a href="/coderbook/dotnet/asyncawait/"><b>async and await</b> </a>
-	    </h4>
-			
-				tldr async and await are keywords in C# to let code continue executing while waiting on a long operation (like downloading a file) to … <a href="/coderbook/dotnet/asyncawait/">read more</a><br/>
-				<small>
-				Jul 8, 2019 &middot; 1 min <br/> 
-		    </small>
-
-		<h4>
-			<a href="/coderbook/powershell/pipinginput/"><b>Accepting Piped input</b> </a>
-	    </h4>
-			
-				So how do take input (which is usually an array of objects) that is passed to your module?
-Piping Input With PowerShell Module You just add … <a href="/coderbook/powershell/pipinginput/">read more</a><br/>
-				<small>
-				Jun 28, 2019 &middot; 2 min <br/> 
-		    </small>
-
-</div>
-
+<footer class=" footline" >
+	
+</footer>
         
         </div> 
         
+<p>
+    <a href="#" data-featherlight="#mylightbox" class="btn btn-default"><i class="fa fa-envelope" aria-hidden="true"></i>  get yourself on the email list </a>
+
+
+<div style="display:none">
+    <div id="mylightbox">
+    
+<div id="mc_embed_signup">
+<form action="https://efficientHacks.us13.list-manage.com/subscribe/post?u=f8cb0eeb949fb80b1f4bdf719&amp;id=6470616873" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="$('.featherlight-close').click()">
+    <div id="mc_embed_signup_scroll">
+	
+<div class="mc-field-group">
+	<label for="mce-EMAIL"><code>var email =</code></label>
+	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+</div>
+<p><code>//Powered by <a href="http://eepurl.com/b1QNgj" title="MailChimp - email marketing made easy and fun" target="asd">MailChimp</a> - low volume, no spam</code></p>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>    
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_f8cb0eeb949fb80b1f4bdf719_6470616873" tabindex="-1" value=""></div>
+    <div class="clear"><code><input type="submit" value="Subscribe(email);" name="subscribe" id="mc-embedded-subscribe" class="btn btn-default"></code></div>
+    </div>
+</form>
+</div>
+</div>
+</div>
+</p>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "coderbook-1" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
       </div>
 
     <div id="navigation">
@@ -951,8 +995,6 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -968,6 +1010,9 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1001,6 +1046,7 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
                 
                     
+                    
                 
                 
 
@@ -1015,6 +1061,7 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
             
                 
+                    
                     
                 
                 
@@ -1035,86 +1082,8 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1145,6 +1114,34 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
             
         
@@ -1199,6 +1196,9 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
         
                     
+            
+        
+                    
                         
             
             
@@ -1213,6 +1213,22 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -1298,6 +1314,40 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -1340,10 +1390,10 @@ Piping Input With PowerShell Module You just add … <a href="/coderbook/powersh
 
 
         
-            <a class="nav nav-prev" href="/coderbook/08about/" title="About"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/" title="Reflection"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/dotnet/" title=".NET Intermediate Topics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/dotnet/httpreq/" title="Making HTTP Requests" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
