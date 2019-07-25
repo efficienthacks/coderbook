@@ -23,18 +23,18 @@
     <title>Making HTTP Requests :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1563761287" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1563761287" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1564063146" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1564063146" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1563761287"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1564063146"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1563761287"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1563761287"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1564063146"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1564063146"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1563761287"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1564063146"></script>
 
     
   </div>
@@ -838,8 +838,12 @@
 <ul>
 <li>
 <ul>
-<li><a href="#which-library-do-you-use">Which library do you use?</a></li>
-<li><a href="#http-request-with-serialized-json-objects">Http request with serialized JSON objects</a>
+<li><a href="#basic-download">Basic Download</a></li>
+<li><a href="#which-library-do-i-use-if-need-to-do-more">Which library do I use if need to do more?</a>
+<ul>
+<li><a href="#restsharp">RestSharp</a></li>
+</ul></li>
+<li><a href="#post-serialized-json-objects">POST serialized JSON objects</a>
 <ul>
 <li><a href="#make-your-own-postasjsonasync-method">Make your own PostAsJsonAsync method</a></li>
 </ul></li>
@@ -869,15 +873,26 @@
 
 	
 
-<h2 id="which-library-do-you-use">Which library do you use?</h2>
+<h2 id="basic-download">Basic Download</h2>
 
-<p>There are many .NET libraries and classes that you may have heard of that can make an http request.  The one that is recommended by Microsoft (as of 2019) is the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient">HttpClient class</a>.</p>
+<p>If you just want to download a string/data/file from an unauthenticated endpoint, this is good enough:</p>
+
+<pre><code class="language-csharp">(new System.Net.WebClient()).DownloadString(&quot;http://x.com&quot;);        //string
+(new System.Net.WebClient()).DownloadData(&quot;http://x.com/file.bin&quot;); //byte[]
+(new System.Net.WebClient()).DownloadFile(&quot;http://x.com/file.zip&quot;, @&quot;c:\file.zip&quot;); //void
+</code></pre>
+
+<h2 id="which-library-do-i-use-if-need-to-do-more">Which library do I use if need to do more?</h2>
+
+<p>There are many .NET libraries and classes that you may have heard of that can make an http request.  The one that is recommended by Microsoft (as of 2019) is the <strong><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient">HttpClient class</a></strong>.</p>
 
 <p>This class abstracts away the implementation details when used on multiple platforms.</p>
 
-<p>If you are ok with adding dependencies or you just want to do some quick automation, a great third party alternative is RestSharp (<a href="https://www.nuget.org/packages/RestSharp">nuget</a>).</p>
+<h3 id="restsharp">RestSharp</h3>
 
-<p><strong>Tip:</strong> (thanks to <a href="https://twitter.com/sneakerhax">@sneakerhax</a>) Postman can auto generate your request in C#.</p>
+<p>If you are ok with adding dependencies or you just want to do some quick automation, a great third party alternative is <strong>RestSharp</strong> (<a href="https://www.nuget.org/packages/RestSharp">nuget package here</a>).</p>
+
+<p><strong>Tip:</strong> (thanks to <a href="https://twitter.com/sneakerhax">@sneakerhax</a>) Postman can auto-generate your request with RestSharp API.</p>
 
 <p>Click &lsquo;code&rsquo; in the top right.</p>
 
@@ -887,9 +902,17 @@
 
 <p><img src="2019-07-09-06-40-23.png" alt="" /></p>
 
-<h2 id="http-request-with-serialized-json-objects">Http request with serialized JSON objects</h2>
+<h2 id="post-serialized-json-objects">POST serialized JSON objects</h2>
 
 <p>To pass a C# object from a client to the server, it will first need to be serialized in JSON.  So how do you use <code>HttpClient</code> to do this?</p>
+
+<p>Let&rsquo;s start with a POCO Person class:</p>
+
+<pre><code class="language-csharp">public class Person {
+    public string Name {get; set;}
+    public string Email {get; set;}
+}
+</code></pre>
 
 <p>Here is the server code (it&rsquo;s an ASP.NET web app):</p>
 
@@ -900,7 +923,7 @@ public class ToolInvokeController : Controller
     [HttpPost]
     public void Post([FromBody]Person p)
     {
-    }//In VS set breakpoint here to see whether p is deserialized properly
+    }//In VS set breakpoint here to ensure that p is deserialized properly
 }
 </code></pre>
 
@@ -912,11 +935,17 @@ public class ToolInvokeController : Controller
 HttpClient client = new HttpClient();
 client.BaseAddress = new Uri(EndpointUri);
 
+//if authn headers needed:
+client.DefaultRequestHeaders.Authorization =
+    new AuthenticationHeaderValue(&quot;Bearer&quot;, &quot;[jwt here]&quot;);
+
 HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;, 
     new StringContent(
         JsonConvert.SerializeObject(person),
         Encoding.UTF8, &quot;application/json&quot;)
     ).Result;
+
+//Tip: If you don't want to serialize a POCO, you can create an anon. type: JsonConvert.SerializeObject(new { Name = &quot;asdf&quot;, Email = &quot;agafg&quot; })
 </code></pre>
 
 <p><details>
@@ -926,7 +955,7 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
 <pre><code>Could not load file or assembly 'Newtonsoft.Json, Version=[old version no.], Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed' or one of its dependencies
 </code></pre>
 
-<p>However if you really want to get this to work, you can use this
+<p>However if you really want to get this to work, you can use <a href="../reflection/assembly">this</a>.
 </small>
 </details></p>
 
@@ -1439,23 +1468,23 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1563761287"></script>
-    <script src="/coderbook/js/clipboard.min.js?1563761287"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1563761287"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1563761287"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1563761287"></script>
-    <script src="/coderbook/js/featherlight.min.js?1563761287"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1563761287"></script>
-    <script src="/coderbook/js/highlight.pack.js?1563761287"></script>
+    <script src="/coderbook/js/scrollspy.js?1564063146"></script>
+    <script src="/coderbook/js/clipboard.min.js?1564063146"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1564063146"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1564063146"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1564063146"></script>
+    <script src="/coderbook/js/featherlight.min.js?1564063146"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1564063146"></script>
+    <script src="/coderbook/js/highlight.pack.js?1564063146"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1563761287"></script>
-    <script src="/coderbook/js/learn.js?1563761287"></script>
-    <script src="/coderbook/js/hugo-learn.js?1563761287"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1563761287"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1564063146"></script>
+    <script src="/coderbook/js/learn.js?1564063146"></script>
+    <script src="/coderbook/js/hugo-learn.js?1564063146"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1564063146"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1563761287" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1563761287"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1564063146" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1564063146"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
