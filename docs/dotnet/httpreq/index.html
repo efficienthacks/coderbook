@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.56.3" />
     <meta name="description" content="">
 
 
@@ -23,18 +23,18 @@
     <title>Making HTTP Requests :: CoderBook - useful documentation for .NET coders</title>
     
     
-    <link href="/coderbook/css/nucleus.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/font-awesome.min.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/hybrid.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/featherlight.min.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/perfect-scrollbar.min.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/auto-complete.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/theme.css?1564063600" rel="stylesheet">
-    <link href="/coderbook/css/hugo-theme.css?1564063600" rel="stylesheet">
+    <link href="/coderbook/css/nucleus.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/font-awesome.min.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/hybrid.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/featherlight.min.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/perfect-scrollbar.min.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/auto-complete.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/theme.css?1564897359" rel="stylesheet">
+    <link href="/coderbook/css/hugo-theme.css?1564897359" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
     
 
-    <script src="/coderbook/js/jquery-2.x.min.js?1564063600"></script>
+    <script src="/coderbook/js/jquery-2.x.min.js?1564897359"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -60,14 +60,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/coderbook/js/lunr.min.js?1564063600"></script>
-<script type="text/javascript" src="/coderbook/js/auto-complete.js?1564063600"></script>
+<script type="text/javascript" src="/coderbook/js/lunr.min.js?1564897359"></script>
+<script type="text/javascript" src="/coderbook/js/auto-complete.js?1564897359"></script>
 <script type="text/javascript">
     
         var baseurl = '\/coderbook\/';
     
 </script>
-<script type="text/javascript" src="/coderbook/js/search.js?1564063600"></script>
+<script type="text/javascript" src="/coderbook/js/search.js?1564897359"></script>
 
     
   </div>
@@ -228,13 +228,13 @@
  
   
     
-    <li data-nav-id="/coderbook/dotnet/httpreq/" title="Making HTTP Requests" class="dd-item 
-        parent
-        active
+    <li data-nav-id="/coderbook/dotnet/decompiler/" title="Debugging with no source" class="dd-item 
+        
+        
         
         ">
-      <a href="/coderbook/dotnet/httpreq/">
-          Making HTTP Requests
+      <a href="/coderbook/dotnet/decompiler/">
+          Debugging with no source
           
             <i class="fa fa-check read-icon"></i>
           
@@ -254,13 +254,13 @@
  
   
     
-    <li data-nav-id="/coderbook/dotnet/decompiler/" title="Debugging with no source" class="dd-item 
-        
-        
+    <li data-nav-id="/coderbook/dotnet/httpreq/" title="Making HTTP Requests" class="dd-item 
+        parent
+        active
         
         ">
-      <a href="/coderbook/dotnet/decompiler/">
-          Debugging with no source
+      <a href="/coderbook/dotnet/httpreq/">
+          Making HTTP Requests
           
             <i class="fa fa-check read-icon"></i>
           
@@ -847,6 +847,7 @@
 <ul>
 <li><a href="#make-your-own-postasjsonasync-method">Make your own PostAsJsonAsync method</a></li>
 </ul></li>
+<li><a href="#proper-use-of-httpclient">Proper use of HttpClient</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -974,6 +975,138 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
     }  //modified from: https://stackoverflow.com/a/40525794/2205372
 }
 </code></pre>
+
+<h2 id="proper-use-of-httpclient">Proper use of HttpClient</h2>
+
+<p>You should have just one instance of HttpClient.  Here&rsquo;s an easy way to do this:</p>
+
+<pre><code class="language-csharp">public class HttpClientWrapper
+{
+    private HttpClient httpClient;
+    public HttpClient Client =&gt; httpClient ?? (httpClient = new HttpClient());
+}
+</code></pre>
+
+<p>but what if you want to cancel the http request (add a timeout)? and also see its error messages?  What&rsquo;s the most efficient way to deserialize?</p>
+
+<p>Wouldn&rsquo;t something like this be nice?</p>
+
+<pre><code class="language-csharp">var client = new HttpClient();
+var request = new HttpRequestMessage(HttpMethod.Get, &quot;http://localhost:10329/TimeoutTest/Edit/1&quot;);
+var response = client.SendAsync(request, timeoutInSec: 21).Result; //timeout param that will not cause an error to be thrown, rather it sets an appropriate error code + message in the HttpResponseMessage
+
+var errors = response.GetErrorsAsync().Result;  //easy way to get errors.  
+if (errors == null)
+{
+    var objects = response.DeserializeAsListAsync&lt;Dictionary&lt;string, string&gt;&gt;().Result; //efficient way of deserializing (using streams instead of reading entire string as memory)
+}
+client.Dispose();
+</code></pre>
+
+<p>If those features are helpful, just copy this code (class with extension methods for HttpClient and HttpResponseMessage).
+<details>
+<summary>
+See the code
+</summary></p>
+
+<pre><code class="language-csharp">public static class HttpClientExt
+{
+	public static async Task&lt;HttpResponseMessage&gt; PostAsJsonAsync(this HttpClient client, string requestUrl, object theObj, int timeoutInSec = 0)
+	{
+		return await SendAsync(client, new HttpRequestMessage(HttpMethod.Post, requestUrl), theObj, timeoutInSec);
+	}
+	public static async Task&lt;HttpResponseMessage&gt; SendAsync(this HttpClient client,
+	   HttpRequestMessage request,
+
+	   object objToSend = null,
+	   int timeoutInSec = 0)
+	{
+		var cts = new CancellationTokenSource();
+		if (timeoutInSec &gt; 0)
+		{
+			if (client.Timeout.TotalMilliseconds != -1)
+			{
+				client.Timeout = new TimeSpan(0, 0, 0, 0, -1);
+			}
+			cts.CancelAfter(TimeSpan.FromSeconds(timeoutInSec));
+		}
+		if(objToSend != null)
+		{
+			request.Content = new StringContent(
+				JsonConvert.SerializeObject(objToSend),
+				System.Text.Encoding.UTF8, &quot;application/json&quot;);
+		}
+		
+		var responseAsTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cts.Token);
+		HttpResponseMessage response;
+		try
+		{
+			response = await responseAsTask.ConfigureAwait(false);
+		}
+		catch (TaskCanceledException)
+		{
+			response = new HttpResponseMessage { StatusCode = HttpStatusCode.RequestTimeout, ReasonPhrase = $&quot;Manual Timed out set by client: {timeoutInSec} seconds&quot; };
+		}
+		catch (HttpRequestException e)
+		{//Server is down
+			response = new HttpResponseMessage { StatusCode = HttpStatusCode.ServiceUnavailable, ReasonPhrase = e.InnerException.Message };
+		}
+			
+		return response;
+	}
+
+	public static async Task&lt;string&gt; GetErrorsAsync(this HttpResponseMessage response)
+	{
+		if (!response.IsSuccessStatusCode) //success = [200-299]
+		{
+			if(response.Content == null)
+			{
+				return response.ReasonPhrase;
+			}
+			else
+			{
+				var stream = await response.Content.ReadAsStreamAsync();
+				var content = await StreamToStringAsync(stream);
+				return content;
+			}
+		}
+		return null;
+	}
+
+	public static async Task&lt;List&lt;T&gt;&gt; DeserializeAsListAsync&lt;T&gt;(this HttpResponseMessage response)
+	{
+		response.EnsureSuccessStatusCode();
+		var stream = await response.Content.ReadAsStreamAsync();
+		return DeserializeJsonFromStream&lt;List&lt;T&gt;&gt;(stream);
+	}
+
+	private static async Task&lt;string&gt; StreamToStringAsync(Stream stream)
+	{
+		string content = null;
+
+		if (stream != null)
+			using (var sr = new StreamReader(stream))
+				content = await sr.ReadToEndAsync();
+
+		return content;
+	}
+
+	private static T DeserializeJsonFromStream&lt;T&gt;(Stream stream)
+	{
+		if (stream == null || stream.CanRead == false)
+			return default(T);
+
+		using (var sr = new StreamReader(stream))
+		using (var jtr = new JsonTextReader(sr))
+		{
+			var js = new JsonSerializer();
+			return js.Deserialize&lt;T&gt;(jtr);
+		}
+	}
+}
+</code></pre>
+
+<p></details></p>
 
 
 
@@ -1147,7 +1280,6 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
                 
                     
-                    
                 
                 
 
@@ -1164,8 +1296,6 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -1186,36 +1316,8 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
                 
                     
-                
-                
-
-                    
-                    
                         
-                    
-                    
-
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1239,28 +1341,6 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
                     
                     
 
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
                     
             
         
@@ -1315,6 +1395,9 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
         
                     
+            
+        
+                    
                         
             
             
@@ -1329,6 +1412,22 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -1414,6 +1513,40 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -1456,10 +1589,10 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
 
 
         
-            <a class="nav nav-prev" href="/coderbook/dotnet/reflection/assembly/" title="Library Version Issues"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/dotnet/decompiler/" title="Debugging with no source"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/dotnet/decompiler/" title="Debugging with no source" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/powershell/" title="PowerShell" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -1468,23 +1601,23 @@ HttpResponseMessage response = client.PostAsync(&quot;/api/ToolInvoke&quot;,
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/coderbook/js/scrollspy.js?1564063600"></script>
-    <script src="/coderbook/js/clipboard.min.js?1564063600"></script>
-    <script src="/coderbook/js/perfect-scrollbar.min.js?1564063600"></script>
-    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1564063600"></script>
-    <script src="/coderbook/js/jquery.sticky.js?1564063600"></script>
-    <script src="/coderbook/js/featherlight.min.js?1564063600"></script>
-    <script src="/coderbook/js/html5shiv-printshiv.min.js?1564063600"></script>
-    <script src="/coderbook/js/highlight.pack.js?1564063600"></script>
+    <script src="/coderbook/js/scrollspy.js?1564897359"></script>
+    <script src="/coderbook/js/clipboard.min.js?1564897359"></script>
+    <script src="/coderbook/js/perfect-scrollbar.min.js?1564897359"></script>
+    <script src="/coderbook/js/perfect-scrollbar.jquery.min.js?1564897359"></script>
+    <script src="/coderbook/js/jquery.sticky.js?1564897359"></script>
+    <script src="/coderbook/js/featherlight.min.js?1564897359"></script>
+    <script src="/coderbook/js/html5shiv-printshiv.min.js?1564897359"></script>
+    <script src="/coderbook/js/highlight.pack.js?1564897359"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/coderbook/js/modernizr.custom.71422.js?1564063600"></script>
-    <script src="/coderbook/js/learn.js?1564063600"></script>
-    <script src="/coderbook/js/hugo-learn.js?1564063600"></script>
-    <script src="/coderbook/js/hugo-learn-toc.js?1564063600"></script>
+    <script src="/coderbook/js/modernizr.custom.71422.js?1564897359"></script>
+    <script src="/coderbook/js/learn.js?1564897359"></script>
+    <script src="/coderbook/js/hugo-learn.js?1564897359"></script>
+    <script src="/coderbook/js/hugo-learn-toc.js?1564897359"></script>
 
 
-    <link href="/coderbook/mermaid/mermaid.css?1564063600" type="text/css" rel="stylesheet" />
-    <script src="/coderbook/mermaid/mermaid.js?1564063600"></script>
+    <link href="/coderbook/mermaid/mermaid.css?1564897359" type="text/css" rel="stylesheet" />
+    <script src="/coderbook/mermaid/mermaid.js?1564897359"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
