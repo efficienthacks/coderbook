@@ -20,7 +20,7 @@
   gtag('config', 'UA-85538905-2');
 </script>
 
-    <title>Git (cmd line) :: CoderBook - useful documentation for .NET coders</title>
+    <title>Import Export Data :: CoderBook - useful documentation for .NET coders</title>
     
     
     <link href="/coderbook/css/nucleus.css?1571838247" rel="stylesheet">
@@ -43,7 +43,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/coderbook/devops/git/">
+  <body class="" data-url="/coderbook/powershell/tips/data/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -288,7 +288,7 @@
   
     
     <li data-nav-id="/coderbook/powershell/" title="PowerShell" class="dd-item 
-        
+        parent
         
         
         ">
@@ -317,7 +317,7 @@
   
     
     <li data-nav-id="/coderbook/powershell/tips/" title="PowerShell Tips and Quirks" class="dd-item 
-        
+        parent
         
         
         ">
@@ -346,8 +346,8 @@
   
     
     <li data-nav-id="/coderbook/powershell/tips/data/" title="Import Export Data" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/coderbook/powershell/tips/data/">
@@ -716,7 +716,7 @@
   
     
     <li data-nav-id="/coderbook/devops/" title="Devops (git/CI)" class="dd-item 
-        parent
+        
         
         
         ">
@@ -745,8 +745,8 @@
   
     
     <li data-nav-id="/coderbook/devops/git/" title="Git (cmd line)" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/coderbook/devops/git/">
@@ -878,7 +878,13 @@
             
           
           
-            <a href='/coderbook/'></a> > <a href='/coderbook/devops/'>Devops (git/CI)</a> > Git (cmd line)
+            
+            
+          
+          
+            <a href='/coderbook/'></a> > <a href='/coderbook/powershell/'>PowerShell</a> > <a href='/coderbook/powershell/tips/'>PowerShell Tips and Quirks</a> > Import Export Data
+          
+         
           
          
           
@@ -898,23 +904,7 @@
 		
         
           <div class="toc toc-aside" data-max-depth="">
-	<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#basic-initiate-a-git-repo-from-a-folder-with-existing-files">Basic: Initiate a Git repo from a folder with existing files</a></li>
-<li><a href="#git-with-submodules">Git (with submodules)</a>
-<ul>
-<li><a href="#clone-a-git-repo-with-submodules">Clone a git repo with submodules</a></li>
-<li><a href="#grab-submodule-of-an-existing-git-clone-which-did-not-include-submodules">Grab submodule of an existing Git clone (which did not include submodules)</a></li>
-</ul></li>
-<li><a href="#add-a-submodule">Add a submodule</a></li>
-<li><a href="#remove-a-submodule">Remove a submodule</a></li>
-<li><a href="#other-useful-commands">Other useful commands</a></li>
-<li><a href="#more-reading">More Reading</a></li>
-</ul></li>
-</ul>
-</nav>
+	
 </div>
 
 <script>
@@ -927,7 +917,7 @@
           
           <h1>
             
-            Git (cmd line)
+            Import Export Data
           </h1>
           
 
@@ -937,72 +927,6 @@
 
 
 	
-
-<p>You probably know the basics of using Git, but do you know how to have a Git repo within a Git repo?</p>
-
-<h2 id="basic-initiate-a-git-repo-from-a-folder-with-existing-files">Basic: Initiate a Git repo from a folder with existing files</h2>
-
-<p>Say you already have a code project going in a folder and want to version control it in Git, here&rsquo;s how you do it:</p>
-
-<pre><code class="language-bash">git init
-git remote add origin [git URL]
-git add .
-git commit -m &quot;[commit message]&quot;
-git push -u origin master
-</code></pre>
-
-<p>If the URL of the git repo changes (or you want to put a Personal Access Token in the Git URL):</p>
-
-<pre><code class="language-bash">git remote remove origin
-git remote add origin [new URL]
-</code></pre>
-
-<h2 id="git-with-submodules">Git (with submodules)</h2>
-
-<p>Submodules are essentially a reference to another Git repo.  You may want to break up a modular component and track it in its own repo.</p>
-
-<p>By default, <strong>when you clone a git repo, it will not download the submodules</strong>.</p>
-
-<h3 id="clone-a-git-repo-with-submodules">Clone a git repo with submodules</h3>
-
-<p><code>git clone [git URL] --recursive</code> or  <code>--recurse-submodules</code></p>
-
-<h3 id="grab-submodule-of-an-existing-git-clone-which-did-not-include-submodules">Grab submodule of an existing Git clone (which did not include submodules)</h3>
-
-<p><code>git submodule update --init --recursive</code></p>
-
-<p>To update submodules of an existing Git clone (to point to their latest branch HEAD), do this:</p>
-
-<p><code>git submodule update --remote --recursive</code></p>
-
-<h2 id="add-a-submodule">Add a submodule</h2>
-
-<p><code>git submodule add [URL of submodule]</code></p>
-
-<h2 id="remove-a-submodule">Remove a submodule</h2>
-
-<p>It&rsquo;s not the same as &lsquo;git deinit&rsquo;, which doesn&rsquo;t really work.  You have to do 2 things:</p>
-
-<p>First:</p>
-
-<pre><code>git rm [submoduleName]
-</code></pre>
-
-<p>Secondly, delete the module from the .git folder: <code>.git\modules\[submoduleName]</code></p>
-
-<p>If a submodule is giving you problems (i.e. not updating), remove it with the steps above, then <code>git submodule add</code> it again.</p>
-
-<h2 id="other-useful-commands">Other useful commands</h2>
-
-<pre><code>git status
-</code></pre>
-
-<h2 id="more-reading">More Reading</h2>
-
-<p>This article includes a section that covers how to make a folder in your repo into a submodule.</p>
-
-<p><a href="https://github.blog/2016-02-01-working-with-submodules/">https://github.blog/2016-02-01-working-with-submodules/</a></p>
-
 
 
 
@@ -1209,6 +1133,7 @@ git remote add origin [new URL]
             
                 
                     
+                    
                 
                 
 
@@ -1218,6 +1143,148 @@ git remote add origin [new URL]
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
                     
                         
             
@@ -1303,9 +1370,6 @@ git remote add origin [new URL]
             
         
                     
-            
-        
-                    
                         
             
             
@@ -1366,145 +1430,6 @@ git remote add origin [new URL]
 
                     
                     
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
                     
 
                     
@@ -1518,10 +1443,10 @@ git remote add origin [new URL]
 
 
         
-            <a class="nav nav-prev" href="/coderbook/devops/" title="Devops (git/CI)"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/coderbook/powershell/tips/" title="PowerShell Tips and Quirks"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/coderbook/devops/ci/" title="Deploy on Code Checkin (CI)" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/coderbook/powershell/modules/" title="Creating Modules" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
